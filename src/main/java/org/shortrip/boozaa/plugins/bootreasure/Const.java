@@ -3,11 +3,7 @@ package org.shortrip.boozaa.plugins.bootreasure;
 import org.bukkit.ChatColor;
 
 
-/**
- * @author boozaa
- *
- * BooTreasure
- */
+
 public class Const {
 
 	// Plugin related
