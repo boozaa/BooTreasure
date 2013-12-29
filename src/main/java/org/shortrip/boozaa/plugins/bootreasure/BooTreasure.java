@@ -170,7 +170,7 @@ public class BooTreasure extends JavaPlugin {
 
 		}
 
-		Log.info("All lost Treasures cleared");
+		Log.info("All lost Treasures cleared ...");
 
 	}
 
