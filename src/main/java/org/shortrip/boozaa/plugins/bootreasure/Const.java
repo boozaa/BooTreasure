@@ -15,6 +15,7 @@ public class Const {
 	public static final String PLUGIN = 					"BooTreasure";
 	public final static Boolean USE_WORLDGUARD = 			BooTreasure.getGeneralConf().getBoolean("config.worldguard.filter");
 	
+	
 	// Texte de commandes
 	public static String CMD_YES =							BooTreasure.getMessagesConf().getString("locales.commands.agree");
 	public static String CMD_NO =							BooTreasure.getMessagesConf().getString("locales.commands.disagree");
