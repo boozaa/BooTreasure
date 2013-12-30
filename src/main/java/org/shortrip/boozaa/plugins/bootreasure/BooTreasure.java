@@ -371,9 +371,11 @@ public class BooTreasure extends JavaPlugin {
 
 		String configPath = getDataFolder() + File.separator + "config.yml";
 		_pluginConfiguration = new MainConfig();
+		_pluginConfiguration.load();
 
 		configPath = getDataFolder() + File.separator + "messages.yml";
 		_messagesConfiguration = new MessageConfig(configPath);
+		
 
 	}
 
