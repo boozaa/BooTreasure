@@ -40,10 +40,15 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class BooTreasure extends JavaPlugin {
 
+	// Plugin name
 	@Getter private static String pluginName;
+	// Plugin version
 	@Getter private static String pluginVersion;
+	// Path to config.yml
 	@Getter private static String mainConfigPath;
+	// Path to treasures.yml
 	@Getter private static String treasuresConfigPath;
+	// Path of the folder lost+found
 	@Getter private static String lostTreasuresPath;
 	
 	// The Cron4J Scheduler instance
