@@ -22,7 +22,7 @@ public final class TreasureChestOpenEvent extends Events {
 		public void run() {
 			Log.debug("Chest opened : " + t.get_name());
 			t.found(player);
-		} }); ;			
+		} });		
 		
 	}
 	
