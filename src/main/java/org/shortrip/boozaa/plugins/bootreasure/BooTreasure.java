@@ -48,20 +48,25 @@ public class BooTreasure extends JavaPlugin {
 	
 	// The Cron4J Scheduler instance
 	@Getter private static CronScheduler _scheduler;
-
 	@Getter private static CronTaskCollector _taskCollector;
-
+	
+	// Cache treasures
 	@Getter private static Cache _treasureCache;
 
+	// The config.yml configuration representation
 	@Getter private static Configuration _pluginConfiguration;
 
+	// The messages.yml configuration representation
 	@Getter private static Configuration _messagesConfiguration;
 
+	// The treasures Configuration
 	@Getter private static TreasureConfig _treasuresConfiguration;
 
+	// Vault hook
 	@Getter @Setter private static Boolean useVault = false;
 	@Getter private static VaultUtils _vaultUtils;
 	
+	// Boolean if using WorldGuard
 	@Getter @Setter private static Boolean useWorldGuard = false;
 
 	
