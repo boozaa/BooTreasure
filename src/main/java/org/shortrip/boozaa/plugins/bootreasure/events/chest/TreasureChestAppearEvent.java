@@ -18,7 +18,7 @@ public final class TreasureChestAppearEvent extends Events {
 		// On prend le Treasure dans le Cache
 		if( BooTreasure.getTreasureCache().exists(id)){	
 			Log.debug("Treasure exists in cache: " + id);
-			Bukkit.getServer().getScheduler().runTask(BooTreasure.getInstance(), new Runnable() {
+			Bukkit.getServer().getScheduler().runTask(BooTreasure.get_instance(), new Runnable() {
 
 				@Override
 				public void run() {

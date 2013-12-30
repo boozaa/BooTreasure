@@ -16,7 +16,7 @@ public final class TreasureChestOpenEvent extends Events {
 		super();
 		final Player player = (Player)humanEntity;			
 		// On lance la méthode found
-		Bukkit.getServer().getScheduler().runTask(BooTreasure.getInstance(), new Runnable() {
+		Bukkit.getServer().getScheduler().runTask(BooTreasure.get_instance(), new Runnable() {
 
 		@Override
 		public void run() {

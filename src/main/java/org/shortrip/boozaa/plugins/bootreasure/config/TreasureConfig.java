@@ -34,7 +34,7 @@ public class TreasureConfig extends ConfigFile {
 	
 	
 	public TreasureConfig(){
-		super(BooTreasure.getInstance().getDataFolder() + File.separator + "treasures.yml");
+		super(BooTreasure.get_instance().getDataFolder() + File.separator + "treasures.yml");
 	}
 	
 	
@@ -48,7 +48,7 @@ public class TreasureConfig extends ConfigFile {
 			this._config.options().header(
 					"------------------------------------------------------------------------------------ #"
 					+ System.getProperty("line.separator")
-					+ BooTreasure.getInstance().getDescription().getName() + " v" + BooTreasure.getInstance().getDescription().getVersion()
+					+ BooTreasure.get_instance().getDescription().getName() + " v" + BooTreasure.get_instance().getDescription().getVersion()
 					+ System.getProperty("line.separator") 
 					+ "This is a basic treasures file, it contains only one treasure."
 					+ System.getProperty("line.separator")

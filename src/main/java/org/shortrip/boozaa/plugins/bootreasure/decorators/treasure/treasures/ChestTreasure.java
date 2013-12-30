@@ -64,7 +64,7 @@ public class ChestTreasure extends Treasure {
 	public ChestTreasure(ConfigurationSection conf) {
 		super(conf);
 		this._treasureType = TreasureType.CHEST;
-		this.path = BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
+		this.path = BooTreasure.get_instance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
 		
 	}
 
@@ -118,7 +118,7 @@ public class ChestTreasure extends Treasure {
 		//chest.getInventory().setContents(this._inventory);
 		
 		// Metadata store to distinguish chest as ChestTreasure
-		chest.setMetadata("BooTreasure", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
+		chest.setMetadata("BooTreasure", new FixedMetadataValue(BooTreasure.get_instance(), this._id));
 		
 		// Appear message
 		this.announceAppear();
@@ -131,7 +131,7 @@ public class ChestTreasure extends Treasure {
 		
 		// On prepare une task delayed pour le faire disparaitre
 		long delay = this.duration*20;
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BooTreasure.getInstance(), new Runnable() {
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BooTreasure.get_instance(), new Runnable() {
             @Override 
             public void run() {		                
             	// On lance event BooChestAppearEvent

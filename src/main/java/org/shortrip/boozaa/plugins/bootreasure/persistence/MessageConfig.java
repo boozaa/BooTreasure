@@ -58,7 +58,7 @@ public class MessageConfig extends Configuration {
 		if( updated ) {	
        	 this.save();
        	 this.load();
-       	Log.info("Config - " + getName() + " " + BooTreasure.getInstance().getDescription().getVersion() + " messages.yml - new options");
+       	Log.info("Config - " + getName() + " " + BooTreasure.get_instance().getDescription().getVersion() + " messages.yml - new options");
             for(String str : messages){
             	Log.info("messages.yml - " + str);
             }

@@ -18,7 +18,7 @@ public final class TreasureChestCloseEvent extends Events {
 			// On vérifie si le joueur qui l'a trouvé est dans groupes autorisés
 			if( t.canBeDiscoveredByPlayer((Player)humanEntity)){
 				
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BooTreasure.getInstance(), new Runnable() {
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BooTreasure.get_instance(), new Runnable() {
 		            @Override 
 		            public void run() {
 		            	

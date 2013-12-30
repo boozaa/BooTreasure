@@ -105,7 +105,7 @@ public class Utils {
 		try {
 			
 			// ItemStack
-			baos = new FileOutputStream(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");			
+			baos = new FileOutputStream(BooTreasure.get_instance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");			
 			BukkitObjectOutputStream boos = new BukkitObjectOutputStream(baos);
 			boos.writeObject(item);
 			boos.close();
@@ -125,7 +125,7 @@ public class Utils {
 	
 	public static ItemStack deserializeItemStack(){
 		
-		File file = new File(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
+		File file = new File(BooTreasure.get_instance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
 		FileInputStream fis = null;
 		Object itemstack = null;
 		

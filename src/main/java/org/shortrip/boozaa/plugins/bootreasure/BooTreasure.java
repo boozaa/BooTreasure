@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.Set;
 import java.util.TimeZone;
 
+import lombok.Getter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandException;
@@ -37,11 +39,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class BooTreasure extends JavaPlugin {
 
-	private static BooTreasure _instance;
-
-	public static BooTreasure getInstance() {
-		return _instance;
-	}
+	@Getter private static BooTreasure _instance;
 
 	// The Cron4J Scheduler instance
 	private static CronScheduler _scheduler;
