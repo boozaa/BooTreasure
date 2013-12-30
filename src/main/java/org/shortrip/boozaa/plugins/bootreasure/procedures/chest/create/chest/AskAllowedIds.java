@@ -35,11 +35,7 @@ public class AskAllowedIds extends MaterialPrompt {
 
 		if( context.getSessionData(Const.TREASURE) instanceof ChestTreasure ){
 			this._treasure = (ChestTreasure) context.getSessionData(Const.TREASURE);
-
-			if( context.getSessionData(Const.CREATE_CHEST_ASK_ALLOWEDIDS) != null ){
-				// On demande les ids socles si besoin
-				return context.getSessionData(Const.CREATE_CHEST_ASK_ALLOWEDIDS).toString();
-			}			
+			return Const.CREATE_CHEST_ASK_ALLOWEDIDS;
 		}
 		return null;
 		

@@ -4,6 +4,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -39,7 +41,6 @@ import org.shortrip.boozaa.plugins.bootreasure.serializer.BukkitSerializer;
  *
  * BooTreasure
  */
-@ToString(callSuper=true)
 @EqualsAndHashCode(callSuper=true)
 public class ChestTreasure extends Treasure {
 
@@ -54,7 +55,8 @@ public class ChestTreasure extends Treasure {
 	@Getter @Setter private Boolean _infinite;
 	@Getter private transient Block _block;	
 	private int _x, _y, _z;
-	private Location chestLocation;
+	private transient Location chestLocation;
+	@Getter private transient Chest chest;
 	
 	/**
 	 * Instanciation of a new ChestTreasure
@@ -76,7 +78,14 @@ public class ChestTreasure extends Treasure {
 	 * 
 	 */
 	public ChestTreasure(Location loc) {
+		super();
 		chestLocation = loc;
+		this._x = loc.getBlockX();
+		this._y = loc.getBlockY();
+		this._z = loc.getBlockZ();
+		this._block = loc.getBlock();
+		this._treasureType = TreasureType.CHEST;
+		this.path = BooTreasure.getLostTreasuresPath() + this._id + ".chest";
 	}
 
 
@@ -87,7 +96,14 @@ public class ChestTreasure extends Treasure {
 		chestLocation.getWorld().playEffect(chestLocation, Effect.SMOKE, 300);		
 		chestLocation.getWorld().playSound(chestLocation, Sound.ENDERDRAGON_HIT, 1, 10);
 		chestLocation.getWorld().getBlockAt(chestLocation).setType(Material.CHEST);
+		chest = (Chest) chestLocation.getWorld().getBlockAt(chestLocation).getState();
 	}
+	
+	
+	public void fillContents(){
+		set_inventory(getChest().getInventory().getContents());
+	}
+	
 	
 	/*
 	 * Disparition du chest pour remplissage
@@ -150,15 +166,17 @@ public class ChestTreasure extends Treasure {
 	@Override
 	public void disappear() {
 		
-		if( _block == null ){			
-			_block = Bukkit.getWorld(this._world).getBlockAt(_x, _y, _z);
+		if( _block == null ){	
+			this.chestLocation = Bukkit.getWorld(this._world).getBlockAt(_x, _y, _z).getLocation();
+			_block = Bukkit.getWorld(this._world).getBlockAt(this.chestLocation );
+			this.chest = (Chest)_block.getState();
 		}
 		
-		if( _block.getState().getType().equals(Material.CHEST) ){
+		//if( _block.getState().getType().equals(Material.CHEST) ){
 
 			try {
 				
-				Chest chest = (Chest) _block.getState();				
+				//Chest chest = (Chest) _block.getState();				
 				
 				if( this._preservecontent ){
 					Log.debug("This Chest was found and its content must be preserved for the next apparition.");					
@@ -171,7 +189,7 @@ public class ChestTreasure extends Treasure {
 				chest.getInventory().clear();
 						
 				// On supprime le chest si pas deja fait		
-				this._block.setType(Material.AIR);
+				chest.getBlock().setType(Material.AIR);
 				
 				// On envoit message de disparation
 				this.announceDisappear();
@@ -185,8 +203,7 @@ public class ChestTreasure extends Treasure {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-		}		
+				
 		
 		// On replace le booleen found à false pour les suivants
 		this._found = false;
@@ -351,6 +368,36 @@ public class ChestTreasure extends Treasure {
 	
 	private void makeEffect(){
 		Bukkit.getWorld(this._world).playEffect(_block.getLocation(), Effect.MOBSPAWNER_FLAMES,10);
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		
+		StringBuilder build = new StringBuilder();
+		String nl = System.getProperty("line.separator");
+		
+		build.append(nl);
+		build.append(ChatColor.GOLD + "ChestTreasure -" + ChatColor.GREEN + this._id);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Name: " + ChatColor.AQUA + this._name);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - World: " + ChatColor.AQUA + this._world);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Cron Pattern: " + ChatColor.AQUA + this._pattern);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Duration: " + ChatColor.AQUA + this.duration);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - X: " + ChatColor.AQUA + this._x + ChatColor.RESET + ", Y: " + ChatColor.AQUA + this._y + ChatColor.RESET + ", Z: " + ChatColor.AQUA + this._z  );
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Infinite: " + ChatColor.AQUA + this._infinite + ChatColor.RESET + ", Only On Surface: " + ChatColor.AQUA + this._onlyonsurface + ChatColor.RESET + ", Preserve Content: " + ChatColor.AQUA + this._preservecontent  );
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Contents: " + ChatColor.AQUA + Arrays.toString(_inventory));
+		build.append(nl);
+		
+		return build.toString();
 	}
 
 

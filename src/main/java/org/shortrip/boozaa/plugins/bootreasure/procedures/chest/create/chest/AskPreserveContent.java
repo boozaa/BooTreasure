@@ -23,11 +23,7 @@ public class AskPreserveContent extends YesNoPrompt {
 
 		if( context.getSessionData(Const.TREASURE) instanceof ChestTreasure ){
 			this._treasure = (ChestTreasure) context.getSessionData(Const.TREASURE);
-
-			if( context.getSessionData(Const.CREATE_CHEST_ASK_PRESERVECONTENT) != null ){
-				// On demande si PRESERVECONTENT
-				return context.getSessionData(Const.CREATE_CHEST_ASK_PRESERVECONTENT).toString();
-			}			
+			return Const.CREATE_CHEST_ASK_PRESERVECONTENT;
 		}
 		return null;
 		

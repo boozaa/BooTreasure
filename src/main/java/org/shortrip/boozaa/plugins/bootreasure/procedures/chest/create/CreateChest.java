@@ -20,6 +20,13 @@ import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.chest.AskAllowedIds;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.chest.AskCron;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.chest.AskDuration;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.chest.AskInfinite;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.chest.AskOnlyOnSurface;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.chest.AskPreserveContent;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.chest.AskWorld;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.CronPatternPrompt;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.MaterialPrompt;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.NamePrompt;
@@ -56,38 +63,12 @@ public class CreateChest implements Runnable {
 		this._treasure.chestAppear();
 		
 		/*
-		 * Procédure de creation d'un TreasureChest
-		 * 
-		 * Choix de départ:
-		 * 		- chest
-		 * 		- schematic
-		 * 
-		 * 	- chest
-		 * 		- Donner un nom 									-> AskName()
-		 * 		- Fixer cron 										-> AskCron()
-		 * 		- Boolean infinite 									-> AskInfinite()
-		 * 		- Fixer le World 									-> AskWorld()
-		 * 		- Boolean onlyonsurface 							-> AskOnlyOnSurface()
-		 * 		- Boolean preservecontent 							-> AskPreserveContent()
-		 * 		- List<Material> allowedids 						-> AskAllowedIds()
-		 * 		- Attendre la fin du remplissage de l'inventaire 	-> WaitEnd()
-		 * 		- Fin -> End()
-		 * 
+		 * AskName()->AskCron()->AskDuration()->AskInfinite()->AskWorld()->AskOnlyOnSurface()->AskPreserveContent()->AskAllowedIds()->WaitingEndPrompt
 		 */
+		
+		
 		ConversationFactory factory = new ConversationFactory(_plugin);
 		final Map<Object, Object> map = new HashMap<Object, Object>();
-		// Les messages
-		map.put( Const.CREATE_INTRO, 							Const.CREATE_INTRO_PHRASE ); 					// Message d'introduction		
-		map.put( Const.CREATE_CHEST_ASK_NAME, 					Const.CREATE_CHEST_ASK_NAME_PHRASE ); 			// Demande du futur nom de ce trésor
-		map.put( Const.CREATE_CHEST_ASK_PATTERN, 				Const.CREATE_CHEST_ASK_PATTERN_PHRASE ); 		// Demande du cronpattern
-		map.put( Const.CREATE_CHEST_ASK_WORLD, 					Const.CREATE_CHEST_ASK_WORLD_PHRASE ); 			// Demande du world			
-		map.put( Const.CREATE_CHEST_ASK_INFINITE, 				Const.CREATE_CHEST_ASK_INFINITE_PHRASE ); 		// Demande si infini
-		map.put( Const.CREATE_CHEST_ASK_ONLYONSURFACE, 			Const.CREATE_CHEST_ASK_ONLYONSURFACE_PHRASE ); 	// Demande si onlyonsurface
-		map.put( Const.CREATE_CHEST_ASK_PRESERVECONTENT, 		Const.CREATE_CHEST_ASK_PRESERVECONTENT_PHRASE );// Demande si preservecontent
-		map.put( Const.CREATE_CHEST_ASK_ALLOWEDIDS, 			Const.CREATE_CHEST_ASK_ALLOWEDIDS_PHRASE );		// Demande si preservecontent				
-		map.put( Const.CREATE_CHEST_WAITINGEND, 				Const.CREATE_CHEST_WAITINGEND_PHRASE ); 		// Informe de l'attente du remplissage du trésor
-		map.put( Const.CREATE_SUCCESS, 							Const.CREATE_SUCCESS_PHRASE ); 					// Succés
-		map.put( Const.CREATE_ERROR, 							Const.CREATE_ERROR_PHRASE ); 					// Erreur
 		
 		// Le treasure
 		map.put( Const.TREASURE, 								this._treasure ); 								// Cache contenant les infos du trésor saisis par joueur

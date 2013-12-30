@@ -153,6 +153,9 @@ public class BooTreasure extends JavaPlugin {
 				// Deserialize
 				ChestTreasure t = (ChestTreasure) BukkitSerializer
 						.deserializeFromFile(file);
+				
+				Log.debug(t.toString());
+				
 				// Launch disappear method
 				t.disappear();
 				// Delete serialization file

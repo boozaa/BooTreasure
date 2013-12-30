@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -24,6 +26,7 @@ import org.bukkit.entity.Player;
  *
  * BooTreasure
  */
+@Data
 public abstract class Treasure implements Serializable {
 
 	/**
@@ -40,6 +43,7 @@ public abstract class Treasure implements Serializable {
 	
 	public Treasure(){
 		this._conf = 				null;
+		this._id = 					UUID.randomUUID().toString();
 	}
 		
 	
@@ -54,6 +58,8 @@ public abstract class Treasure implements Serializable {
 		this.duration = 			this._conf.getLong("basics.duration");
 		this._allowedids = 			new ArrayList<Material>();
 	}
+	
+	
 		
 	
 	/**

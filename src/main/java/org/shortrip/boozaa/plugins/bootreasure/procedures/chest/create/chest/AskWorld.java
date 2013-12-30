@@ -24,17 +24,13 @@ public class AskWorld extends WorldPrompt {
 
 		if( context.getSessionData(Const.TREASURE) instanceof ChestTreasure ){
 			this._treasure = (ChestTreasure) context.getSessionData(Const.TREASURE);
-
-			if( context.getSessionData(Const.CREATE_CHEST_ASK_WORLD) != null ){
-				// On demande le Monde
-				StringBuilder str = new StringBuilder();
-				str.append(context.getSessionData(Const.CREATE_CHEST_ASK_WORLD).toString() + ": " + System.getProperty("line.separator")  );
-				for( World w : this._worlds ){
-					str.append(w.getName() + " ");
-				}		
-				return str.toString();
-			}
-						
+			// On demande le Monde
+			StringBuilder str = new StringBuilder();
+			str.append(Const.CREATE_CHEST_ASK_WORLD + ": " + System.getProperty("line.separator")  );
+			for( World w : this._worlds ){
+				str.append(w.getName() + " ");
+			}		
+			return str.toString();						
 		}
 		return null;
 		

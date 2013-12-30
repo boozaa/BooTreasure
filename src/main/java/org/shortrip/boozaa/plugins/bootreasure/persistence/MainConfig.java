@@ -20,7 +20,7 @@ import org.shortrip.boozaa.plugins.bootreasure.Log;
 public class MainConfig extends ConfigFile {
 
 	private List<String> messages;
-	private Boolean updated;
+	private Boolean updated = false;
 	@Getter private String version;
 	@Getter private Boolean debug, worldguard;
 	
@@ -40,6 +40,7 @@ public class MainConfig extends ConfigFile {
 	public void load() {
 		
 		messages = new ArrayList<String>();
+		this._config.load();
 		
 		// Create a version node in the config.yml
         if( this._config.get(VERSION) == null ) {    			

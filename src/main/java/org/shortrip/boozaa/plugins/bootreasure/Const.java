@@ -29,6 +29,7 @@ public class Const {
 	public static final String ALLOWEDIDS = 				"ALLOWEDIDS";
 	public static final String PLAYER = 					"PLAYER";
 	public static final String TREASURE = 					"TREASURE";
+	public static final String DURATION = 					"DURATION";
 	
 	// Prompts
 	public static final String CREATE_PREFIX = 				ChatColor.translateAlternateColorCodes('&', BooTreasure.get_messagesConfiguration().getString("locales.create.prefix") );
@@ -52,6 +53,9 @@ public class Const {
 
 	public static final String CREATE_CHEST_ASK_ONLYONSURFACE = 	"CREATE_CHEST_ASK_ONLYONSURFACE";
 	public static String CREATE_CHEST_ASK_ONLYONSURFACE_PHRASE =	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.onlyonsurface").replaceAll("&", "§") + " (" + CMD_YES + " | " + CMD_NO + ")";
+
+	public static final String CREATE_CHEST_ASK_DURATION = 	"CREATE_CHEST_ASK_ONLYONSURFACE";
+	public static String CREATE_CHEST_ASK_DURATION_PHRASE =	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.duration").replaceAll("&", "§");
 
 	public static final String CREATE_CHEST_ASK_PRESERVECONTENT = 	"CREATE_CHEST_ASK_PRESERVECONTENT";
 	public static String CREATE_CHEST_ASK_PRESERVECONTENT_PHRASE =	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.preservecontent").replaceAll("&", "§") + " (" + CMD_YES + " | " + CMD_NO + ")";

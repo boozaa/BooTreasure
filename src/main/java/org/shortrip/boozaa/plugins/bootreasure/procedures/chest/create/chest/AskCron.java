@@ -23,10 +23,7 @@ public class AskCron extends CronPatternPrompt {
 		
 		if( context.getSessionData(Const.TREASURE) instanceof ChestTreasure ){
 			this._treasure = (ChestTreasure) context.getSessionData(Const.TREASURE);
-			if( context.getSessionData(Const.CREATE_CHEST_ASK_PATTERN) != null ){
-				// On demande le cron pattern
-				return context.getSessionData(Const.CREATE_CHEST_ASK_PATTERN).toString();
-			}			
+			return Const.CREATE_CHEST_ASK_PATTERN;
 		}
 		return null;
 		
@@ -38,7 +35,7 @@ public class AskCron extends CronPatternPrompt {
     	context.setSessionData( Const.PATTERN, in );
     	// Récuperation de données
     	this._treasure.set_pattern(in);   	
-    	return new AskInfinite(); 
+    	return new AskDuration(); 
 	}	
 		
 }

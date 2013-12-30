@@ -51,6 +51,7 @@ public class MessageConfig extends Configuration {
 		this.map.put("locales.create.chest.ask.preservecontent", 	"&3Conserve son &econtenu&3 ?");
 		this.map.put("locales.create.chest.ask.allowedids", 		"&3Blocks particuliers");
 		this.map.put("locales.create.chest.ask.waitingend", 		"&3Remplis ce trésor et pour finir tapes: &7");
+		this.map.put("locales.create.chest.ask.duration", 			"&3Combien de &etemps&3 doit rester le trésor ?");
 		
 		this.enable();	
 		

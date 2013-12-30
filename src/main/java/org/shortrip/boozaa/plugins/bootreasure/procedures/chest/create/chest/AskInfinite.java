@@ -23,10 +23,7 @@ public class AskInfinite extends YesNoPrompt {
 		
 		if( context.getSessionData(Const.TREASURE) instanceof ChestTreasure ){
 			this._treasure = (ChestTreasure) context.getSessionData(Const.TREASURE);
-			if( context.getSessionData(Const.CREATE_CHEST_ASK_INFINITE) != null ){
-				// On demande si infini
-				return context.getSessionData(Const.CREATE_CHEST_ASK_INFINITE).toString();
-			}			
+			return Const.CREATE_CHEST_ASK_INFINITE;
 		}
 		return null;
 		

@@ -32,12 +32,13 @@ public abstract class ConfigFile {
 		if( !fichier.exists() ){
 			// On crée le fichier
 			try {
-				fichier.createNewFile();
-				this._config = new Configuration(fichier);	
+				fichier.createNewFile();				
 			} catch (IOException e) {
 				Log.error("Error when trying to create file " + this._filepath);
 			}
-		}			
+		}	
+		this._config = new Configuration(fichier);
+		this._config.load();
 	}
 	
 	public Boolean reload(){		

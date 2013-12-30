@@ -23,10 +23,7 @@ public class AskName extends NamePrompt {
 		
 		if( context.getSessionData(Const.TREASURE) instanceof ChestTreasure ){			
 			this._treasure = (ChestTreasure) context.getSessionData(Const.TREASURE);			
-			if( context.getSessionData(Const.CREATE_CHEST_ASK_NAME) != null ){
-				// On demande le nom de ce trésor
-				return context.getSessionData(Const.CREATE_CHEST_ASK_NAME).toString();
-			}			
+			return Const.CREATE_CHEST_ASK_NAME;
 		}
 		return null;
 		

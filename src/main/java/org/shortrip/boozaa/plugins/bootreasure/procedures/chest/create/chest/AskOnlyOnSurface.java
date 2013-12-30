@@ -22,11 +22,8 @@ public class AskOnlyOnSurface extends YesNoPrompt {
 	public String getPromptText(ConversationContext context) {
 
 		if( context.getSessionData(Const.TREASURE) instanceof ChestTreasure ){
-			//this._treasure = (ChestTreasure) context.getSessionData(Const.TREASURE);
-			if( context.getSessionData(Const.CREATE_CHEST_ASK_ONLYONSURFACE) != null ){
-				// On demande si ONLYONSURFACE
-				return context.getSessionData(Const.CREATE_CHEST_ASK_ONLYONSURFACE).toString();
-			}			
+			this._treasure = (ChestTreasure) context.getSessionData(Const.TREASURE);
+			return Const.CREATE_CHEST_ASK_ONLYONSURFACE;
 		}
 		return null;
 		
