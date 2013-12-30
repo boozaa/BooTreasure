@@ -5,6 +5,7 @@ import org.shortrip.boozaa.plugins.bootreasure.persistence.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.MainConfig;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.MessageConfig;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.TreasureConfig;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.ChestCreateProcedure;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.CreateChest;
 import org.shortrip.boozaa.plugins.bootreasure.serializer.BukkitSerializer;
 import org.shortrip.boozaa.plugins.bootreasure.utils.tiers.VaultUtils;
@@ -340,7 +341,7 @@ public class BooTreasure extends JavaPlugin {
 					
 					if (sender instanceof Player) {
 						
-						Bukkit.getScheduler().runTask(this, new CreateChest(this, (Player) sender));
+						Bukkit.getScheduler().runTask(this, new ChestCreateProcedure(this, (Player) sender));
 						
 						//Thread t = new Thread( new CreateChest(this, (Player) sender) );
 						//t.start();

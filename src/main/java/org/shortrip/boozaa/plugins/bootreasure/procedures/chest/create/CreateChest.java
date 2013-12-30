@@ -71,7 +71,7 @@ public class CreateChest implements Runnable {
 		final Map<Object, Object> map = new HashMap<Object, Object>();
 		
 		// Le treasure
-		map.put( Const.TREASURE, 								this._treasure ); 								// Cache contenant les infos du trésor saisis par joueur
+		map.put( Const.TREASURE, this._treasure ); 								// Cache contenant les infos du trésor saisis par joueur
 		
 		Conversation conv = factory
 	            .withFirstPrompt(new AskName())
@@ -92,6 +92,7 @@ public class CreateChest implements Runnable {
 	            }
 	        }
 	    });
+	    
 	    
 	    conv.begin();
 		
