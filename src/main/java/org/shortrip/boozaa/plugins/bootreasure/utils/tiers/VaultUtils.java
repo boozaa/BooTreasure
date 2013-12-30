@@ -22,7 +22,7 @@ public class VaultUtils {
 	public VaultUtils( Plugin plugin ){
 		_plugin = plugin;
 		if (_plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
-    		BooTreasure.useVault = false;
+    		BooTreasure.setUseVault(false);
 			Log.warning("Vault seems not here, you can't use permission rewards");
     		return;
         }
@@ -30,23 +30,23 @@ public class VaultUtils {
         if (permissionProvider != null) {
         	_perms = permissionProvider.getProvider();
         	Log.info("Permissions providing by Vault");
-        	BooTreasure.useVault = true;
+        	BooTreasure.setUseVault(true);
         }else{
         	Log.warning("Can't hooked Permissions with Vault");
-        	BooTreasure.useVault = false;      	
+        	BooTreasure.setUseVault(false);     	
         }
 	}
 	
 	
 	private Boolean playerCanAll( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			return _perms.playerHas(player, Const.PLAYER_CAN_ALL);
 		}
 		return true;
 	}
 	
 	public Boolean playerCanFind( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerCanAll(player) ){
 				return true;
 			}else{
@@ -57,7 +57,7 @@ public class VaultUtils {
 			
 	}
 	public Boolean playerCanFind( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerCanAll(player) ){
 				return true;
@@ -69,7 +69,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerCanBeInformed( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerCanAll(player) ){
 				return true;
 			}else{
@@ -80,7 +80,7 @@ public class VaultUtils {
 			
 	}
 	public Boolean playerCanBeInformed( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerCanAll(player) ){
 				return true;
@@ -95,14 +95,14 @@ public class VaultUtils {
 	
 	
 	private Boolean playerRewardAll( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			return _perms.playerHas(player, Const.PLAYER_REWARD_ALL);
 		}
 		return true;		
 	}
 	
 	public Boolean playerCanRewardXP( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerRewardAll(player) ){
 				return true;
 			}else{
@@ -113,7 +113,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerCanRewardXP( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerRewardAll(player) ){
 				return true;
@@ -125,7 +125,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerCanRewardCommand( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerRewardAll(player) ){
 				return true;
 			}else{
@@ -136,7 +136,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerCanRewardCommand( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerRewardAll(player) ){
 				return true;
@@ -150,14 +150,14 @@ public class VaultUtils {
 	
 	
 	private Boolean playerAdminAll( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			return _perms.playerHas(player, Const.ADMIN_ALL);
 		}
 		return true;		
 	}
 	
 	public Boolean playerAdminCreate( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
@@ -168,7 +168,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminCreate( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerAdminAll(player) ){
 				return true;
@@ -180,7 +180,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminModify( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
@@ -191,7 +191,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminModify( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerAdminAll(player) ){
 				return true;
@@ -203,7 +203,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminDelete( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
@@ -214,7 +214,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminDelete( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerAdminAll(player) ){
 				return true;
@@ -226,7 +226,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminKnowWhere( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
@@ -237,7 +237,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminKnowWhere( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerAdminAll(player) ){
 				return true;
@@ -249,7 +249,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminKnowWhat( Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
@@ -260,7 +260,7 @@ public class VaultUtils {
 	}
 	
 	public Boolean playerAdminKnowWhat( String playerName ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			Player player = Bukkit.getPlayer(playerName);
 			if( playerAdminAll(player) ){
 				return true;
@@ -273,7 +273,7 @@ public class VaultUtils {
 	
 	
 	public Boolean playerInGroup( String groupName, Player player ){
-		if( BooTreasure.useVault ){
+		if( BooTreasure.getUseVault() ){
 			return _perms.playerInGroup(player, groupName);
 		}
 		return true;		

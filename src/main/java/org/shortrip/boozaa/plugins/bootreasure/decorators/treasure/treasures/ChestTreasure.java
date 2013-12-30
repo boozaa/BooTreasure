@@ -260,7 +260,7 @@ public class ChestTreasure extends Treasure {
 		if( this._conf != null ){
 			if( this._conf.get(Const.TASK_PERMISSIONS_GROUPS) != null ) {
 				if( this._conf.getBoolean(Const.TASK_PERMISSIONS_GROUPS) ){
-					if( BooTreasure.getVault().playerCanFind(player)){
+					if( BooTreasure.get_vaultUtils().playerCanFind(player)){
 						return true;
 					}
 					return false;

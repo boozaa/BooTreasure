@@ -13,13 +13,13 @@ public final class TreasureChestDisappearEvent extends Events {
 
 		super();
 		// On prend le BooChest dans le Cache
-		if( BooTreasure.getTreasureCache().exists(id)){
+		if( BooTreasure.get_treasureCache().exists(id)){
 			// On lance sa méthode disappear
 			Bukkit.getServer().getScheduler().runTask(BooTreasure.get_instance(), new Runnable() {
 
 				@Override
 				public void run() {
-					final Treasure t = (Treasure) BooTreasure.getTreasureCache().getObject(id);
+					final Treasure t = (Treasure) BooTreasure.get_treasureCache().getObject(id);
 					Log.debug("Chest disappear: " + t.get_name());
 					t.disappear();
 				} }); 			

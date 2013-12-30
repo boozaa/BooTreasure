@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -42,51 +43,25 @@ public class BooTreasure extends JavaPlugin {
 	@Getter private static BooTreasure _instance;
 
 	// The Cron4J Scheduler instance
-	private static CronScheduler _scheduler;
+	@Getter private static CronScheduler _scheduler;
 
-	public static CronScheduler getScheduler() {
-		return _scheduler;
-	}
+	@Getter private static CronTaskCollector _taskCollector;
 
-	private static CronTaskCollector _taskCollector;
+	@Getter private static Cache _treasureCache;
 
-	public static CronTaskCollector getTaskCollector() {
-		return _taskCollector;
-	}
+	@Getter private static Configuration _pluginConfiguration;
 
-	private static Cache _treasureCache;
+	@Getter private static Configuration _messagesConfiguration;
 
-	public static Cache getTreasureCache() {
-		return _treasureCache;
-	}
+	@Getter private static TreasureConfig _treasuresConfiguration;
 
-	private static Configuration _pluginConfiguration;
+	@Getter @Setter private static Boolean useVault = false;
+	@Getter private static VaultUtils _vaultUtils;
+	
+	@Getter @Setter private static Boolean useWorldGuard = false;
 
-	public static Configuration getGeneralConf() {
-		return _pluginConfiguration;
-	}
-
-	private static Configuration _messagesConfiguration;
-
-	public static Configuration getMessagesConf() {
-		return _messagesConfiguration;
-	}
-
-	private static TreasureConfig _treasuresConfiguration;
-
-	public static TreasureConfig getTreasuresConf() {
-		return _treasuresConfiguration;
-	}
-
-	public static Boolean useVault = false;
-	private static VaultUtils _vaultUtils;
-
-	public static VaultUtils getVault() {
-		return _vaultUtils;
-	}
-
-	public static Boolean useWorldGuard = false;
-
+	
+	
 	@Override
 	public void onEnable() {
 

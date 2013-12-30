@@ -52,7 +52,7 @@ public class MyPlayerListener implements Listener {
         	Chest chest = (Chest) e.getInventory().getHolder();        	
         	if( chest.hasMetadata("BooTreasure") ){        		
     			String id = chest.getMetadata("BooTreasure").get(0).asString();
-    			final Treasure t = (Treasure) BooTreasure.getTreasureCache().getObject(id);
+    			final Treasure t = (Treasure) BooTreasure.get_treasureCache().getObject(id);
     			// Call the event
     			if( t != null ){
     				Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
@@ -72,7 +72,7 @@ public class MyPlayerListener implements Listener {
         	Chest chest = (Chest) e.getInventory().getHolder();
         	if( chest.hasMetadata("BooTreasure") ){
     			String id = chest.getMetadata("BooTreasure").get(0).asString(); 
-    			final Treasure t = (Treasure) BooTreasure.getTreasureCache().getObject(id);			
+    			final Treasure t = (Treasure) BooTreasure.get_treasureCache().getObject(id);			
     			// Call the event
     			if( t != null ){
             		Log.debug("Chest metadata BooTreasure found, this closed chest was a treasure");
@@ -93,7 +93,7 @@ public class MyPlayerListener implements Listener {
 			if( chest.hasMetadata("BooTreasure") ){
 				// Ok ici c'est un BooChest on lance event BooChestBreakEvent
 				String id = chest.getMetadata("BooTreasure").get(0).asString();
-    			final Treasure t = (Treasure) BooTreasure.getTreasureCache().getObject(id);
+    			final Treasure t = (Treasure) BooTreasure.get_treasureCache().getObject(id);
 				// Call the event
     			if( t != null ){
             		Log.debug("Chest metadata BooTreasure found, this breaking chest is a treasure");

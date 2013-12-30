@@ -9,14 +9,14 @@ public class Const {
 	// Plugin related
 	public static final String PLUGIN_NAME = 				"[BooTreasure] ";
 	public static final String PLUGIN = 					"BooTreasure";
-	public final static Boolean USE_WORLDGUARD = 			BooTreasure.getGeneralConf().getBoolean("config.worldguard.filter");
+	public final static Boolean USE_WORLDGUARD = 			BooTreasure.get_pluginConfiguration().getBoolean("config.worldguard.filter");
 	
 	
 	// Texte de commandes
-	public static String CMD_YES =							BooTreasure.getMessagesConf().getString("locales.commands.agree");
-	public static String CMD_NO =							BooTreasure.getMessagesConf().getString("locales.commands.disagree");
-	public static String CMD_EXIT =							BooTreasure.getMessagesConf().getString("locales.commands.exit");
-	public static String CMD_END =							BooTreasure.getMessagesConf().getString("locales.commands.end");
+	public static String CMD_YES =							BooTreasure.get_pluginConfiguration().getString("locales.commands.agree");
+	public static String CMD_NO =							BooTreasure.get_pluginConfiguration().getString("locales.commands.disagree");
+	public static String CMD_EXIT =							BooTreasure.get_pluginConfiguration().getString("locales.commands.exit");
+	public static String CMD_END =							BooTreasure.get_pluginConfiguration().getString("locales.commands.end");
 	
 	
 	// Valeurs stockées
@@ -31,47 +31,47 @@ public class Const {
 	public static final String TREASURE = 					"TREASURE";
 	
 	// Prompts
-	public static final String CREATE_PREFIX = 				ChatColor.translateAlternateColorCodes('&', BooTreasure.getMessagesConf().getString("locales.create.prefix") );
+	public static final String CREATE_PREFIX = 				ChatColor.translateAlternateColorCodes('&', BooTreasure.get_messagesConfiguration().getString("locales.create.prefix") );
 	
 	public static final String CREATE_INTRO = 				"CREATE_INTRO";
-	public static String CREATE_INTRO_PHRASE = 				BooTreasure.getMessagesConf().getString("locales.create.chest.intro").replaceAll("&", "§");
+	public static String CREATE_INTRO_PHRASE = 				BooTreasure.get_pluginConfiguration().getString("locales.create.chest.intro").replaceAll("&", "§");
 	
 	public static final String CREATE_CHEST_ASK_NAME = 		"CREATE_CHEST_ASK_NAME";
-	public static String CREATE_CHEST_ASK_NAME_PHRASE = 	BooTreasure.getMessagesConf().getString("locales.create.chest.ask.name").replaceAll("&", "§");
+	public static String CREATE_CHEST_ASK_NAME_PHRASE = 	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.name").replaceAll("&", "§");
 
 	public static final String CREATE_CHEST_ASK_PATTERN = 	"CREATE_CHEST_ASK_PATTERN";
-	public static String CREATE_CHEST_ASK_PATTERN_PHRASE = 	BooTreasure.getMessagesConf().getString("locales.create.chest.ask.pattern").replaceAll("&", "§");
+	public static String CREATE_CHEST_ASK_PATTERN_PHRASE = 	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.pattern").replaceAll("&", "§");
 
 	public static final String CREATE_CHEST_ASK_WORLD = 	"CREATE_CHEST_ASK_WORLD";
-	public static String CREATE_CHEST_ASK_WORLD_PHRASE = 	BooTreasure.getMessagesConf().getString("locales.create.chest.ask.world").replaceAll("&", "§");
+	public static String CREATE_CHEST_ASK_WORLD_PHRASE = 	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.world").replaceAll("&", "§");
 
 	
 	
 	public static final String CREATE_CHEST_ASK_INFINITE = 	"CREATE_CHEST_ASK_INFINITE";
-	public static String CREATE_CHEST_ASK_INFINITE_PHRASE =	BooTreasure.getMessagesConf().getString("locales.create.chest.ask.infinite").replaceAll("&", "§") + " (" + CMD_YES + " | " + CMD_NO + ")";
+	public static String CREATE_CHEST_ASK_INFINITE_PHRASE =	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.infinite").replaceAll("&", "§") + " (" + CMD_YES + " | " + CMD_NO + ")";
 
 	public static final String CREATE_CHEST_ASK_ONLYONSURFACE = 	"CREATE_CHEST_ASK_ONLYONSURFACE";
-	public static String CREATE_CHEST_ASK_ONLYONSURFACE_PHRASE =	BooTreasure.getMessagesConf().getString("locales.create.chest.ask.onlyonsurface").replaceAll("&", "§") + " (" + CMD_YES + " | " + CMD_NO + ")";
+	public static String CREATE_CHEST_ASK_ONLYONSURFACE_PHRASE =	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.onlyonsurface").replaceAll("&", "§") + " (" + CMD_YES + " | " + CMD_NO + ")";
 
 	public static final String CREATE_CHEST_ASK_PRESERVECONTENT = 	"CREATE_CHEST_ASK_PRESERVECONTENT";
-	public static String CREATE_CHEST_ASK_PRESERVECONTENT_PHRASE =	BooTreasure.getMessagesConf().getString("locales.create.chest.ask.preservecontent").replaceAll("&", "§") + " (" + CMD_YES + " | " + CMD_NO + ")";
+	public static String CREATE_CHEST_ASK_PRESERVECONTENT_PHRASE =	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.preservecontent").replaceAll("&", "§") + " (" + CMD_YES + " | " + CMD_NO + ")";
 
 
 	public static final String CREATE_CHEST_ASK_ALLOWEDIDS = 		"CREATE_CHEST_ASK_ALLOWEDIDS";
-	public static String CREATE_CHEST_ASK_ALLOWEDIDS_PHRASE =		BooTreasure.getMessagesConf().getString("locales.create.chest.ask.allowedids").replaceAll("&", "§") + " (" + CMD_EXIT + " )";
+	public static String CREATE_CHEST_ASK_ALLOWEDIDS_PHRASE =		BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.allowedids").replaceAll("&", "§") + " (" + CMD_EXIT + " )";
 
 	
 	
 	public static final String CREATE_CHEST_WAITINGEND = 			"CREATE_CHEST_WAITINGEND";
-	public static String CREATE_CHEST_WAITINGEND_PHRASE =			BooTreasure.getMessagesConf().getString("locales.create.chest.ask.waitingend").replaceAll("&", "§") + CMD_EXIT;
+	public static String CREATE_CHEST_WAITINGEND_PHRASE =			BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.waitingend").replaceAll("&", "§") + CMD_EXIT;
 
 	
 	
 	public static final String CREATE_SUCCESS = 			"CREATE_SUCCESS";
-	public static String CREATE_SUCCESS_PHRASE =			BooTreasure.getMessagesConf().getString("locales.create.success").replaceAll("&", "§");
+	public static String CREATE_SUCCESS_PHRASE =			BooTreasure.get_messagesConfiguration().getString("locales.create.success").replaceAll("&", "§");
 
 	public static final String CREATE_ERROR = 				"CREATE_ERROR";
-	public static String CREATE_ERROR_PHRASE =				BooTreasure.getMessagesConf().getString("locales.create.error").replaceAll("&", "§");
+	public static String CREATE_ERROR_PHRASE =				BooTreasure.get_messagesConfiguration().getString("locales.create.error").replaceAll("&", "§");
 	
 	
 	
