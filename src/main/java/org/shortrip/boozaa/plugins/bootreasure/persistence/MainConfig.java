@@ -5,8 +5,6 @@ package org.shortrip.boozaa.plugins.bootreasure.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-
 import lombok.Getter;
 
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;

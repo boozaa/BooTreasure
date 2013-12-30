@@ -3,7 +3,6 @@
  */
 package org.shortrip.boozaa.plugins.bootreasure.persistence;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import lombok.EqualsAndHashCode;

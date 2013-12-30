@@ -5,8 +5,6 @@ package org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures;
 
 import java.io.File;
 import java.util.List;
-import java.util.logging.Level;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,5 @@
 package org.shortrip.boozaa.plugins.bootreasure.utils.tiers;
 
-import java.util.logging.Level;
-
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
