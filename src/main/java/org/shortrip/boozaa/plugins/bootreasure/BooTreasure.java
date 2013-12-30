@@ -4,10 +4,10 @@ import org.shortrip.boozaa.plugins.bootreasure.persistence.Cache;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.MainConfig;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.MessageConfig;
+import org.shortrip.boozaa.plugins.bootreasure.persistence.TreasureConfig;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.CreateChest;
 import org.shortrip.boozaa.plugins.bootreasure.serializer.BukkitSerializer;
 import org.shortrip.boozaa.plugins.bootreasure.utils.tiers.VaultUtils;
-import org.shortrip.boozaa.plugins.bootreasure.config.TreasureConfig;
 import org.shortrip.boozaa.plugins.bootreasure.cron.CronScheduler;
 import org.shortrip.boozaa.plugins.bootreasure.cron.CronSchedulerListener;
 import org.shortrip.boozaa.plugins.bootreasure.cron.CronTaskCollector;
@@ -54,7 +54,7 @@ public class BooTreasure extends JavaPlugin {
 	@Getter private static Cache _treasureCache;
 
 	// The config.yml configuration representation
-	@Getter private static Configuration _pluginConfiguration;
+	@Getter private static MainConfig _pluginConfiguration;
 
 	// The messages.yml configuration representation
 	@Getter private static Configuration _messagesConfiguration;
@@ -365,7 +365,7 @@ public class BooTreasure extends JavaPlugin {
 	private void makeConfig() {
 
 		String configPath = getDataFolder() + File.separator + "config.yml";
-		_pluginConfiguration = new MainConfig(configPath);
+		_pluginConfiguration = new MainConfig();
 
 		configPath = getDataFolder() + File.separator + "messages.yml";
 		_messagesConfiguration = new MessageConfig(configPath);

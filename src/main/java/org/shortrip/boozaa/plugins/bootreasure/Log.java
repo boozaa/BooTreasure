@@ -27,11 +27,7 @@ public class Log {
 	}
 	
 	public static void error(String message) {
-		
-		if( BooTreasure.get_pluginConfiguration().getBoolean("config.debugMode") ) {			
-			console.sendMessage(Const.PLUGIN_NAME + "- " + message);
-		}
-		
+		console.sendMessage(Const.PLUGIN_NAME + "ERROR - " + message);
 	}
 	
 	public static void severe(String error, Throwable message) {
@@ -42,7 +38,7 @@ public class Log {
 	// Debug si activé
 	public static void debug(String message) {
 		
-		if( BooTreasure.get_pluginConfiguration().getBoolean("config.debugMode") ) {			
+		if( BooTreasure.get_pluginConfiguration().getDebug() ) {			
 			console.sendMessage(Const.PLUGIN_NAME + "- DEBUG - " + message);
 		}
 		
@@ -72,7 +68,7 @@ public class Log {
 	        out.println("------------------------------------------------------------------");
 		    out.println(sdf.format(today));
 		    out.println("Server bukkit Version: " + Bukkit.getServer().getBukkitVersion());
-		    out.println("BooTreasure version: " + BooTreasure.get_pluginConfiguration().getString("config.debug"));
+		    out.println( BooTreasure.getPluginName() + " version: " + BooTreasure.getPluginVersion());
 		    out.println("Vault Version: " + vaultVersion);
 		    out.println(nl);
 		    out.println("Error occured on " + error);

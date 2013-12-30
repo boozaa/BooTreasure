@@ -1,7 +1,7 @@
 /**
  * BooTreasure by boozaa
  */
-package org.shortrip.boozaa.plugins.bootreasure.config;
+package org.shortrip.boozaa.plugins.bootreasure.persistence;
 
 import java.io.File;
 import java.util.Arrays;
@@ -34,7 +34,8 @@ public class TreasureConfig extends ConfigFile {
 		super(BooTreasure.getTreasuresConfigPath());
 	}
 	
-	
+
+	@Override
 	public void load(){
 		
 		// Recherche du World par défaut

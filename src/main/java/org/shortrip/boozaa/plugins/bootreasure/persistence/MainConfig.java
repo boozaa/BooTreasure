@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import lombok.Getter;
+
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
 
@@ -17,10 +19,12 @@ import org.shortrip.boozaa.plugins.bootreasure.Log;
  *
  * BooTreasure
  */
-public class MainConfig extends Configuration {
+public class MainConfig extends ConfigFile {
 
 	private List<String> messages;
 	private Boolean updated;
+	@Getter private String version;
+	@Getter private Boolean debug, worldguard;
 	
 	private static String VERSION = 				"config.version";
 	private static String DEBUG = 					"config.debugMode";
@@ -30,85 +34,64 @@ public class MainConfig extends Configuration {
 	/**
 	 * @param sourcepath
 	 */
-	public MainConfig(String sourcepath) {
-		super(sourcepath);
-		messages = new ArrayList<String>();
-		updated = false;
-		
-		if( !this.exists() ){ this.save();}
-		this.load();		
-		
-		this.enable();		
+	public MainConfig() {
+		super(BooTreasure.getMainConfigPath());
 	}
 	
-	
-	public Boolean enable(){
+	@Override
+	public void load() {
+		
+		messages = new ArrayList<String>();
 		
 		// Create a version node in the config.yml
-        if( this.get(VERSION) == null ) {    			
+        if( this._config.get(VERSION) == null ) {    			
             // Doesn't exist so create it and store as new
-        	this.set(VERSION, BooTreasure.getPluginVersion());
+        	this._config.set(VERSION, BooTreasure.getPluginVersion());
             updated = true;
             messages.add(VERSION + " - the version of the config");
         }else{
             // Exists so check with current version
-            String version = this.getString(VERSION);
+            String version = this._config.getString(VERSION);
             if( !BooTreasure.getPluginVersion().equalsIgnoreCase(version) ){
-            	this.set(VERSION, BooTreasure.getPluginVersion());   
+            	this._config.set(VERSION, BooTreasure.getPluginVersion());   
                 updated = true;
                 messages.add(VERSION + " - updated");
             }					
         }
+        
+        this.version = BooTreasure.getPluginVersion();
 		
         // debugMode
-  		if( this.get(DEBUG) == null ) {
-  			this.set(DEBUG, true);
+  		if( this._config.get(DEBUG) == null ) {
+  			this._config.set(DEBUG, true);
   			updated = true;
   			messages.add(DEBUG + " - Set debug mode ON or OFF");
   		}
   		
+  		this.debug = this._config.getBoolean(DEBUG);
+  		
   		// filters
-  		if( this.get(FILTER_WORLDGUARD) == null ) {
-  			this.set(FILTER_WORLDGUARD, true);
+  		if( this._config.get(FILTER_WORLDGUARD) == null ) {
+  			this._config.set(FILTER_WORLDGUARD, true);
   			//_pluginConfiguration.set("config.filter.worldguard", (Boolean)true);
   			updated = true;
   			messages.add(FILTER_WORLDGUARD + " - Take care about WorldGuard region");
   		}
-  		        
 
-         if( updated ) {	
-        	 this.save();
-        	 this.load();
-        	 Log.info("Config - " + getName() + " " + BooTreasure.getPluginVersion() + " config.yml - new options");
+  		this.worldguard = this._config.getBoolean(FILTER_WORLDGUARD); 
+
+  		if( updated ) {	
+        	 this._config.save();
+        	 this._config.load();
+        	 Log.info("Config - " + BooTreasure.getPluginName() + " " + BooTreasure.getPluginVersion() + " config.yml - new options");
              for(String str : messages){
             	 Log.info("config.yml - " + str);
              }
-         }
+  		}
         
-		
-		return true;
 	}
 	
 	
-	public Boolean reload(){		
-		this.save();
-   	 	this.load();
-		return true;
-	}
-	
-
-	
-	public String getVersion(){
-		return this.getString(VERSION);
-	}
-	
-	public Boolean isDebug(){
-		return this.getBoolean(DEBUG);
-	}
-	
-	public Boolean isWorldGuardFilter(){
-		return this.getBoolean(FILTER_WORLDGUARD);
-	}
 
 	
 

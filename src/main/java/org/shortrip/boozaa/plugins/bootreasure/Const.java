@@ -9,14 +9,14 @@ public class Const {
 	// Plugin related
 	public static final String PLUGIN_NAME = 				"[BooTreasure] ";
 	public static final String PLUGIN = 					"BooTreasure";
-	public final static Boolean USE_WORLDGUARD = 			BooTreasure.get_pluginConfiguration().getBoolean("config.worldguard.filter");
+	public final static Boolean USE_WORLDGUARD = 			BooTreasure.get_pluginConfiguration().getWorldguard();
 	
 	
 	// Texte de commandes
-	public static String CMD_YES =							BooTreasure.get_pluginConfiguration().getString("locales.commands.agree");
-	public static String CMD_NO =							BooTreasure.get_pluginConfiguration().getString("locales.commands.disagree");
-	public static String CMD_EXIT =							BooTreasure.get_pluginConfiguration().getString("locales.commands.exit");
-	public static String CMD_END =							BooTreasure.get_pluginConfiguration().getString("locales.commands.end");
+	public static String CMD_YES =							BooTreasure.get_messagesConfiguration().getString("locales.commands.agree");
+	public static String CMD_NO =							BooTreasure.get_messagesConfiguration().getString("locales.commands.disagree");
+	public static String CMD_EXIT =							BooTreasure.get_messagesConfiguration().getString("locales.commands.exit");
+	public static String CMD_END =							BooTreasure.get_messagesConfiguration().getString("locales.commands.end");
 	
 	
 	// Valeurs stockées
@@ -34,7 +34,7 @@ public class Const {
 	public static final String CREATE_PREFIX = 				ChatColor.translateAlternateColorCodes('&', BooTreasure.get_messagesConfiguration().getString("locales.create.prefix") );
 	
 	public static final String CREATE_INTRO = 				"CREATE_INTRO";
-	public static String CREATE_INTRO_PHRASE = 				BooTreasure.get_pluginConfiguration().getString("locales.create.chest.intro").replaceAll("&", "§");
+	public static String CREATE_INTRO_PHRASE = 				BooTreasure.get_messagesConfiguration().getString("locales.create.chest.intro").replaceAll("&", "§");
 	
 	public static final String CREATE_CHEST_ASK_NAME = 		"CREATE_CHEST_ASK_NAME";
 	public static String CREATE_CHEST_ASK_NAME_PHRASE = 	BooTreasure.get_messagesConfiguration().getString("locales.create.chest.ask.name").replaceAll("&", "§");

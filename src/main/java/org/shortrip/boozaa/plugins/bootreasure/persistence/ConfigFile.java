@@ -1,13 +1,12 @@
 /**
  * BooTreasure by boozaa
  */
-package org.shortrip.boozaa.plugins.bootreasure.config;
+package org.shortrip.boozaa.plugins.bootreasure.persistence;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.shortrip.boozaa.plugins.bootreasure.Log;
-import org.shortrip.boozaa.plugins.bootreasure.persistence.Configuration;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,5 +39,14 @@ public abstract class ConfigFile {
 			}
 		}			
 	}
+	
+	public Boolean reload(){		
+		this._config.save();
+   	 	this._config.load();
+		return true;
+	}
+	
+	public abstract void load();
+	
 	
 }
