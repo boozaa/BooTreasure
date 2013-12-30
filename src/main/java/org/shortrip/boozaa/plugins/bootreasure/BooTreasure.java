@@ -89,6 +89,7 @@ public class BooTreasure extends JavaPlugin {
 
 	public static Boolean useWorldGuard = false;
 
+	@Override
 	public void onEnable() {
 
 		_instance = this;
@@ -300,6 +301,7 @@ public class BooTreasure extends JavaPlugin {
 
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command command,
 			String commandLabel, String[] args) {
 
@@ -368,6 +370,7 @@ public class BooTreasure extends JavaPlugin {
 
 	}
 
+	@Override
 	public void onDisable() {
 
 		// Set all static variable to null

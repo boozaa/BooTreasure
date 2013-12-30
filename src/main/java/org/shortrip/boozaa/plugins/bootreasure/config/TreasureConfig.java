@@ -61,21 +61,21 @@ public class TreasureConfig extends ConfigFile {
 					+ "------------------------------------------------------------------------------------ #"
 			);
 			
-			this._config.set("treasures.My First Treasure.basics.name", (String)"My First Treasure");
-			this._config.set("treasures.My First Treasure.basics.duration", (int)600);
-			this._config.set("treasures.My First Treasure.basics.onlyonsurface", (Boolean)true);
-			this._config.set("treasures.My First Treasure.basics.preservecontent", (Boolean)true);
-			this._config.set("treasures.My First Treasure.basics.type", (String)"chest");
-			this._config.set("treasures.My First Treasure.basics.cronpattern", (String)"*/15 * * * *");
-			this._config.set("treasures.My First Treasure.basics.world", (String)world);
+			this._config.set("treasures.My First Treasure.basics.name", "My First Treasure");
+			this._config.set("treasures.My First Treasure.basics.duration", 600);
+			this._config.set("treasures.My First Treasure.basics.onlyonsurface", true);
+			this._config.set("treasures.My First Treasure.basics.preservecontent", true);
+			this._config.set("treasures.My First Treasure.basics.type", "chest");
+			this._config.set("treasures.My First Treasure.basics.cronpattern", "*/15 * * * *");
+			this._config.set("treasures.My First Treasure.basics.world", world);
 
 			
 			String[] list = {"297"};
 			this._config.set("treasures.My First Treasure.setup.contents.items", Arrays.asList(list));
-			this._config.set("treasures.My First Treasure.setup.messages.spawn", (String)"&bUn &4nouveau trésor &bvient d'apparaitre");
-			this._config.set("treasures.My First Treasure.setup.messages.found", (String)"&bLe trésor vient d'être découvert");
-			this._config.set("treasures.My First Treasure.setup.messages.foundbutnotempty", (String)"&bLe trésor vient d'être découvert mais pas vidé");
-			this._config.set("treasures.My First Treasure.setup.messages.disappear", (String)"&bLe trésor vient de disparaître");
+			this._config.set("treasures.My First Treasure.setup.messages.spawn", "&bUn &4nouveau trésor &bvient d'apparaitre");
+			this._config.set("treasures.My First Treasure.setup.messages.found", "&bLe trésor vient d'être découvert");
+			this._config.set("treasures.My First Treasure.setup.messages.foundbutnotempty", "&bLe trésor vient d'être découvert mais pas vidé");
+			this._config.set("treasures.My First Treasure.setup.messages.disappear", "&bLe trésor vient de disparaître");
 			// On le sauvegarde
 			this._config.save();
 			

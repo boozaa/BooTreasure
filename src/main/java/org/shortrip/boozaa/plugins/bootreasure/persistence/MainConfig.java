@@ -47,14 +47,14 @@ public class MainConfig extends Configuration {
 		// Create a version node in the config.yml
         if( this.get(VERSION) == null ) {    			
             // Doesn't exist so create it and store as new
-        	this.set(VERSION, (String)BooTreasure.getInstance().getDescription().getVersion());
+        	this.set(VERSION, BooTreasure.getInstance().getDescription().getVersion());
             updated = true;
             messages.add(VERSION + " - the version of the config");
         }else{
             // Exists so check with current version
             String version = this.getString(VERSION);
             if( !BooTreasure.getInstance().getDescription().getVersion().equalsIgnoreCase(version) ){
-            	this.set(VERSION, (String)BooTreasure.getInstance().getDescription().getVersion());   
+            	this.set(VERSION, BooTreasure.getInstance().getDescription().getVersion());   
                 updated = true;
                 messages.add(VERSION + " - updated");
             }					
@@ -62,14 +62,14 @@ public class MainConfig extends Configuration {
 		
         // debugMode
   		if( this.get(DEBUG) == null ) {
-  			this.set(DEBUG, (Boolean)true);
+  			this.set(DEBUG, true);
   			updated = true;
   			messages.add(DEBUG + " - Set debug mode ON or OFF");
   		}
   		
   		// filters
   		if( this.get(FILTER_WORLDGUARD) == null ) {
-  			this.set(FILTER_WORLDGUARD, (Boolean)true);
+  			this.set(FILTER_WORLDGUARD, true);
   			//_pluginConfiguration.set("config.filter.worldguard", (Boolean)true);
   			updated = true;
   			messages.add(FILTER_WORLDGUARD + " - Take care about WorldGuard region");
@@ -79,9 +79,9 @@ public class MainConfig extends Configuration {
          if( updated ) {	
         	 this.save();
         	 this.load();
-        	 Log.log(Level.INFO, "- Config - " + getName() + " " + BooTreasure.getInstance().getDescription().getVersion() + " config.yml - new options");
+        	 Log.info("Config - " + getName() + " " + BooTreasure.getInstance().getDescription().getVersion() + " config.yml - new options");
              for(String str : messages){
-            	 Log.log(Level.INFO, "- config.yml - " + str);
+            	 Log.info("config.yml - " + str);
              }
          }
         

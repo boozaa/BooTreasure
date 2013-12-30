@@ -5,13 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.block.BlockFace;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.conversations.ConversationAbandonedListener;
@@ -20,11 +16,9 @@ import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.conversations.ConversationPrefix;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Chest;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
-import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.CronPatternPrompt;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.MaterialPrompt;
@@ -32,7 +26,6 @@ import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.NamePrompt;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.WaitingEndPrompt;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.WorldPrompt;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.YesNoPrompt;
-import org.shortrip.boozaa.plugins.bootreasure.utils.blocks.LocationUtils;
 
 
 public class CreateChest implements Runnable {

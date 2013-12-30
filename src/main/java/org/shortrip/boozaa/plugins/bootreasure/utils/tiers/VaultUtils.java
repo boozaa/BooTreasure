@@ -23,16 +23,16 @@ public class VaultUtils {
 		_plugin = plugin;
 		if (_plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
     		BooTreasure.useVault = false;
-			Log.log(Level.WARNING, "Vault seems not here, you can't use permission rewards");
+			Log.warning("Vault seems not here, you can't use permission rewards");
     		return;
         }
     	RegisteredServiceProvider<Permission> permissionProvider = _plugin.getServer().getServicesManager().getRegistration(Permission.class);
         if (permissionProvider != null) {
         	_perms = permissionProvider.getProvider();
-        	Log.log(Level.INFO, "Permissions providing by Vault");
+        	Log.info("Permissions providing by Vault");
         	BooTreasure.useVault = true;
         }else{
-        	Log.log(Level.WARNING, "Can't hooked Permissions with Vault");
+        	Log.warning("Can't hooked Permissions with Vault");
         	BooTreasure.useVault = false;      	
         }
 	}

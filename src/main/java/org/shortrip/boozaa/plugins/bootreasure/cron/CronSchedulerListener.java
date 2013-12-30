@@ -31,11 +31,11 @@ public class CronSchedulerListener implements SchedulerListener {
 	@Override
 	public void taskFailed(TaskExecutor executor, Throwable error) {
 		CronTask task = (CronTask)executor.getTask();
-		Log.log(Level.WARNING, "Task '" + task.getName() + "' failed with error :");
-		Log.log(Level.WARNING, error.getLocalizedMessage());
+		Log.warning("Task '" + task.getName() + "' failed with error :");
+		Log.warning(error.getLocalizedMessage());
 		error.printStackTrace();
 		if( error.getCause() != null){
-			Log.log(Level.WARNING, getStackTrace(error.getCause()));
+			Log.warning(getStackTrace(error.getCause()));
 		}		
 	}
 

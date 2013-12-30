@@ -104,7 +104,7 @@ public class ChestTreasure extends Treasure {
 	public void appear() {
 		// Search for empty good block
 		_block = SupportSearch.findGoodBlock(this);
-		if( _block == null ){ Log.log(Level.INFO, "Can't find a good place for spawning this chest on loaded chunks"); return; }
+		if( _block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
 		
 		// On stocke ses coordonnées
 		this._x = _block.getLocation().getBlockX();

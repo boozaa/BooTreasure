@@ -34,33 +34,33 @@ public class MessageConfig extends Configuration {
 		if( !this.exists() ){ this.save();}
 		this.load();
 		
-		this.map.put("locales.commands.agree", 						(String)"oui");
-		this.map.put("locales.commands.disagree", 					(String)"non");
-		this.map.put("locales.commands.exit", 						(String)"exit");
-		this.map.put("locales.commands.end", 						(String)"/end");
+		this.map.put("locales.commands.agree", 						"oui");
+		this.map.put("locales.commands.disagree", 					"non");
+		this.map.put("locales.commands.exit", 						"exit");
+		this.map.put("locales.commands.end", 						"/end");
 		
-		this.map.put("locales.create.prefix", 						(String)"&2[BooTreasure] ");
-		this.map.put("locales.create.success", 						(String)"&3Trésor configuré avec succés");
-		this.map.put("locales.create.error", 						(String)"&4Une erreur est survenue");
+		this.map.put("locales.create.prefix", 						"&2[BooTreasure] ");
+		this.map.put("locales.create.success", 						"&3Trésor configuré avec succés");
+		this.map.put("locales.create.error", 						"&4Une erreur est survenue");
 
-		this.map.put("locales.create.chest.intro", 					(String)"&3Création d'un trésor");
-		this.map.put("locales.create.chest.ask.name", 				(String)"&3Quel &enom &3donner à ce trésor ?");
-		this.map.put("locales.create.chest.ask.pattern", 			(String)"&3Indiques le &ecron pattern&3");
-		this.map.put("locales.create.chest.ask.world", 				(String)"&3Indiques le &eMonde&3 ");
-		this.map.put("locales.create.chest.ask.infinite", 			(String)"&3Apparition &einfinie&3 ?");
-		this.map.put("locales.create.chest.ask.onlyonsurface", 		(String)"&3Uniquement &een surface&3 ?");
-		this.map.put("locales.create.chest.ask.preservecontent", 	(String)"&3Conserve son &econtenu&3 ?");
-		this.map.put("locales.create.chest.ask.allowedids", 		(String)"&3Blocks particuliers");
-		this.map.put("locales.create.chest.ask.waitingend", 		(String)"&3Remplis ce trésor et pour finir tapes: &7");
+		this.map.put("locales.create.chest.intro", 					"&3Création d'un trésor");
+		this.map.put("locales.create.chest.ask.name", 				"&3Quel &enom &3donner à ce trésor ?");
+		this.map.put("locales.create.chest.ask.pattern", 			"&3Indiques le &ecron pattern&3");
+		this.map.put("locales.create.chest.ask.world", 				"&3Indiques le &eMonde&3 ");
+		this.map.put("locales.create.chest.ask.infinite", 			"&3Apparition &einfinie&3 ?");
+		this.map.put("locales.create.chest.ask.onlyonsurface", 		"&3Uniquement &een surface&3 ?");
+		this.map.put("locales.create.chest.ask.preservecontent", 	"&3Conserve son &econtenu&3 ?");
+		this.map.put("locales.create.chest.ask.allowedids", 		"&3Blocks particuliers");
+		this.map.put("locales.create.chest.ask.waitingend", 		"&3Remplis ce trésor et pour finir tapes: &7");
 		
 		this.enable();	
 		
 		if( updated ) {	
        	 this.save();
        	 this.load();
-       	 Log.log(Level.INFO, "- Config - " + getName() + " " + BooTreasure.getInstance().getDescription().getVersion() + " messages.yml - new options");
+       	Log.info("Config - " + getName() + " " + BooTreasure.getInstance().getDescription().getVersion() + " messages.yml - new options");
             for(String str : messages){
-           	 Log.log(Level.INFO, "- messages.yml - " + str);
+            	Log.info("messages.yml - " + str);
             }
         }
 		

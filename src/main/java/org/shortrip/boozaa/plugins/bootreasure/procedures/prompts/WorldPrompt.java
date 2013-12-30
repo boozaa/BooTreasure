@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ValidatingPrompt;
-import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
 
 public abstract class WorldPrompt extends ValidatingPrompt {
 

@@ -1,19 +1,16 @@
 package org.shortrip.boozaa.plugins.bootreasure.listeners;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
@@ -21,7 +18,6 @@ import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestBreakEvent;
 import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestCloseEvent;
 import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestOpenEvent;
-import org.shortrip.boozaa.plugins.bootreasure.utils.blocks.LocationUtils;
 
 
 
