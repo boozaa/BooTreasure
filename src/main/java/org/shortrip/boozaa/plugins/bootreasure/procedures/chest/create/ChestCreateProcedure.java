@@ -18,9 +18,13 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestDisappearEvent;
+import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestDisappearSilentlyEvent;
+import org.shortrip.boozaa.plugins.bootreasure.persistence.TreasureConfig;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.*;
 
 public class ChestCreateProcedure implements Runnable {
@@ -72,8 +76,28 @@ public class ChestCreateProcedure implements Runnable {
 	        {
 	            if (event.gracefulExit())
 	            {
+	            	
+	            	// On stocke son inventaire
+	    			treasure.fillContents();
+	    			
+	    			Log.debug( "Serialization ..." );	    			
+	    			// On serialize
+	    			treasure.serialize();
+	    			Log.debug( "... done" );
+	            	
 	            	Log.debug("ChestTreasure created");
 	            	Log.debug( treasure.toString() );
+	            	
+	            	// Stockage en cache
+	            	BooTreasure.get_treasureCache().add(treasure.get_id(), treasure);
+	            	
+	            	// Stockage dans treasures.yml
+	            	TreasureConfig treasuresConfig = BooTreasure.get_treasuresConfiguration();
+	            	treasuresConfig.createNewTreasure(treasure);
+	            	
+	            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
+	            	new TreasureChestDisappearSilentlyEvent( plugin, treasure.get_id() );
+	            	
 	            }
 	        }
 	    });
@@ -81,9 +105,7 @@ public class ChestCreateProcedure implements Runnable {
 	    
 	    conv.begin();
 		
-		/*
-		 * AskName()->AskCron()->AskDuration()->AskInfinite()->AskWorld()->AskOnlyOnSurface()->AskPreserveContent()->AskAllowedIds()->WaitingEndPrompt
-		 */
+		
 	}
 	
 	
@@ -295,20 +317,7 @@ public class ChestCreateProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext context) {
 			
-			Log.debug("Enter EndPrompt getPromptText");
-			
-			// On stocke son inventaire
-			treasure.fillContents();
-			
-			
-			
-			Log.debug( "Serialization ..." );
-			
-			// On serialize
-			treasure.serialize();
-
-			Log.debug( "... done" );
-			
+			Log.debug("Enter EndPrompt getPromptText");				
 			return this._message;
 		}
 		

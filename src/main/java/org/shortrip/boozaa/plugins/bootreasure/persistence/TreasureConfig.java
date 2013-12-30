@@ -10,8 +10,11 @@ import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.TreasureType;
+import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
 
 /**
  * @author boozaa
@@ -85,6 +88,39 @@ public class TreasureConfig extends ConfigFile {
 		this._name = this._config.getString("treasures.My First Treasure.basics.name");
 		this._name = this._config.getString("treasures.My First Treasure.basics.name");
 		
+		
+	}
+	
+	
+	public void createNewTreasure( Treasure t ){
+		String name = t.get_name();
+		String pattern = t.get_pattern();
+		String id = t.get_id();
+		//List<Material> allowedids = t.get_allowedids();
+		Boolean infinite = t.get_infinite();
+		Boolean onlyonsurface = t.get_onlyonsurface();
+		Boolean preservecontent = t.get_preservecontent();
+		String world = t.get_world();
+		Long duration = t.getDuration();
+
+		this._config.set("treasures." + id + ".basics.name", 				(String)name);
+		this._config.set("treasures." + id + ".basics.cronpattern", 		(String)pattern);
+		this._config.set("treasures." + id + ".basics.duration", 			(String)String.valueOf(duration) );		
+		this._config.set("treasures." + id + ".basics.world", 			(String)world);
+		this._config.set("treasures." + id + ".basics.onlyonsurface", 	(Boolean)onlyonsurface);
+		this._config.set("treasures." + id + ".basics.preservecontent", 	(Boolean)preservecontent);
+		this._config.set("treasures." + id + ".basics.infinite", 			(Boolean)infinite);
+
+		if( t instanceof ChestTreasure ){
+			ChestTreasure ct = (ChestTreasure) t;
+			ItemStack[] items = ct.get_inventory();
+			this._config.set("treasures." + id + ".setup.contents.items", 			(ItemStack[])items);
+		}
+		
+		
+		
+		this._config.save();
+		this._config.load();
 		
 	}
 	

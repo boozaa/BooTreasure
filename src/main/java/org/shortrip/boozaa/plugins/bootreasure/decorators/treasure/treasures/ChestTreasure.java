@@ -69,6 +69,13 @@ public class ChestTreasure extends Treasure {
 		this._treasureType = TreasureType.CHEST;
 		this.path = BooTreasure.getLostTreasuresPath() + this._id + ".chest";
 		
+		if( conf.get("setup.contents.items") != null ){
+			int i = 0;
+			for(String itemS : conf.getConfigurationSection("setup.contents.items").getKeys(false)) {				 
+				this._inventory[i] = conf.getItemStack(itemS);
+				i++;				
+			}
+		}
 	}
 
 	
@@ -93,32 +100,41 @@ public class ChestTreasure extends Treasure {
 	 * Apparition du chest pour remplissage
 	 */
 	public void chestAppear(){
-		chestLocation.getWorld().playEffect(chestLocation, Effect.SMOKE, 300);		
-		chestLocation.getWorld().playSound(chestLocation, Sound.ENDERDRAGON_HIT, 1, 10);
-		chestLocation.getWorld().getBlockAt(chestLocation).setType(Material.CHEST);
-		chest = (Chest) chestLocation.getWorld().getBlockAt(chestLocation).getState();
+		makeEffect();
+		Block block = chestLocation.getWorld().getBlockAt(chestLocation);
+		block.setType(Material.CHEST);
+		chest = (Chest) block.getState();
 	}
 	
 	
 	public void fillContents(){
-		set_inventory(getChest().getInventory().getContents());
+		_inventory = chest.getInventory().getContents();
 	}
 	
 	
 	/*
-	 * Disparition du chest pour remplissage
+	 * Disparition du chest
 	 */
 	public void chestDisappear(){
-		this.serialize();
+		makeEffect();
 		chestLocation.getWorld().getBlockAt(chestLocation).setType(Material.AIR);
 	}
+
+
+	
+	private void makeEffect(){
+		chestLocation.getWorld().playEffect(chestLocation, Effect.SMOKE, 300);		
+		chestLocation.getWorld().playSound(chestLocation, Sound.ENDERDRAGON_HIT, 1, 10);
+	}
+
+
 
 
 	/* (non-Javadoc)
 	 * @see org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure#appear()
 	 */
 	@Override
-	public void appear() {
+	public void appear() throws Exception {
 		// Search for empty good block
 		_block = SupportSearch.findGoodBlock(this);
 		if( _block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
@@ -130,9 +146,9 @@ public class ChestTreasure extends Treasure {
 		
 		// Make this block as chest
 		_block.setType(Material.CHEST);
-		Chest chest = (Chest)_block.getState();
+		chest = (Chest)_block.getState();
 		// Give own inventory to this chest
-		//chest.getInventory().setContents(this._inventory);
+		chest.getInventory().setContents(this._inventory);
 		
 		// Metadata store to distinguish chest as ChestTreasure
 		chest.setMetadata("BooTreasure", new FixedMetadataValue(this.plugin, this._id));
@@ -141,7 +157,7 @@ public class ChestTreasure extends Treasure {
 		this.announceAppear();
 		
 		// Serialization
-		this.serialize();
+		//this.serialize();
 		
 		// On lance un effet
 		makeEffect();
@@ -364,13 +380,6 @@ public class ChestTreasure extends Treasure {
 			ChatMessage.broadcast("§bLe trésor vient d'être trouvé mais pas vidé");
 		}	
 	}
-
-	
-	private void makeEffect(){
-		Bukkit.getWorld(this._world).playEffect(_block.getLocation(), Effect.MOBSPAWNER_FLAMES,10);
-	}
-
-
 
 
 	@Override

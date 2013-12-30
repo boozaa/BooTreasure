@@ -78,8 +78,9 @@ public abstract class Treasure implements Serializable {
 
 	/**
 	 * Appear method
+	 * @throws Exception 
 	 */
-	public abstract void appear();
+	public abstract void appear() throws Exception;
 	/**
 	 * Disppear method
 	 */

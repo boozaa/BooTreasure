@@ -6,7 +6,6 @@ import org.shortrip.boozaa.plugins.bootreasure.persistence.MainConfig;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.MessageConfig;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.TreasureConfig;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.ChestCreateProcedure;
-import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.CreateChest;
 import org.shortrip.boozaa.plugins.bootreasure.serializer.BukkitSerializer;
 import org.shortrip.boozaa.plugins.bootreasure.utils.tiers.VaultUtils;
 import org.shortrip.boozaa.plugins.bootreasure.cron.CronScheduler;
@@ -16,15 +15,12 @@ import org.shortrip.boozaa.plugins.bootreasure.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.listeners.*;
-
 import java.io.File;
 import java.util.Calendar;
 import java.util.Set;
 import java.util.TimeZone;
-
 import lombok.Getter;
 import lombok.Setter;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandException;
@@ -33,6 +29,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
 
 /**
  * @author boozaa

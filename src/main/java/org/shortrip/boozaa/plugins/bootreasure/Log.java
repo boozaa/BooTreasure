@@ -48,7 +48,11 @@ public class Log {
 	private static void writeError(String error, Throwable message){
 		try {
 		
-			errorFile = new File( "BooTreasure" + File.separator + "errors.txt");
+			errorFile = new File( "plugins"  + File.separator + "BooTreasure" + File.separator + "errors.txt");
+			
+			if( !errorFile.exists() )
+				errorFile.createNewFile();
+			
 			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(errorFile, true)));	
 			String nl = System.getProperty("line.separator");
 			if( !errorFile.exists() ){
