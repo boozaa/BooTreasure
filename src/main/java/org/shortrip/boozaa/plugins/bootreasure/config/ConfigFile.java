@@ -22,7 +22,7 @@ public abstract class ConfigFile {
 	@Getter @Setter protected String _filepath;
 	@Getter protected Configuration _config;
 	
-	protected ConfigFile(String path){
+	public ConfigFile(String path){
 		this._filepath = path;
 		this.init();
 	}

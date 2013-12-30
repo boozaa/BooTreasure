@@ -1,6 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.events.chest;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
@@ -9,13 +10,17 @@ import org.shortrip.boozaa.plugins.bootreasure.events.Events;
 public final class TreasureChestDisappearEvent extends Events {
 
 
-	public TreasureChestDisappearEvent(final String id){
+	private Plugin plugin;
+	
+
+	public TreasureChestDisappearEvent(Plugin plugin, final String id){
 
 		super();
+		this.plugin = plugin;
 		// On prend le BooChest dans le Cache
 		if( BooTreasure.get_treasureCache().exists(id)){
 			// On lance sa méthode disappear
-			Bukkit.getServer().getScheduler().runTask(BooTreasure.get_instance(), new Runnable() {
+			Bukkit.getServer().getScheduler().runTask(this.plugin, new Runnable() {
 
 				@Override
 				public void run() {

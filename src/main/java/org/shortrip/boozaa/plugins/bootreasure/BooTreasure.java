@@ -40,8 +40,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class BooTreasure extends JavaPlugin {
 
-	@Getter private static BooTreasure _instance;
-
+	@Getter private static String pluginName;
+	@Getter private static String pluginVersion;
+	@Getter private static String mainConfigPath;
+	@Getter private static String treasuresConfigPath;
+	@Getter private static String lostTreasuresPath;
+	
 	// The Cron4J Scheduler instance
 	@Getter private static CronScheduler _scheduler;
 
@@ -65,7 +69,12 @@ public class BooTreasure extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		_instance = this;
+		
+		pluginName = getDescription().getName();
+		pluginVersion = getDescription().getVersion();
+		mainConfigPath = getDataFolder() + File.separator + "config.yml";
+		treasuresConfigPath = getDataFolder() + File.separator + "treasures.yml";
+		lostTreasuresPath = getDataFolder() + File.separator + "lost+found" + File.separator;
 
 		/*
 		 * Yaml Configuration This line load the config.yml from the plugin
@@ -121,8 +130,7 @@ public class BooTreasure extends JavaPlugin {
 
 		Log.info("Cleanup ... ");
 
-		File losts = new File(getDataFolder() + File.separator + "lost+found"
-				+ File.separator);
+		File losts = new File(lostTreasuresPath);
 		for (File file : losts.listFiles()) {
 			// Si fichier serial on le traite
 			String filename = file.getName();
@@ -150,15 +158,12 @@ public class BooTreasure extends JavaPlugin {
 
 	private void loadTreasureFile() {
 
-		// Fichier config/treasures.yml
-		String config = getDataFolder() + File.separator + "treasures.yml";
-
 		// Compteur
 		int i = 0;
 
-		if (new File(config).exists()) {
+		if (new File(treasuresConfigPath).exists()) {
 
-			Configuration yml = new Configuration(new File(config));
+			Configuration yml = new Configuration(new File(treasuresConfigPath));
 			// On charge le fichier
 			yml.load();
 			// On parcourt tous les treasures enfants de 'treasures:'
@@ -173,24 +178,22 @@ public class BooTreasure extends JavaPlugin {
 
 					String node = "treasures." + enf;
 					// Ici t correspond à un tresor on crée un Treasure avec ca
-					Treasure chest = new ChestTreasure(
-							yml.getConfigurationSection(node));
+					Treasure chest = new ChestTreasure(this, yml.getConfigurationSection(node));
 					// On stocke en cache
 					_treasureCache.add(chest.get_id(), chest);
 					// On donne cette tache cron au collector
-					_taskCollector.addTask(new TreasureTask(chest));
+					_taskCollector.addTask(new TreasureTask(this, chest));
 					i++;
 				}
 				// On annonce le nombre de trésors
 				Log.info("Config Treasures Found: " + i);
 			} else {
-				Log.info("Can't found 'treasures:' initial node in your file "
-						+ config);
+				Log.info("Can't found 'treasures:' initial node in your file " + treasuresConfigPath);
 				return;
 			}
 
 		} else {
-			Log.info("Config Treasures File Not Found: " + config);
+			Log.info("Config Treasures File Not Found: " + treasuresConfigPath);
 		}
 
 	}
@@ -347,7 +350,6 @@ public class BooTreasure extends JavaPlugin {
 	public void onDisable() {
 
 		// Set all static variable to null
-		_instance = null;
 		_treasureCache = null;
 		_pluginConfiguration = null;
 		_messagesConfiguration = null;
@@ -402,7 +404,7 @@ public class BooTreasure extends JavaPlugin {
 				ConfigurationSection section = config
 						.getConfigurationSection(Const.TASKS + "."
 								+ Const.TASKS_BASICS + "." + treasure);
-				new ChestTreasure(section);
+				new ChestTreasure(this, section);
 
 			}
 

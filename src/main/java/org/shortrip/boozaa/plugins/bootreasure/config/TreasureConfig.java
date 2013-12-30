@@ -6,11 +6,9 @@ package org.shortrip.boozaa.plugins.bootreasure.config;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
@@ -21,20 +19,19 @@ import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.TreasureType;
  *
  * BooTreasure
  */
-@Data
 @ToString( callSuper=false,exclude={"_type", "_content", "_whitelistId", "_blacklistId"} )
 @EqualsAndHashCode( callSuper=false )
 public class TreasureConfig extends ConfigFile {
 
-	private String _name, _world, _cronPattern, _spawnMessage, _foundMessage, _disappearMessage, _foundButNotEmptyMessage;
-	private Boolean _onlyOnSurface, _preserveContent, _infinite;
-	private int _duration;
-	private TreasureType _type;
-	private List<Material> _content, _whitelistId, _blacklistId;
+	@Getter private String _name, _world, _cronPattern, _spawnMessage, _foundMessage, _disappearMessage, _foundButNotEmptyMessage;
+	@Getter private Boolean _onlyOnSurface, _preserveContent, _infinite;
+	@Getter private int _duration;
+	@Getter private TreasureType _type;
+	@Getter private List<Material> _content, _whitelistId, _blacklistId;
 	
 	
 	public TreasureConfig(){
-		super(BooTreasure.get_instance().getDataFolder() + File.separator + "treasures.yml");
+		super(BooTreasure.getTreasuresConfigPath());
 	}
 	
 	
@@ -48,7 +45,7 @@ public class TreasureConfig extends ConfigFile {
 			this._config.options().header(
 					"------------------------------------------------------------------------------------ #"
 					+ System.getProperty("line.separator")
-					+ BooTreasure.get_instance().getDescription().getName() + " v" + BooTreasure.get_instance().getDescription().getVersion()
+					+ BooTreasure.getPluginName() + " v" + BooTreasure.getPluginVersion()
 					+ System.getProperty("line.separator") 
 					+ "This is a basic treasures file, it contains only one treasure."
 					+ System.getProperty("line.separator")

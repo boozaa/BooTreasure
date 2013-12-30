@@ -23,6 +23,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.ChatMessage;
 import org.shortrip.boozaa.plugins.bootreasure.Const;
@@ -49,6 +50,7 @@ public class ChestTreasure extends Treasure {
 	 * 
 	 */
 	private static final long serialVersionUID = -9020703576614376604L;
+	private Plugin plugin;
 	@Getter private String path;
 	@Getter @Setter private ItemStack[] _inventory;
 	@Getter @Setter private Boolean _infinite;
@@ -61,10 +63,11 @@ public class ChestTreasure extends Treasure {
 	 * @param conf
 	 * 		A ConfigurationSection to create this ChestTreasure
 	 */
-	public ChestTreasure(ConfigurationSection conf) {
+	public ChestTreasure(Plugin plugin, ConfigurationSection conf) {
 		super(conf);
+		this.plugin = plugin;
 		this._treasureType = TreasureType.CHEST;
-		this.path = BooTreasure.get_instance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
+		this.path = BooTreasure.getLostTreasuresPath() + this._id + ".chest";
 		
 	}
 
@@ -118,7 +121,7 @@ public class ChestTreasure extends Treasure {
 		//chest.getInventory().setContents(this._inventory);
 		
 		// Metadata store to distinguish chest as ChestTreasure
-		chest.setMetadata("BooTreasure", new FixedMetadataValue(BooTreasure.get_instance(), this._id));
+		chest.setMetadata("BooTreasure", new FixedMetadataValue(this.plugin, this._id));
 		
 		// Appear message
 		this.announceAppear();
@@ -131,11 +134,11 @@ public class ChestTreasure extends Treasure {
 		
 		// On prepare une task delayed pour le faire disparaitre
 		long delay = this.duration*20;
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BooTreasure.get_instance(), new Runnable() {
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
             @Override 
             public void run() {		                
             	// On lance event BooChestAppearEvent
-                TreasureChestDisappearEvent event = new TreasureChestDisappearEvent(_id);
+                TreasureChestDisappearEvent event = new TreasureChestDisappearEvent(plugin, _id);
                 // Call the event
         		Bukkit.getServer().getPluginManager().callEvent(event);		            	
             }

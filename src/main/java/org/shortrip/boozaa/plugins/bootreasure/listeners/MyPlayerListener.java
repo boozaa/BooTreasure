@@ -28,7 +28,7 @@ import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestOpenEve
  */
 public class MyPlayerListener implements Listener {
 
-    @SuppressWarnings("unused")
+    
 	private Plugin plugin;
 	
 	/**
@@ -56,7 +56,7 @@ public class MyPlayerListener implements Listener {
     			// Call the event
     			if( t != null ){
     				Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
-    				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestOpenEvent(e.getPlayer(), t));
+    				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestOpenEvent(this.plugin, e.getPlayer(), t));
     			}    			
         	}
         	
@@ -76,7 +76,7 @@ public class MyPlayerListener implements Listener {
     			// Call the event
     			if( t != null ){
             		Log.debug("Chest metadata BooTreasure found, this closed chest was a treasure");
-    				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestCloseEvent(e.getPlayer(), t)); 
+    				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestCloseEvent(this.plugin, e.getPlayer(), t)); 
     			}
     			   			
         	}
