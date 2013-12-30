@@ -1,6 +1,10 @@
+.settings.
 bin/
 lib/
 target/
+.classpath
+.project
+dependency-reduced-pom.xml
 
 # Compiled source #
 ###################
