@@ -1,5 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.events.chest;
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -14,7 +16,7 @@ public final class TreasureChestCloseEvent extends Events {
 
 	private Plugin plugin;
 	
-	public TreasureChestCloseEvent(Plugin plugin, final HumanEntity humanEntity, final Treasure t){
+	public TreasureChestCloseEvent(Plugin plugin, final HumanEntity humanEntity, final ChestTreasure t){
 
 		super();
 		this.plugin = plugin;
@@ -32,8 +34,20 @@ public final class TreasureChestCloseEvent extends Events {
 		    					
 		    					if( t instanceof ChestTreasure ){
 		    						ChestTreasure chest = (ChestTreasure) t;
-		    						if( chest.get_inventory().length > 0 ){
-		    							t.announceFoundButNotEmpty();
+		    						if( chest.get_inventory().length > 0 ){		    															
+		    							try {
+		    								t.announceFoundButNotEmpty();
+		    							} catch (Exception e) {
+		    								e.printStackTrace();
+		    								StringBuilder build = new StringBuilder();
+		    								String nl = System.getProperty("line.separator");
+		    								build.append( "Error during TreasureChestAppearEvent" );
+		    								build.append(nl);
+		    								build.append( "Id: " + t.get_id() );
+		    								build.append(nl);
+		    								build.append( "Inventory: " + Arrays.toString(t.get_inventory()) );
+		    								Log.severe(build.toString(), e);
+		    							}
 		    						}
 		    					}		
 		    					

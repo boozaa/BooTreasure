@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
+import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestBreakEvent;
 import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestCloseEvent;
 import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestOpenEvent;
@@ -52,7 +53,7 @@ public class MyPlayerListener implements Listener {
         	Chest chest = (Chest) e.getInventory().getHolder();        	
         	if( chest.hasMetadata("BooTreasure") ){        		
     			String id = chest.getMetadata("BooTreasure").get(0).asString();
-    			final Treasure t = (Treasure) BooTreasure.get_treasureCache().getObject(id);
+    			final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);
     			// Call the event
     			if( t != null ){
     				Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
@@ -72,7 +73,7 @@ public class MyPlayerListener implements Listener {
         	Chest chest = (Chest) e.getInventory().getHolder();
         	if( chest.hasMetadata("BooTreasure") ){
     			String id = chest.getMetadata("BooTreasure").get(0).asString(); 
-    			final Treasure t = (Treasure) BooTreasure.get_treasureCache().getObject(id);			
+    			final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);			
     			// Call the event
     			if( t != null ){
             		Log.debug("Chest metadata BooTreasure found, this closed chest was a treasure");
@@ -93,7 +94,7 @@ public class MyPlayerListener implements Listener {
 			if( chest.hasMetadata("BooTreasure") ){
 				// Ok ici c'est un BooChest on lance event BooChestBreakEvent
 				String id = chest.getMetadata("BooTreasure").get(0).asString();
-    			final Treasure t = (Treasure) BooTreasure.get_treasureCache().getObject(id);
+    			final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);
 				// Call the event
     			if( t != null ){
             		Log.debug("Chest metadata BooTreasure found, this breaking chest is a treasure");

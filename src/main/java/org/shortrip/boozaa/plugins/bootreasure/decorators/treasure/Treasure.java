@@ -48,11 +48,12 @@ public abstract class Treasure implements Serializable {
 		this._conf = 				conf;
 		this._name = 				this._conf.getString("basics.name");
 		this._id = 					UUID.randomUUID().toString();
-		this._pattern = 			this._conf.getString("basics.cronpattern");
+		this._pattern = 			this._conf.getString("basics.cronpattern");		
+		this.duration = 			this._conf.getLong("basics.duration");
 		this._world = 				this._conf.getString("basics.world");
 		this._onlyonsurface = 		this._conf.getBoolean("basics.onlyonsurface");
 		this._preservecontent = 	this._conf.getBoolean("basics.preservecontent");
-		this.duration = 			this._conf.getLong("basics.duration");
+		this._infinite = 			this._conf.getBoolean("basics.infinite");
 		this._allowedids = 			new ArrayList<Material>();
 	}
 	

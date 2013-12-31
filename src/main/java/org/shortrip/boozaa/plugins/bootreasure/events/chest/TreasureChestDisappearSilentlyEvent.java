@@ -1,5 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.events.chest;
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
@@ -23,8 +25,20 @@ public class TreasureChestDisappearSilentlyEvent extends Events {
 				@Override
 				public void run() {
 					final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);
-					Log.debug("Chest disappear: " + t.get_name());
-					t.chestDisappear();
+					Log.debug("Chest disappear: " + t.get_name());										    															
+					try {
+						t.chestDisappear();	
+					} catch (Exception e) {
+						e.printStackTrace();
+						StringBuilder build = new StringBuilder();
+						String nl = System.getProperty("line.separator");
+						build.append( "Error during TreasureChestAppearEvent" );
+						build.append(nl);
+						build.append( "Id: " + t.get_id() );
+						build.append(nl);
+						build.append( "Inventory: " + Arrays.toString(t.get_inventory()) );
+						Log.severe(build.toString(), e);
+					}
 				} }); 			
 		}		
 		

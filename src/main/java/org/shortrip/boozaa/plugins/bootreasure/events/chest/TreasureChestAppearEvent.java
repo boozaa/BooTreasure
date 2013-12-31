@@ -16,7 +16,7 @@ public final class TreasureChestAppearEvent extends Events {
 	private Plugin plugin;
 	
 
-	public TreasureChestAppearEvent(Plugin plugin, final String id) throws Exception{
+	public TreasureChestAppearEvent(Plugin plugin, final String id){
 		
 		super();
 		this.plugin = plugin;
