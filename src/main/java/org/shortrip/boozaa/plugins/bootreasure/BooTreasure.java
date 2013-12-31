@@ -306,9 +306,24 @@ public class BooTreasure extends JavaPlugin {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command,
-			String commandLabel, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 
+		// Pas d'arguments dans la commande on sort
+    	//if( args.length == 0 ){return true;}    	
+    	try {   		
+    			    		
+		    		if( !( sender instanceof Player ) ) {    		
+			    		// Sends form console		    		
+							new MyCommands(this,args);					
+			    	}
+			    	// Sends from game
+			    	new MyCommands(this,sender, command, commandLabel, args);		    	
+	    	
+    	} catch (CommandException e) {}   
+    	
+    	return true;
+		
+		/*
 		// Pas d'arguments dans la commande on sort
 		if (args.length == 0) {
 			return false;
@@ -371,7 +386,7 @@ public class BooTreasure extends JavaPlugin {
 		} catch (CommandException e) {
 		}
 		return true;
-
+		*/
 	}
 
 	@Override
