@@ -1,6 +1,5 @@
 package org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.chest;
 
-import org.bukkit.World;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.shortrip.boozaa.plugins.bootreasure.Const;

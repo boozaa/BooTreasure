@@ -20,11 +20,13 @@ public final class TreasureChestOpenEvent extends Events {
 		// On lance la méthode found
 		Bukkit.getServer().getScheduler().runTask(this.plugin, new Runnable() {
 
-		@Override
-		public void run() {
-			Log.debug("Chest opened : " + t.get_name());
-			t.found(player);
-		} });		
+			@Override
+			public void run() {
+				Log.debug("Chest opened : " + t.get_name());
+				t.found(player);
+			} 
+		
+		});		
 		
 	}
 	

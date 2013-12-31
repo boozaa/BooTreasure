@@ -9,8 +9,6 @@ import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -49,10 +47,10 @@ public class ChestTreasure extends Treasure {
 	 * 
 	 */
 	private static final long serialVersionUID = -9020703576614376604L;
-	private Plugin plugin;
-	@Getter private String path;
-	@Getter @Setter private ItemStack[] _inventory;
-	@Getter @Setter private Boolean _infinite;
+	private transient Plugin plugin;
+	@Getter private transient String path;
+	@Getter @Setter private transient ItemStack[] _inventory;
+	@Getter @Setter private transient Boolean _infinite;
 	@Getter private transient Block _block;	
 	private int _x, _y, _z;
 	private transient Location chestLocation;
@@ -70,11 +68,24 @@ public class ChestTreasure extends Treasure {
 		this.path = BooTreasure.getLostTreasuresPath() + this._id + ".chest";
 		
 		if( conf.get("setup.contents.items") != null ){
+			Log.debug(conf.get("setup.contents.items").toString());
+			List<ItemStack> items = (List<ItemStack>) conf.get("setup.contents.items");
+			this._inventory = items.toArray(new ItemStack[0]);
+			/*
+			int i = 0;
+			for( ItemStack stack : items ){
+				Log.debug(stack.toString());
+				this._inventory[i] = stack;
+				i++;
+			}
+			
 			int i = 0;
 			for(String itemS : conf.getConfigurationSection("setup.contents.items").getKeys(false)) {				 
-				this._inventory[i] = conf.getItemStack(itemS);
+				Log.debug(itemS);
+				this._inventory[i] = conf.getItemStack("setup.contents.items." + itemS);
 				i++;				
 			}
+			*/
 		}
 	}
 
@@ -86,6 +97,7 @@ public class ChestTreasure extends Treasure {
 	 */
 	public ChestTreasure(Location loc) {
 		super();
+		this._treasureType = TreasureType.CHEST;
 		chestLocation = loc;
 		this._x = loc.getBlockX();
 		this._y = loc.getBlockY();
@@ -100,7 +112,6 @@ public class ChestTreasure extends Treasure {
 	 * Apparition du chest pour remplissage
 	 */
 	public void chestAppear(){
-		makeEffect();
 		Block block = chestLocation.getWorld().getBlockAt(chestLocation);
 		block.setType(Material.CHEST);
 		chest = (Chest) block.getState();
@@ -116,15 +127,7 @@ public class ChestTreasure extends Treasure {
 	 * Disparition du chest
 	 */
 	public void chestDisappear(){
-		makeEffect();
 		chestLocation.getWorld().getBlockAt(chestLocation).setType(Material.AIR);
-	}
-
-
-	
-	private void makeEffect(){
-		chestLocation.getWorld().playEffect(chestLocation, Effect.SMOKE, 300);		
-		chestLocation.getWorld().playSound(chestLocation, Sound.ENDERDRAGON_HIT, 1, 10);
 	}
 
 
@@ -157,10 +160,10 @@ public class ChestTreasure extends Treasure {
 		this.announceAppear();
 		
 		// Serialization
-		//this.serialize();
+		this.serialize();
 		
 		// On lance un effet
-		makeEffect();
+		//makeEffect();
 		
 		// On prepare une task delayed pour le faire disparaitre
 		long delay = this.duration*20;
@@ -214,7 +217,7 @@ public class ChestTreasure extends Treasure {
 				Log.debug("Treasure Chest '"  + this._name + "' disappear ["  + this._id + ".chest]");
 								
 				// On lance un effet
-				makeEffect();
+				//makeEffect();
 				
 			} catch (Exception e) {
 				e.printStackTrace();

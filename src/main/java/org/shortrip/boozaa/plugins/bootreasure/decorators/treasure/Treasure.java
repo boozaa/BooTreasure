@@ -8,13 +8,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.ToString;
-
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -35,7 +32,7 @@ public abstract class Treasure implements Serializable {
 	private static final long serialVersionUID = 8838542551125866472L;
 	@Getter @Setter protected transient ConfigurationSection _conf;
 	@Getter @Setter protected String _name="", _id="", _pattern="", _taskId="", _world="";
-	@Getter @Setter @NonNull protected Boolean _infinite = false, _onlyonsurface=false, _found=false, _preservecontent = true;
+	@Getter @Setter @NonNull protected transient Boolean _infinite = false, _onlyonsurface=false, _found=false, _preservecontent = true;
 	@Getter @Setter protected TreasureType _treasureType;
 	@Getter @Setter protected List<Material> _allowedids;
 	@Getter @Setter protected Long duration;

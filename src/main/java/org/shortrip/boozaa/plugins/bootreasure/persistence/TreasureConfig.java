@@ -103,18 +103,18 @@ public class TreasureConfig extends ConfigFile {
 		String world = t.get_world();
 		Long duration = t.getDuration();
 
-		this._config.set("treasures." + id + ".basics.name", 				(String)name);
-		this._config.set("treasures." + id + ".basics.cronpattern", 		(String)pattern);
-		this._config.set("treasures." + id + ".basics.duration", 			(String)String.valueOf(duration) );		
-		this._config.set("treasures." + id + ".basics.world", 			(String)world);
-		this._config.set("treasures." + id + ".basics.onlyonsurface", 	(Boolean)onlyonsurface);
-		this._config.set("treasures." + id + ".basics.preservecontent", 	(Boolean)preservecontent);
-		this._config.set("treasures." + id + ".basics.infinite", 			(Boolean)infinite);
+		this._config.set("treasures." + id + ".basics.name", 				name);
+		this._config.set("treasures." + id + ".basics.cronpattern", 		pattern);
+		this._config.set("treasures." + id + ".basics.duration", 			String.valueOf(duration) );		
+		this._config.set("treasures." + id + ".basics.world", 			world);
+		this._config.set("treasures." + id + ".basics.onlyonsurface", 	onlyonsurface);
+		this._config.set("treasures." + id + ".basics.preservecontent", 	preservecontent);
+		this._config.set("treasures." + id + ".basics.infinite", 			infinite);
 
 		if( t instanceof ChestTreasure ){
 			ChestTreasure ct = (ChestTreasure) t;
 			ItemStack[] items = ct.get_inventory();
-			this._config.set("treasures." + id + ".setup.contents.items", 			(ItemStack[])items);
+			this._config.set("treasures." + id + ".setup.contents.items", 			items);
 		}
 		
 		

@@ -22,7 +22,6 @@ import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestDisappearEvent;
 import org.shortrip.boozaa.plugins.bootreasure.events.chest.TreasureChestDisappearSilentlyEvent;
 import org.shortrip.boozaa.plugins.bootreasure.persistence.TreasureConfig;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.*;
