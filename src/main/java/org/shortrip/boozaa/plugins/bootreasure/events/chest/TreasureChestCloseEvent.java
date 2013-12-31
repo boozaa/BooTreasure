@@ -41,7 +41,7 @@ public final class TreasureChestCloseEvent extends Events {
 		    								e.printStackTrace();
 		    								StringBuilder build = new StringBuilder();
 		    								String nl = System.getProperty("line.separator");
-		    								build.append( "Error during TreasureChestAppearEvent" );
+		    								build.append( "TreasureChestCloseEvent()" );
 		    								build.append(nl);
 		    								build.append( "Id: " + t.get_id() );
 		    								build.append(nl);

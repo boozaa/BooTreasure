@@ -44,7 +44,7 @@ public abstract class Treasure implements Serializable {
 	}
 		
 	
-	protected Treasure( ConfigurationSection conf ){
+	protected Treasure( ConfigurationSection conf ) throws Exception{
 		this._conf = 				conf;
 		this._name = 				this._conf.getString("basics.name");
 		this._id = 					UUID.randomUUID().toString();
@@ -82,23 +82,23 @@ public abstract class Treasure implements Serializable {
 	/**
 	 * Disppear method
 	 */
-	public abstract void disappear();
+	public abstract void disappear() throws Exception;
 	/**
 	 * Found method
 	 */
-	public abstract void found(Player p);
+	public abstract void found(Player p) throws Exception;
 	/**
 	 * Serialize method
 	 */
-	protected abstract void serialize();
+	protected abstract void serialize() throws Exception;
 	/**
 	 * Deserialize method
 	 */
-	protected abstract Object deserialize();
+	protected abstract Object deserialize() throws Exception;
 	/**
 	 * DeleteSerializedFile method
 	 */
-	public abstract void deleteSerializedFile();
+	public abstract void deleteSerializedFile() throws Exception;
 	
 	
 	
@@ -107,26 +107,26 @@ public abstract class Treasure implements Serializable {
 	 * @param player
 	 * 		The player whom check the permission
 	 */
-	public abstract Boolean canBeDiscoveredByPlayer( Player player );
+	public abstract Boolean canBeDiscoveredByPlayer( Player player ) throws Exception;
 	
 	
 	
 	/**
 	 * Creation of the appear message announce
 	 */
-	public abstract void announceAppear();
+	public abstract void announceAppear() throws Exception;
 	/**
 	 * Creation of the disappear message announce
 	 */
-	public abstract void announceDisappear();
+	public abstract void announceDisappear() throws Exception;
 	/**
 	 * Creation of the found message announce
 	 */
-	public abstract void announceFound();
+	public abstract void announceFound() throws Exception;
 	/**
 	 * Creation of the found but not empty message announce
 	 */
-	public abstract void announceFoundButNotEmpty();
+	public abstract void announceFoundButNotEmpty() throws Exception;
 		
 	
 	

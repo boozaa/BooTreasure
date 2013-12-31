@@ -16,6 +16,7 @@ import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.listeners.*;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Set;
 import java.util.TimeZone;
@@ -168,44 +169,60 @@ public class BooTreasure extends JavaPlugin {
 	}
 
 	private void loadTreasureFile() {
-
-		// Compteur
-		int i = 0;
-
-		if (new File(treasuresConfigPath).exists()) {
-
-			Configuration yml = new Configuration(new File(treasuresConfigPath));
-			// On charge le fichier
-			yml.load();
-			// On parcourt tous les treasures enfants de 'treasures:'
-			ConfigurationSection treasures = yml
-					.getConfigurationSection("treasures");
-
-			if (treasures != null) {
-
-				Set<String> enfants = treasures.getKeys(false);
-
-				for (String enf : enfants) {
-
-					String node = "treasures." + enf;
-					// Ici t correspond à un tresor on crée un Treasure avec ca
-					Treasure chest = new ChestTreasure(this, yml.getConfigurationSection(node));
-					// On stocke en cache
-					_treasureCache.add(chest.get_id(), chest);
-					// On donne cette tache cron au collector
-					_taskCollector.addTask(new TreasureTask(this, chest));
-					i++;
+		
+		
+			
+			// Compteur
+			int i = 0;
+	
+			if (new File(treasuresConfigPath).exists()) {
+	
+				Configuration yml = new Configuration(new File(treasuresConfigPath));
+				// On charge le fichier
+				yml.load();
+				// On parcourt tous les treasures enfants de 'treasures:'
+				ConfigurationSection treasures = yml
+						.getConfigurationSection("treasures");
+	
+				if (treasures != null) {
+	
+					Set<String> enfants = treasures.getKeys(false);
+	
+					for (String enf : enfants) {
+						try {
+							
+							String node = "treasures." + enf;
+							// Ici t correspond à un tresor on crée un Treasure avec ca
+							Treasure chest = new ChestTreasure(this, yml.getConfigurationSection(node));
+							// On stocke en cache
+							_treasureCache.add(chest.get_id(), chest);
+							// On donne cette tache cron au collector
+							_taskCollector.addTask(new TreasureTask(this, chest));
+							i++;
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+							StringBuilder build = new StringBuilder();
+							String nl = System.getProperty("line.separator");
+							build.append( "loadTreasureFile()" );
+							build.append(nl);
+							Log.severe(build.toString(), e);
+						}
+						
+					}
+					// On annonce le nombre de trésors
+					Log.info("Config Treasures Found: " + i);
+				} else {
+					Log.info("Can't found 'treasures:' initial node in your file " + treasuresConfigPath);
+					return;
 				}
-				// On annonce le nombre de trésors
-				Log.info("Config Treasures Found: " + i);
+	
 			} else {
-				Log.info("Can't found 'treasures:' initial node in your file " + treasuresConfigPath);
-				return;
+				Log.info("Config Treasures File Not Found: " + treasuresConfigPath);
 			}
-
-		} else {
-			Log.info("Config Treasures File Not Found: " + treasuresConfigPath);
-		}
+		
+		
+		
 
 	}
 
@@ -413,11 +430,22 @@ public class BooTreasure extends JavaPlugin {
 
 			for (String treasure : nodes) {
 
-				// Partie basics
-				ConfigurationSection section = config
-						.getConfigurationSection(Const.TASKS + "."
-								+ Const.TASKS_BASICS + "." + treasure);
-				new ChestTreasure(this, section);
+				try{
+					
+					// Partie basics
+					ConfigurationSection section = config
+							.getConfigurationSection(Const.TASKS + "."
+									+ Const.TASKS_BASICS + "." + treasure);
+					new ChestTreasure(this, section);
+				
+				} catch (Exception e) {
+					e.printStackTrace();
+					StringBuilder build = new StringBuilder();
+					String nl = System.getProperty("line.separator");
+					build.append( "loadTreasures()" );
+					build.append(nl);
+					Log.severe(build.toString(), e);
+				}
 
 			}
 

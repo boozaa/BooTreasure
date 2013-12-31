@@ -51,8 +51,8 @@ public class MyPlayerListener implements Listener {
 		if ( e.getInventory().getHolder() instanceof Chest || e.getInventory().getHolder() instanceof DoubleChest ){    
         	// On vérifie si metadata BooTreasure
         	Chest chest = (Chest) e.getInventory().getHolder();        	
-        	if( chest.hasMetadata("BooTreasure") ){        		
-    			String id = chest.getMetadata("BooTreasure").get(0).asString();
+        	if( chest.hasMetadata("BooTreasure-Chest") ){        		
+    			String id = chest.getMetadata("BooTreasure-Chest").get(0).asString();
     			final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);
     			// Call the event
     			if( t != null ){
@@ -71,8 +71,8 @@ public class MyPlayerListener implements Listener {
 		if ( e.getInventory().getHolder() instanceof Chest || e.getInventory().getHolder() instanceof DoubleChest ){
             // On vérifie si metadata BooTreasure
         	Chest chest = (Chest) e.getInventory().getHolder();
-        	if( chest.hasMetadata("BooTreasure") ){
-    			String id = chest.getMetadata("BooTreasure").get(0).asString(); 
+        	if( chest.hasMetadata("BooTreasure-Chest") ){
+    			String id = chest.getMetadata("BooTreasure-Chest").get(0).asString(); 
     			final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);			
     			// Call the event
     			if( t != null ){
@@ -91,9 +91,9 @@ public class MyPlayerListener implements Listener {
 		if( event.getBlock().getState().getType() == Material.CHEST ){
 			Chest chest = (Chest) event.getBlock().getState();
 			// On vérifie si ce Chest a la metadata BooTreasure
-			if( chest.hasMetadata("BooTreasure") ){
+			if( chest.hasMetadata("BooTreasure-Chest") ){
 				// Ok ici c'est un BooChest on lance event BooChestBreakEvent
-				String id = chest.getMetadata("BooTreasure").get(0).asString();
+				String id = chest.getMetadata("BooTreasure-Chest").get(0).asString();
     			final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);
 				// Call the event
     			if( t != null ){

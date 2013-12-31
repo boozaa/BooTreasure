@@ -105,9 +105,9 @@ public class TreasureConfig extends ConfigFile {
 
 		this._config.set("treasures." + id + ".basics.name", 				name);
 		this._config.set("treasures." + id + ".basics.cronpattern", 		pattern);
-		this._config.set("treasures." + id + ".basics.duration", 			String.valueOf(duration) );		
-		this._config.set("treasures." + id + ".basics.world", 			world);
-		this._config.set("treasures." + id + ".basics.onlyonsurface", 	onlyonsurface);
+		this._config.set("treasures." + id + ".basics.duration", 			duration);		
+		this._config.set("treasures." + id + ".basics.world", 				world);
+		this._config.set("treasures." + id + ".basics.onlyonsurface", 		onlyonsurface);
 		this._config.set("treasures." + id + ".basics.preservecontent", 	preservecontent);
 		this._config.set("treasures." + id + ".basics.infinite", 			infinite);
 

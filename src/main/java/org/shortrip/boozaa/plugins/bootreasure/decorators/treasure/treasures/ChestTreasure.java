@@ -61,7 +61,7 @@ public class ChestTreasure extends Treasure {
 	 * @param conf
 	 * 		A ConfigurationSection to create this ChestTreasure
 	 */
-	public ChestTreasure(Plugin plugin, ConfigurationSection conf) {
+	public ChestTreasure(Plugin plugin, ConfigurationSection conf) throws Exception {
 		super(conf);
 		this.plugin = plugin;
 		this._treasureType = TreasureType.CHEST;
@@ -138,9 +138,10 @@ public class ChestTreasure extends Treasure {
 	 */
 	@Override
 	public void appear() throws Exception {
+				
 		// Search for empty good block
-		_block = SupportSearch.findGoodBlock(this);
-		if( _block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
+		this._block = SupportSearch.findGoodBlock(this);
+		if( this._block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
 		
 		// On stocke ses coordonnées
 		this._x = _block.getLocation().getBlockX();
@@ -148,13 +149,15 @@ public class ChestTreasure extends Treasure {
 		this._z = _block.getLocation().getBlockZ();
 		
 		// Make this block as chest
-		_block.setType(Material.CHEST);
-		chest = (Chest)_block.getState();
+		this._block.setType(Material.CHEST);
+		this.chest = (Chest)this._block.getState();
 		// Give own inventory to this chest
-		chest.getInventory().setContents(this._inventory);
+		this.chest.getInventory().setContents(this._inventory);
 		
 		// Metadata store to distinguish chest as ChestTreasure
-		chest.setMetadata("BooTreasure", new FixedMetadataValue(this.plugin, this._id));
+		this.chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(this.plugin, this._id));
+		
+		Log.info("appear() in " + this._world + " on " + this._x + " " + this._y + " " + this._z + " for ChestTreasure " + this.toString() );
 		
 		// Appear message
 		this.announceAppear();
@@ -185,30 +188,32 @@ public class ChestTreasure extends Treasure {
 	@Override
 	public void disappear() {
 		
-		if( _block == null ){	
+		if( this._block == null ){	
 			this.chestLocation = Bukkit.getWorld(this._world).getBlockAt(_x, _y, _z).getLocation();
-			_block = Bukkit.getWorld(this._world).getBlockAt(this.chestLocation );
-			this.chest = (Chest)_block.getState();
+			this._block = Bukkit.getWorld(this._world).getBlockAt(this.chestLocation );
 		}
 		
-		//if( _block.getState().getType().equals(Material.CHEST) ){
+		if( this._block.getState().getType().equals(Material.CHEST) ){
 
+			this.chest = (Chest)this._block.getState();
+			
 			try {
 				
 				//Chest chest = (Chest) _block.getState();				
 				
+				/*
 				if( this._preservecontent ){
 					Log.debug("This Chest was found and its content must be preserved for the next apparition.");					
-					if( chest.getInventory().getContents().length > 0 ){
+					if( this.chest.getInventory().getContents().length > 0 ){
 						this._inventory = chest.getInventory().getContents().clone();
 					}					
 				}
-				
+				*/
 				// Et on le supprimme du chest
-				chest.getInventory().clear();
+				this.chest.getInventory().clear();
 						
 				// On supprime le chest si pas deja fait		
-				chest.getBlock().setType(Material.AIR);
+				this._block.setType(Material.AIR);
 				
 				// On envoit message de disparation
 				this.announceDisappear();
@@ -222,7 +227,8 @@ public class ChestTreasure extends Treasure {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-				
+		
+		}		
 		
 		// On replace le booleen found à false pour les suivants
 		this._found = false;

@@ -32,7 +32,7 @@ public class TreasureChestDisappearSilentlyEvent extends Events {
 						e.printStackTrace();
 						StringBuilder build = new StringBuilder();
 						String nl = System.getProperty("line.separator");
-						build.append( "Error during TreasureChestAppearEvent" );
+						build.append( "TreasureChestDisappearSilentlyEvent()" );
 						build.append(nl);
 						build.append( "Id: " + t.get_id() );
 						build.append(nl);
