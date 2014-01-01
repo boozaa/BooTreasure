@@ -172,6 +172,7 @@ public abstract class Treasure implements Serializable {
 	protected abstract void generateContents();
 	protected abstract String replaceVariables( String msg );
 	public abstract void appear();
+	public abstract void disappear();
 	
 	
 }

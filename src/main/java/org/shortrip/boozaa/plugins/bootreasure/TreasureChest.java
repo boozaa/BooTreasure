@@ -146,19 +146,44 @@ public class TreasureChest extends Treasure {
 		// Serialization and lost treasure will be deleted on next start
 		this.serialize();
 		
+		this._found = true;
+		
 		// Delayed task to disappear on duration fixed
-		long delay = this._duration*20;
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask( BooTreasure.get_instance(), new Runnable() {
-			
-			@Override 
-            public void run(){
-				
-				// Launch synchrone Bukkit event to disappear
-				
-			}
-			
-		}, delay);
+		BooTreasure.get_eventsManager().chestDisappearDelayedEvent(this);
+		
 		
 	}
+	
+	
+	@Override
+	public void disappear() {
+		
+		if( this._block == null ){	
+			this._block = Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
+		}
+		
+		if( this._block.getState().getType().equals(Material.CHEST) ){
+			
+			Chest chest = (Chest)this._block.getState();
+			try {
+				
+				// Clear its inventory
+				chest.getInventory().clear();
+				// Set dedicated block as AIR
+				this._block.setType(Material.AIR);
+				// Remove unecessary serialization representation
+				this.deleteSerializedFile();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			this._found = false;
+			
+		}
+		
+		
+	}
+	
 		
 }
