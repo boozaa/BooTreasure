@@ -8,6 +8,8 @@ import org.shortrip.boozaa.plugins.bootreasure.persistence.TreasureConfig;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.ChestCreateProcedure;
 import org.shortrip.boozaa.plugins.bootreasure.serializer.BukkitSerializer;
 import org.shortrip.boozaa.plugins.bootreasure.utils.tiers.VaultUtils;
+import org.shortrip.boozaa.plugins.bootreasure.commands.CommandFramework;
+import org.shortrip.boozaa.plugins.bootreasure.commands.InGameCommand;
 import org.shortrip.boozaa.plugins.bootreasure.cron.CronScheduler;
 import org.shortrip.boozaa.plugins.bootreasure.cron.CronSchedulerListener;
 import org.shortrip.boozaa.plugins.bootreasure.cron.CronTaskCollector;
@@ -16,19 +18,15 @@ import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.decorators.treasure.treasures.ChestTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.listeners.*;
 import java.io.File;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Set;
 import java.util.TimeZone;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
+
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -73,7 +71,7 @@ public class BooTreasure extends JavaPlugin {
 	// Boolean if using WorldGuard
 	@Getter @Setter private static Boolean useWorldGuard = false;
 
-	
+	CommandFramework framework;
 	
 	@Override
 	public void onEnable() {
@@ -132,6 +130,13 @@ public class BooTreasure extends JavaPlugin {
 
 		createTreasuresFile();
 		loadTreasureFile();
+		
+		
+		/**Initializes a new CommandFramework object**/
+		framework = new CommandFramework(this);
+		 
+		/** This will register all commands inside of this class. It works much the same as the registerEvents() method. Note: Commands do not need to be registered in plugin.yml! */
+		framework.registerCommands( new InGameCommand() );
 
 	}
 
@@ -305,89 +310,14 @@ public class BooTreasure extends JavaPlugin {
 
 	}
 
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 
-		// Pas d'arguments dans la commande on sort
-    	//if( args.length == 0 ){return true;}    	
-    	try {   		
-    			    		
-		    		if( !( sender instanceof Player ) ) {    		
-			    		// Sends form console		    		
-							new MyCommands(this,args);					
-			    	}
-			    	// Sends from game
-			    	new MyCommands(this,sender, command, commandLabel, args);		    	
-	    	
-    	} catch (CommandException e) {}   
-    	
-    	return true;
+		return framework.handleCommand(sender, commandLabel, command, args);
 		
-		/*
-		// Pas d'arguments dans la commande on sort
-		if (args.length == 0) {
-			return false;
-		}
-		try {
-			if (command.getName().equalsIgnoreCase("bootreasure")) {
-
-				if (args[0].equalsIgnoreCase("s")) {
-
-					if (sender instanceof Player) {
-
-						Player player = (Player) sender;
-						ItemStack iteminhand = player.getItemInHand();
-						Log.debug("Tentative de serialisation d'un ItemStack");
-						if (iteminhand != null) {
-							Log.debug("Tentative de serialisation d'un ItemStack");
-							BukkitSerializer.serializeToFile(iteminhand,
-									getDataFolder() + File.separator
-											+ "lost+found" + File.separator
-											+ "item.serialized");
-						}
-						Log.debug("Fin de serialisation d'un ItemStack");
-					}
-
-				} else if (args[0].equalsIgnoreCase("d")) {
-
-					if (sender instanceof Player) {
-
-						Log.debug("Tentative de deserialisation d'un ItemStack");
-						Player player = (Player) sender;
-						File file = new File(getDataFolder() + File.separator
-								+ "lost+found" + File.separator
-								+ "item.serialized");
-						if (file.exists()) {
-							ItemStack iteminhand = (ItemStack) BukkitSerializer
-									.deserializeFromFile(file);
-							player.setItemInHand(iteminhand);
-						}
-						Log.debug("Fin de deserialisation d'un ItemStack");
-
-					}
-					
-				} else if (args[0].equalsIgnoreCase("new")) {
-					
-					if (sender instanceof Player) {
-						
-						Bukkit.getScheduler().runTask(this, new ChestCreateProcedure(this, (Player) sender));
-						
-						//Thread t = new Thread( new CreateChest(this, (Player) sender) );
-						//t.start();
-						// test
-						//new CreateChest(this, (Player) sender);
-					}
-					
-				} else {
-					
-				}
-
-			}
-		} catch (CommandException e) {
-		}
-		return true;
-		*/
 	}
+	
 
 	@Override
 	public void onDisable() {
