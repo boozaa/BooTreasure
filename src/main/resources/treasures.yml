@@ -2,6 +2,7 @@ treasures:
   49b64cb2-79e6-4ee6-8eb8-2fdd614fabc3:
     basics:
       name: My First Treasure
+      type: chest
       cronpattern: '*/2 * * * *'
       duration: 30
       world: world

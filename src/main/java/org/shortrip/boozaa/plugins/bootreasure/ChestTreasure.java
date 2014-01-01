@@ -1,7 +1,6 @@
 package org.shortrip.boozaa.plugins.bootreasure;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -84,6 +83,7 @@ public class ChestTreasure extends Treasure {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void generateContents(){
 		
@@ -121,7 +121,7 @@ public class ChestTreasure extends Treasure {
 	}
 
 	@Override
-	protected void appear() {
+	public void appear() {
 		
 		// Search for empty good block
 		this._block = BlockSearcher.findGoodBlock(this);

@@ -6,8 +6,11 @@ import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.ChestTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
+import org.shortrip.boozaa.plugins.bootreasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
+import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 
 
 public class MyTreasuresManager extends Manager {
@@ -90,14 +93,29 @@ public class MyTreasuresManager extends Manager {
 			// On va charger les treasures un a un
 			Set<String> nodes = config.getKeys("treasures");
 
-			for (String treasure : nodes) {
+			for (String treasureId : nodes) {
 
 				try{
 					
 					// Partie basics
-					ConfigurationSection section = config.getConfigurationSection("treasures.basics." + treasure);
-					//new ChestTreasure(this, section);
+					ConfigurationSection section = config.getConfigurationSection("treasures." + treasureId);
 					
+					Treasure treasure = null;
+					
+					// Depend on TreasureType
+					if( section.contains("basics.type") ){
+						if( section.getString("basics.type").equalsIgnoreCase("chest") ){
+							treasure = new ChestTreasure(section);
+						}
+					}
+					
+					// Store in cache
+					BooTreasure.get_cacheManager().add(treasure.get_id(), treasure);
+					
+					// Give the new CronTask
+					BooTreasure.get_cronManager().addTask(new TreasureTask(this.plugin, treasure));
+					
+					// Quantity increment
 					qty++;
 				
 				} catch (Exception e) {
