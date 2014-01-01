@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure;
+package org.shortrip.boozaa.plugins.bootreasure.old;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class ChatMessage {
 	public static void forGroup(List<String> groups, String message){
 		for(Player player : Bukkit.getServer().getOnlinePlayers()){
 			for( String group : groups ){
-				if( BooTreasure.get_permissionsManager().playerInGroup(group, player) ){
+				if( BooTreasure.get_vaultUtils().playerInGroup(group, player) ){
 					player.sendMessage(message);
 				}
 			}			

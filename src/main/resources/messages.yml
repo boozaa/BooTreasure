@@ -1,0 +1,22 @@
+locales:
+  create:
+    chest:
+      ask:
+        preservecontent: '&3Conserve son &econtenu&3 ?'
+        waitingend: '&3Remplis ce trésor et pour finir tapes: &7'
+        infinite: '&3Apparition &einfinie&3 ?'
+        world: '&3Indiques le &eMonde&3 '
+        pattern: '&3Indiques le &ecron pattern&3'
+        name: '&3Quel &enom &3donner à ce trésor ?'
+        allowedids: '&3Blocks particuliers'
+        onlyonsurface: '&3Uniquement &een surface&3 ?'
+        duration: '&3Combien de &etemps&3 doit rester le trésor ?'
+      intro: '&3Création d''un trésor'
+    prefix: '&2[BooTreasure] '
+    success: '&3Trésor configuré avec succés'
+    error: '&4Une erreur est survenue'
+  commands:
+    disagree: non
+    exit: exit
+    agree: oui
+    end: /end
