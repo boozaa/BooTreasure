@@ -136,7 +136,7 @@ public class BooTreasure extends JavaPlugin {
 		framework = new CommandFramework(this);
 		 
 		/** This will register all commands inside of this class. It works much the same as the registerEvents() method. Note: Commands do not need to be registered in plugin.yml! */
-		framework.registerCommands( new InGameCommand() );
+		framework.registerCommands( new InGameCommand(this) );
 
 	}
 
