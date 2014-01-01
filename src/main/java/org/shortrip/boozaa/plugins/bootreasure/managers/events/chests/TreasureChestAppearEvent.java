@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.ChestTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.Events;
 
@@ -26,7 +26,7 @@ public class TreasureChestAppearEvent extends Events {
 
 				@Override
 				public void run() {
-					final ChestTreasure t = (ChestTreasure) BooTreasure.get_cacheManager().get_treasureCache().getObject(id);
+					final TreasureChest t = (TreasureChest) BooTreasure.get_cacheManager().get_treasureCache().getObject(id);
 					Log.debug("Name: " + t.get_name());
 					try {
 						t.appear();

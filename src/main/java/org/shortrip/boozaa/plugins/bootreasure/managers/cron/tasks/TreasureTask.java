@@ -3,7 +3,7 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks;
 import it.sauronsoftware.cron4j.TaskExecutionContext;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.ChestTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.TreasureType;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTask;
@@ -27,7 +27,7 @@ public class TreasureTask extends CronTask {
 		TreasureType type = treasure.get_type();
 		if( type == TreasureType.CHEST ){			
 			
-			ChestTreasure ch = (ChestTreasure)treasure;			
+			TreasureChest ch = (TreasureChest)treasure;			
 			// Launch chest appear event
 			BooTreasure.get_eventsManager().chestAppearEvent(ch);
 			

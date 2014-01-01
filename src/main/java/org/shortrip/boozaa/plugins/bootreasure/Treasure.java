@@ -70,7 +70,7 @@ public abstract class Treasure implements Serializable {
 	
 	public Treasure( TreasureType type, File file ){
 		this._type = type;
-		Treasure cht = (Treasure)unserialize(file);
+		Treasure cht = unserialize(file);
 		
 		if( cht != null ){
 			this._id 				= cht.get_id();

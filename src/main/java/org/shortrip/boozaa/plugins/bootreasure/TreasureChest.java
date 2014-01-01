@@ -19,7 +19,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class ChestTreasure extends Treasure {
+public class TreasureChest extends Treasure {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -34,13 +34,13 @@ public class ChestTreasure extends Treasure {
 	@Getter private int _x, _y, _z;
 	
 	
-	public ChestTreasure(){
+	public TreasureChest(){
 		super( TreasureType.CHEST);
 		populateMessages();
 		
 	}
 	
-	public ChestTreasure( ConfigurationSection section ){
+	public TreasureChest( ConfigurationSection section ){
 		super( TreasureType.CHEST, section);
 		this._preservecontent 	= this._conf.getBoolean( PRESERVE_CONTENT );
 		this._placesMaterials 	= new ArrayList<Material>();
@@ -48,7 +48,7 @@ public class ChestTreasure extends Treasure {
 		generateContents();
 	}
 	
-	public ChestTreasure( Location loc ){
+	public TreasureChest( Location loc ){
 		super( TreasureType.CHEST, loc);		
 		this._x 	= loc.getBlockX();
 		this._y 	= loc.getBlockY();
@@ -60,10 +60,10 @@ public class ChestTreasure extends Treasure {
 		
 	}
 	
-	public ChestTreasure( File file ){
+	public TreasureChest( File file ){
 		super( TreasureType.CHEST, file);
 		
-		ChestTreasure cht = (ChestTreasure)unserialize(file);
+		TreasureChest cht = (TreasureChest)unserialize(file);
 		
 		if( cht != null ){
 			this._preservecontent 	= cht.get_preservecontent();

@@ -15,7 +15,7 @@ import org.bukkit.block.BlockFace;
 public class BlockSearcher {
 
 	@Synchronized
-	public static Block findGoodBlock(ChestTreasure treasure){
+	public static Block findGoodBlock(TreasureChest treasure){
 		
 		Log.debug("Search valid block to support treasure on:");
 		Log.debug("world: " + treasure.get_world());
