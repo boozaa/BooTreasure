@@ -34,7 +34,7 @@ public class MyTreasuresManager extends Manager {
 
 		Log.info("Cleanup eventual lost treasures ... ");
 		
-		if( !BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") ){
+		if( BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == false ){
 			Log.debug("BukkitSerialization is disabled on config.yml");
 			return;
 		}

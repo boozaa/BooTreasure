@@ -114,7 +114,7 @@ public abstract class Treasure implements Serializable {
 	
 	
 	public Treasure unserialize() {		
-		if( !BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") ){
+		if( BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == false ){
 			Log.debug("BukkitSerialization is disabled on config.yml");
 			return null;
 		}
@@ -126,7 +126,7 @@ public abstract class Treasure implements Serializable {
 	}
 
 	public Treasure unserialize(File f) {
-		if( !BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") ){
+		if( BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == false ){
 			Log.debug("BukkitSerialization is disabled on config.yml");
 			return null;
 		}
