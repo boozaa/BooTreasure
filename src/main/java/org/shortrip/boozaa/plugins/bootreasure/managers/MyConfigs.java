@@ -3,11 +3,12 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
-
 import java.io.File;
 
 
@@ -26,6 +27,40 @@ public class MyConfigs extends Manager {
 		load("treasures.yml");
 	}
 
+	
+	public void saveNewTreasureChest( TreasureChest t ){
+		String name = t.get_name();
+		String pattern = t.get_pattern();
+		String id = t.get_id();
+		//List<Material> allowedids = t.get_allowedids();
+		Boolean infinite = t.get_infinite();
+		Boolean onlyonsurface = t.get_onlyonsurface();
+		Boolean preservecontent = t.get_preservecontent();
+		String world = t.get_world();
+		Long duration = t.get_duration();
+		
+		Configuration config = get("treasures.yml");
+
+		config.set("treasures." + id + ".basics.name", 				name);
+		config.set("treasures." + id + ".basics.cronpattern", 		pattern);
+		config.set("treasures." + id + ".basics.duration", 			duration);		
+		config.set("treasures." + id + ".basics.world", 			world);
+		config.set("treasures." + id + ".basics.onlyonsurface", 	onlyonsurface);
+		config.set("treasures." + id + ".basics.preservecontent", 	preservecontent);
+		config.set("treasures." + id + ".basics.infinite", 			infinite);
+
+		ItemStack[] items = t.get_inventory();
+		config.set("treasures." + id + ".setup.contents.items", items);
+		
+		
+		config.save();
+		config.load();
+		
+	}
+	
+	
+	
+	
 	
 	/**
 	* Checks to see if the ConfigManager knows about fileName

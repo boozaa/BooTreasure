@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
 
@@ -127,12 +128,12 @@ public abstract class Treasure implements Serializable {
 	}
 
 	
-	protected void serialize() {		
+	public void serialize() {		
 		BooTreasure.get_serializationManager().serializeBukkitObjectToFile(this, _path);		
 	}
 	
 	
-	protected Treasure unserialize() {		
+	public Treasure unserialize() {		
 		File file = new File( _path );
 		if( file.exists() ){		    				
 			return (Treasure) BooTreasure.get_serializationManager().unserializeBukkitObjectFromFile(file);				    				
@@ -140,7 +141,7 @@ public abstract class Treasure implements Serializable {
 		return null;		
 	}
 
-	protected Treasure unserialize(File f) {
+	public Treasure unserialize(File f) {
 		
 		if( f.exists() ){		    				
 			return (Treasure) BooTreasure.get_serializationManager().unserializeBukkitObjectFromFile(f);				    				
@@ -149,7 +150,7 @@ public abstract class Treasure implements Serializable {
 		
 	}
 	
-	protected void deleteSerializedFile() {
+	public void deleteSerializedFile() {
 		File file = new File( this._path );
 		if( file.exists() ){		    				
 			file.delete();				    				
@@ -175,6 +176,7 @@ public abstract class Treasure implements Serializable {
 	protected abstract String replaceVariables( String msg );
 	public abstract void appear() throws Exception;
 	public abstract void disappear() throws Exception;
+	public abstract void found(Player p);
 	
 	
 }

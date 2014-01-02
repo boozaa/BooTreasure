@@ -5,6 +5,7 @@ import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestAppearEvent;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestDisappearEvent;
+import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestDisappearSilentlyEvent;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 
 
@@ -34,6 +35,11 @@ public class MyEvents extends Manager {
             }
         }, delay);
 	}
+	
+	public void chestDisappearSilentlyEvent( TreasureChest treasure ){
+		Bukkit.getServer().getPluginManager().callEvent(new TreasureChestDisappearSilentlyEvent(this.plugin, treasure.get_id()));
+	}
+	
 	
 
 	@Override

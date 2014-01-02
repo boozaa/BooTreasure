@@ -2,17 +2,20 @@ package org.shortrip.boozaa.plugins.bootreasure.treasures;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
@@ -102,6 +105,22 @@ public class TreasureChest extends Treasure {
 		
 	}
 	
+	
+	public void chestAppear(){
+		if( this._block == null ){
+			this._block = Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
+		}
+		this._block.setType(Material.CHEST);
+	}
+	
+	
+	public void chestDisappear(){
+		if( this._block == null ){
+			this._block = Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
+		}
+		this._block.setType(Material.AIR);
+	}
+	
 
 	@Override
 	public void appear() {
@@ -162,7 +181,23 @@ public class TreasureChest extends Treasure {
 	}
 	
 	
+	@Override
+	public void found(Player p) {
+		
+		Log.debug(p.getName() + " has discover this treasure " + this._name);
+		
+		if( !this._found ){
+			this._found = true;
+			this.announceFound();
+		}
+		
+	}
 	
+	
+	public void getChestContents(){
+		Chest chest = (Chest)this._block.getState();
+		this._inventory = chest.getInventory().getContents();
+	}
 	
 	
 
@@ -186,5 +221,33 @@ public class TreasureChest extends Treasure {
 		return message;
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		
+		StringBuilder build = new StringBuilder();
+		String nl = System.getProperty("line.separator");
+		
+		build.append(nl);
+		build.append(ChatColor.GOLD + "ChestTreasure -" + ChatColor.GREEN + this._id);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Name: " + ChatColor.AQUA + this._name);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - World: " + ChatColor.AQUA + this._world);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Cron Pattern: " + ChatColor.AQUA + this._pattern);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Duration: " + ChatColor.AQUA + this._duration);
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - X: " + ChatColor.AQUA + this._x + ChatColor.RESET + ", Y: " + ChatColor.AQUA + this._y + ChatColor.RESET + ", Z: " + ChatColor.AQUA + this._z  );
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Infinite: " + ChatColor.AQUA + this._infinite + ChatColor.RESET + ", Only On Surface: " + ChatColor.AQUA + this._onlyonsurface + ChatColor.RESET + ", Preserve Content: " + ChatColor.AQUA + this._preservecontent  );
+		build.append(nl);
+		build.append(ChatColor.RESET + "  - Contents: " + ChatColor.AQUA + Arrays.toString(_inventory));
+		build.append(nl);
+		
+		return build.toString();
+	}
 		
 }
