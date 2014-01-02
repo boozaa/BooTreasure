@@ -92,6 +92,7 @@ public class BooTreasure  extends JavaPlugin{
 	
 	@Override
 	public void onDisable() {
+		/*
 		_configManager.onDisable();
 		_commandsManager.onDisable();
 		_cronManager.onDisable();
@@ -100,6 +101,7 @@ public class BooTreasure  extends JavaPlugin{
 		_serializationManager.onDisable();
 		_permissionsManager.onDisable();
 		_treasuresManager.onDisable();
+		*/
 	}
 	
 }

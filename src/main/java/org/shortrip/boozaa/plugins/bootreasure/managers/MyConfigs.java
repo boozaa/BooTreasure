@@ -45,7 +45,8 @@ public class MyConfigs extends Manager {
 	* @param fileName File to load
 	*/
 	public void load(String fileName) throws ConfigNullFileException {
-        File file = new File(plugin.getDataFolder(), fileName);
+        Log.info("Loading in memory: " + fileName);
+		File file = new File(plugin.getDataFolder(), fileName);
         if (!file.exists()) {
             try {
                 plugin.saveResource(fileName, false);
@@ -55,9 +56,11 @@ public class MyConfigs extends Manager {
         }
         if (!isFileLoaded(fileName)) {
             Configuration conf = new Configuration(file);
+            conf.load();
         	configs.put(fileName, conf);
         	if( fileName.equalsIgnoreCase("config.yml"))
-        		Log.set_debugON(conf.getBoolean("config.debug"));
+        		Log.set_debugON(conf.getBoolean("config.debugMode"));
+        		
         }
     }
 
@@ -145,9 +148,9 @@ public class MyConfigs extends Manager {
         if (isFileLoaded(fileName)) {
             try {
                 Configuration conf = configs.get(fileName);
-                conf.load(file);
+                conf.load();
             	if( fileName.equalsIgnoreCase("config.yml"))
-            		Log.set_debugON(conf.getBoolean("config.debug"));
+            		Log.set_debugON(conf.getBoolean("config.debugMode"));
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -100,26 +100,6 @@ public class TreasureChest extends Treasure {
 	}
 	
 
-	@Override	
-	protected String replaceVariables( String msg ){
-		String message = "";		
-		// Replace pour les codes couleurs
-		message = msg.replace("&", "§");
-		// Replace des pseudo variables
-		message = message.replace("%name%", 			this._name);
-		message = message.replace("%pattern%", 			this._pattern);
-		message = message.replace("%duration%", 		String.valueOf( this._duration) );
-		message = message.replace("%world%", 			this._world);
-		message = message.replace("%onlyonsurface%", 	String.valueOf( this._onlyonsurface) );
-		message = message.replace("%preservecontent%", 	String.valueOf( this._preservecontent) );
-		message = message.replace("%infinite%", 		String.valueOf( this._infinite) );
-		message = message.replace("%x%", 				String.valueOf( this._x) );
-		message = message.replace("%y%", 				String.valueOf( this._y) );
-		message = message.replace("%z%", 				String.valueOf( this._z) );
-		message = message.replace("%name%", 			this._name);		
-		return message;
-	}
-
 	@Override
 	public void appear() {
 		
@@ -164,25 +144,43 @@ public class TreasureChest extends Treasure {
 		
 		if( this._block.getState().getType().equals(Material.CHEST) ){
 			
-			Chest chest = (Chest)this._block.getState();
-			try {
-				
-				// Clear its inventory
-				chest.getInventory().clear();
-				// Set dedicated block as AIR
-				this._block.setType(Material.AIR);
-				// Remove unecessary serialization representation
-				this.deleteSerializedFile();
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
+			Chest chest = (Chest)this._block.getState();			
+			// Clear its inventory
+			chest.getInventory().clear();
+			// Set dedicated block as AIR
+			this._block.setType(Material.AIR);
+			// Remove unecessary serialization representation
+			this.deleteSerializedFile();				
 			this._found = false;
 			
 		}
 		
 		
+	}
+	
+	
+	
+	
+	
+
+	@Override	
+	protected String replaceVariables( String msg ){
+		String message = "";		
+		// Replace pour les codes couleurs
+		message = msg.replace("&", "§");
+		// Replace des pseudo variables
+		message = message.replace("%name%", 			this._name);
+		message = message.replace("%pattern%", 			this._pattern);
+		message = message.replace("%duration%", 		String.valueOf( this._duration) );
+		message = message.replace("%world%", 			this._world);
+		message = message.replace("%onlyonsurface%", 	String.valueOf( this._onlyonsurface) );
+		message = message.replace("%preservecontent%", 	String.valueOf( this._preservecontent) );
+		message = message.replace("%infinite%", 		String.valueOf( this._infinite) );
+		message = message.replace("%x%", 				String.valueOf( this._x) );
+		message = message.replace("%y%", 				String.valueOf( this._y) );
+		message = message.replace("%z%", 				String.valueOf( this._z) );
+		message = message.replace("%name%", 			this._name);		
+		return message;
 	}
 	
 		

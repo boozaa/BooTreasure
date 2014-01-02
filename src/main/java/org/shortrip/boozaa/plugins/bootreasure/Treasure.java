@@ -46,12 +46,12 @@ public abstract class Treasure implements Serializable {
 	
 	public Treasure( TreasureType type, ConfigurationSection section ){
 		this._type = type;
+		this._id =	UUID.randomUUID().toString();
 		this._conf	= section;
 		if( type.equals(TreasureType.CHEST ) )
-			this._path = BooTreasure.get_treasuresManager().lost_folder_path + this._id + ".chest";
+			this._path = BooTreasure.get_instance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
-			this._path = BooTreasure.get_treasuresManager().lost_folder_path + this._id + ".schematic";
-		this._id 				= UUID.randomUUID().toString();
+			this._path = BooTreasure.get_instance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".schematic";
 		this._name 				= this._conf.getString( NAME );
 		this._pattern 			= this._conf.getString( CRON_PATTERN );		
 		this._duration 			= this._conf.getLong( DURATION );
@@ -171,8 +171,8 @@ public abstract class Treasure implements Serializable {
 	// Commons functions
 	protected abstract void generateContents();
 	protected abstract String replaceVariables( String msg );
-	public abstract void appear();
-	public abstract void disappear();
+	public abstract void appear() throws Exception;
+	public abstract void disappear() throws Exception;
 	
 	
 }

@@ -86,37 +86,43 @@ public class MyTreasuresManager extends Manager {
 		Log.info("Loading treasures from treasures.yml ... ");
 		int qty = 0;
 		
+		Log.debug("Search 'treasures' node in treasures.yml");
+		
 		// On charge le fichier config/treasures.yml		
 		Configuration config = BooTreasure.get_configManager().get("treasures.yml");
 		if (config.get("treasures") != null) {
 
+			Log.debug("treasures.yml loaded and 'treasures' node found");
+			
 			// On va charger les treasures un a un
 			Set<String> nodes = config.getKeys("treasures");
 
 			for (String treasureId : nodes) {
 
 				try{
+
+					Log.debug("- parse the treasure with id " + treasureId);
 					
 					// Partie basics
 					ConfigurationSection section = config.getConfigurationSection("treasures." + treasureId);
 					
-					Treasure treasure = null;
 					
 					// Depend on TreasureType
 					if( section.contains("basics.type") ){
 						if( section.getString("basics.type").equalsIgnoreCase("chest") ){
-							treasure = new TreasureChest(section);
+							TreasureChest treasure = new TreasureChest(section);
+							// Store in cache
+							BooTreasure.get_cacheManager().add(treasure.get_id(), treasure);
+							
+							// Give the new CronTask
+							BooTreasure.get_cronManager().addTask(new TreasureTask(this.plugin, treasure));
+							
+							// Quantity increment
+							qty++;
 						}
 					}
 					
-					// Store in cache
-					BooTreasure.get_cacheManager().add(treasure.get_id(), treasure);
 					
-					// Give the new CronTask
-					BooTreasure.get_cronManager().addTask(new TreasureTask(this.plugin, treasure));
-					
-					// Quantity increment
-					qty++;
 				
 				} catch (Exception e) {
 					throw new TreasuresLoadException("Error when trying to load treasures from treasures.yml", e);
