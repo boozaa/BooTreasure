@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure.managers.events;
+package org.shortrip.boozaa.plugins.bootreasure.listeners;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.EventHandler;
@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class MyPlayerListener implements Listener {
 
     
+	@SuppressWarnings("unused")
 	private Plugin plugin;
 	
 	/**

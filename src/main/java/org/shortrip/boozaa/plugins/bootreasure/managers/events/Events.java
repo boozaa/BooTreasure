@@ -3,7 +3,7 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.events;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.shortrip.boozaa.plugins.bootreasure.Log;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class Events extends Event implements Cancellable {
 

@@ -3,7 +3,9 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.cron;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import org.shortrip.boozaa.plugins.bootreasure.Log;
+
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
 import it.sauronsoftware.cron4j.SchedulerListener;
 import it.sauronsoftware.cron4j.TaskExecutor;
 

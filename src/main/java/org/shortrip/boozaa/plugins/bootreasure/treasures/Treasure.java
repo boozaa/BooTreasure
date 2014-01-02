@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure;
+package org.shortrip.boozaa.plugins.bootreasure.treasures;
 
 import java.io.File;
 import java.io.Serializable;
@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
 
 
 public abstract class Treasure implements Serializable {

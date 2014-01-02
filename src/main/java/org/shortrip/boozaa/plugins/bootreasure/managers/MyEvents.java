@@ -3,10 +3,9 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.TreasureChest;
-import org.shortrip.boozaa.plugins.bootreasure.managers.events.MyPlayerListener;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestAppearEvent;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestDisappearEvent;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 
 
 public class MyEvents extends Manager {
@@ -15,8 +14,7 @@ public class MyEvents extends Manager {
 	
 	public MyEvents(BooTreasure booTreasure) {
 		this.plugin = booTreasure;
-		// MyPlayerListener
-		this.plugin.getServer().getPluginManager().registerEvents( new MyPlayerListener(this.plugin), this.plugin );
+		
 	}
 	
 	

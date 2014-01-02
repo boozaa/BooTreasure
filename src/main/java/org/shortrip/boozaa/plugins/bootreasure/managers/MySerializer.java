@@ -12,6 +12,7 @@ import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 
 public class MySerializer extends Manager {
 	
+	@SuppressWarnings("unused")
 	private Plugin plugin;
 	
 	public MySerializer(BooTreasure booTreasure) {

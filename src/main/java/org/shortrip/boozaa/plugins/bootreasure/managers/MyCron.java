@@ -4,11 +4,12 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 import java.util.Calendar;
 import java.util.TimeZone;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronScheduler;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronSchedulerListener;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTask;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTaskCollector;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
 import lombok.Getter;
 
 

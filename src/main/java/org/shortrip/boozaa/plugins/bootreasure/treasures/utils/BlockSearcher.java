@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure;
+package org.shortrip.boozaa.plugins.bootreasure.treasures.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class BlockSearcher {
 

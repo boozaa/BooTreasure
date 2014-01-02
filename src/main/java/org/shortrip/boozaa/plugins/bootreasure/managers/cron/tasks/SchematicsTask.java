@@ -1,8 +1,8 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks;
 
 import it.sauronsoftware.cron4j.TaskExecutionContext;
-import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTask;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public class SchematicsTask extends CronTask {

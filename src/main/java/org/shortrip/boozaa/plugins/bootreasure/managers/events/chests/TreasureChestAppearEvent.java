@@ -5,9 +5,9 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.TreasureChest;
-import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.Events;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public class TreasureChestAppearEvent extends Events {

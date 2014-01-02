@@ -5,8 +5,8 @@ import java.util.Map;
 import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.Log;
 import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 import java.io.File;
 
@@ -144,7 +144,7 @@ public class MyConfigs extends Manager {
 	* @param fileName File to reload
 	*/
 	public void reload(String fileName) {
-        File file = new File(plugin.getDataFolder(), fileName);
+        //File file = new File(plugin.getDataFolder(), fileName);
         if (isFileLoaded(fileName)) {
             try {
                 Configuration conf = configs.get(fileName);

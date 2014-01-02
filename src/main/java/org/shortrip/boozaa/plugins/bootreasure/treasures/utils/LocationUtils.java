@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure;
+package org.shortrip.boozaa.plugins.bootreasure.treasures.utils;
 
 import java.util.HashSet;
 import org.bukkit.Location;

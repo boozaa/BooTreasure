@@ -3,6 +3,7 @@ package org.shortrip.boozaa.plugins.bootreasure;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.shortrip.boozaa.plugins.bootreasure.listeners.MyPlayerListener;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCache;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyConfigs;
@@ -17,6 +18,8 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.MyConfigs.ConfigNullFile
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager.TreasuresCleanupException;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager.TreasuresLoadException;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
 import lombok.Getter;
 
 
@@ -52,7 +55,10 @@ public class BooTreasure  extends JavaPlugin{
 			_permissionsManager 	= new MyPermissions(this);
 			_treasuresManager 		= new MyTreasuresManager(this);
 			
-	
+			// MyPlayerListener
+			getServer().getPluginManager().registerEvents( new MyPlayerListener(this), this );
+			
+			
 			
 		} catch (CommandNullException e) {
 			// SEVERE -> disable plugin

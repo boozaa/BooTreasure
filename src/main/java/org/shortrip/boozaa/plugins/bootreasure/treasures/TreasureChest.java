@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure;
+package org.shortrip.boozaa.plugins.bootreasure.treasures;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,6 +15,9 @@ import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.BlockSearcher;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 @Data

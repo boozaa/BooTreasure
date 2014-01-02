@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.Log;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure;
+package org.shortrip.boozaa.plugins.bootreasure.utils;
 
 import java.util.List;
 

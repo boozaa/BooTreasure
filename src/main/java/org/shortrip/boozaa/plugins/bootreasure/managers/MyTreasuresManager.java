@@ -6,11 +6,10 @@ import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.TreasureChest;
-import org.shortrip.boozaa.plugins.bootreasure.Log;
-import org.shortrip.boozaa.plugins.bootreasure.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public class MyTreasuresManager extends Manager {

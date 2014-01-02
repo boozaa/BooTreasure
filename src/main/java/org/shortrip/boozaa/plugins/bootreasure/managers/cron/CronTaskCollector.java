@@ -68,7 +68,7 @@ public class CronTaskCollector implements TaskCollector {
 	
 	public void removeTaskById(String id){
 		for( CronTask ct : this.tasks ){
-			if( ct.getId().equalsIgnoreCase(id)){
+			if( ct.get_Id().equalsIgnoreCase(id)){
 				this.tasks.remove(ct);
 			}
 		}
