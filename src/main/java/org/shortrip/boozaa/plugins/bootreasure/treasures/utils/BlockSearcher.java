@@ -22,6 +22,7 @@ public class BlockSearcher {
 		Log.debug("Search valid block to support treasure on:");
 		Log.debug("world: " + treasure.get_world());
 		Log.debug("onsurface: " + treasure.get_onlyonsurface());
+		Log.debug("placesMaterials: " + treasure.get_placesMaterials().toString());
 		
 		World world = Bukkit.getWorld(treasure.get_world());
 				

@@ -54,10 +54,11 @@ public class TreasureChest extends Treasure {
 	
 	public TreasureChest( Location loc ){
 		super( TreasureType.CHEST, loc);		
-		this._x 	= loc.getBlockX();
-		this._y 	= loc.getBlockY();
-		this._z 	= loc.getBlockZ();
-		this._block = loc.getBlock();	
+		this._x 				= loc.getBlockX();
+		this._y 				= loc.getBlockY();
+		this._z 				= loc.getBlockZ();
+		this._block 			= loc.getBlock();
+		this._preservecontent 	= false;
 		this._placesMaterials 	= new ArrayList<Material>();
 		generateContents();
 		

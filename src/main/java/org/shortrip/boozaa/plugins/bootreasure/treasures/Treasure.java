@@ -2,7 +2,6 @@ package org.shortrip.boozaa.plugins.bootreasure.treasures;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -67,6 +66,9 @@ public abstract class Treasure implements Serializable {
 	
 	public Treasure( TreasureType type, Location loc ){
 		this._type = type;this._id	= UUID.randomUUID().toString();
+		this._onlyonsurface 	= false;
+		this._infinite 			= false;
+		this._found 			= false;
 		if( type.equals(TreasureType.CHEST ) )
 			this._path = BooTreasure.get_treasuresManager().lost_folder_path + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )

@@ -36,6 +36,13 @@ public class ChestCreateProcedure implements Runnable {
 	private World world;
 	private Location chestLocation;
 	
+	private final String YES = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.agree");
+	private final String NO = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.disagree");
+	private final String EXIT = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.exit");
+	private final String END = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.end");
+	
+	
+	
 	
 	public ChestCreateProcedure(  Plugin plugin, Player p  ){
 		this.plugin = plugin;
@@ -60,10 +67,6 @@ public class ChestCreateProcedure implements Runnable {
 			ConversationFactory factory = new ConversationFactory(this.plugin);
 			final Map<Object, Object> map = new HashMap<Object, Object>();
 			
-			map.put( "YesCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.agree") );
-			map.put( "NoCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.disagree") );
-			map.put( "EndCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.end") );
-			map.put( "ExitCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.exit") );
 			// Le treasure
 			map.put( "TreasureChest", this.treasure );
 			
@@ -181,13 +184,14 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		protected Prompt acceptValidatedInput(ConversationContext context, String in) {
-			String yes = (String) context.getSessionData("YesCommand");
-			if( in.equalsIgnoreCase(yes) || in.equalsIgnoreCase(yes.substring(1, 2)) ){
+			
+			if( in.equalsIgnoreCase(YES) ){
 				treasure.set_infinite(true);
 	    	}else{
 	    		treasure.set_infinite(false);
 	    	}    	    	
 	    	return new AskWorld();
+	    	
 		}
 				
 	}
@@ -221,8 +225,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		protected Prompt acceptValidatedInput(ConversationContext context, String in) {
-			String yes = (String) context.getSessionData("YesCommand");
-			if( in.equalsIgnoreCase(yes) || in.equalsIgnoreCase(yes.substring(1, 2)) ){
+			if( in.equalsIgnoreCase(YES) ){
 				treasure.set_onlyonsurface(true);
 	    	}else{
 	    		treasure.set_onlyonsurface(false);
@@ -242,9 +245,8 @@ public class ChestCreateProcedure implements Runnable {
 			
 		@Override
 		protected Prompt acceptValidatedInput(ConversationContext context, String in) {
-			String yes = (String) context.getSessionData("YesCommand");
 			// Récuperation de données
-	    	if( in.equalsIgnoreCase(yes) || in.equalsIgnoreCase(yes.substring(1, 2)) ){
+	    	if( in.equalsIgnoreCase(YES) ){
 	    		treasure.set_preservecontent(true);
 	    	}else{
 	    		treasure.set_preservecontent(false);
@@ -275,10 +277,8 @@ public class ChestCreateProcedure implements Runnable {
 				context.getForWhom().sendRawMessage("+" + mat);
 			}	
 			
-			String exit = (String) context.getSessionData("ExitCommand");
-			
 			// Si on demande la fin du prompt on stocke et passe à étape suivante
-	    	if( in.equalsIgnoreCase(exit) ){
+	    	if( in.equalsIgnoreCase(EXIT) ){
 	    		// On stocke dans le context et dans l'instance de treasure
 	    		treasure.set_placesMaterials(this._materials);
 	        	// On lance le WaitingEndPrompt
