@@ -22,7 +22,7 @@ public class MySerializer extends Manager {
 	
 	
 	public void serializeBukkitObjectToFile( Object obj, String path ){
-		
+				
 		FileOutputStream baos = null;
 		
 		try {

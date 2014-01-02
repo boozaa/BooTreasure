@@ -62,9 +62,10 @@ public class CommandParser {
 	@Completer(name = "bootreasure.chest", aliases = { "bootreasure.chest" })
 	public List<String> chestCompleter(CommandArgs args) {
 		List<String> list = new ArrayList<String>();
-		list.add("chest create");
-		list.add("chest edit <name>");
-		list.add("chest delete <name>");
+		list.add("list");
+		list.add("create");
+		list.add("edit <treasure id>");
+		list.add("delete <treasure id>");
 		return list;
 	}
 	

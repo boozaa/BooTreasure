@@ -10,6 +10,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public abstract class Treasure implements Serializable {
@@ -104,11 +105,19 @@ public abstract class Treasure implements Serializable {
 	}
 	
 	public void serialize() {		
+		if( !BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") ){
+			Log.debug("BukkitSerialization is disabled on config.yml");
+			return;
+		}
 		BooTreasure.get_serializationManager().serializeBukkitObjectToFile(this, _path);		
 	}
 	
 	
 	public Treasure unserialize() {		
+		if( !BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") ){
+			Log.debug("BukkitSerialization is disabled on config.yml");
+			return null;
+		}
 		File file = new File( _path );
 		if( file.exists() ){		    				
 			return (Treasure) BooTreasure.get_serializationManager().unserializeBukkitObjectFromFile(file);				    				
@@ -117,7 +126,10 @@ public abstract class Treasure implements Serializable {
 	}
 
 	public Treasure unserialize(File f) {
-		
+		if( !BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") ){
+			Log.debug("BukkitSerialization is disabled on config.yml");
+			return null;
+		}
 		if( f.exists() ){		    				
 			return (Treasure) BooTreasure.get_serializationManager().unserializeBukkitObjectFromFile(f);				    				
 		}
