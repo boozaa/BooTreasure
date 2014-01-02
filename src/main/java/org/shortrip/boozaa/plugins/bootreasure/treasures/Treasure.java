@@ -26,15 +26,14 @@ public abstract class Treasure implements Serializable {
 	private final String MESSAGES_FOUND 		= "setup.messages.found";
 	private final String MESSAGES_DISAPPEAR 	= "setup.messages.disappear";
 	
-	private final String DEFAULT_SPAWN 			= "A new treasure appear";
-	private final String DEFAULT_FOUND 			= "A treasure was founded";
-	private final String DEFAULT_DISAPPEAR 		= "A treasure disappear";
+	private final String DEFAULT_SPAWN 			= "&bUn trésor vient d'apparaitre";
+	private final String DEFAULT_FOUND 			= "&bUn trésor vient d'être découvert";
+	private final String DEFAULT_DISAPPEAR 		= "&bUn trésor vient de disparaître";
 	
 	@Getter protected transient TreasureType _type;
 	@Getter @Setter protected transient ConfigurationSection _conf = null;
 	@Getter protected String _path;
-	@Getter protected Boolean _infinite=true, _onlyonsurface=true, _found=true;
-	
+	@Getter protected Boolean _infinite=true, _onlyonsurface=true, _found=true;	
 	@Getter @Setter protected String _name="", _id="", _pattern="", _taskId="", _world="";
 	@Getter @Setter protected Long _duration;
 	
@@ -135,27 +134,34 @@ public abstract class Treasure implements Serializable {
 	
 	
 	public void announceAppear() {
-		if( this._conf.contains( MESSAGES_SPAWN ) ){
-			ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_SPAWN ) ) );
+		if( this._conf != null){
+			if( this._conf.contains( MESSAGES_SPAWN ) ){
+				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_SPAWN ) ) );
+			}
 		}else{
 			ChatMessage.broadcast( DEFAULT_SPAWN );
-		}		
+		}	
+			
 	}
 
 	public void announceFound() {
-		if( this._conf.contains( MESSAGES_FOUND ) ){
-			ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_FOUND ) ) );
+		if( this._conf != null){
+			if( this._conf.contains( MESSAGES_FOUND ) ){
+				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_FOUND ) ) );
+			}
 		}else{
 			ChatMessage.broadcast( DEFAULT_FOUND );
-		}		
+		}	
 	}
 
 	public void announceDisAppear() {
-		if( this._conf.contains( MESSAGES_DISAPPEAR ) ){
-			ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_DISAPPEAR ) ) );
+		if( this._conf != null){
+			if( this._conf.contains( MESSAGES_DISAPPEAR ) ){
+				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_DISAPPEAR ) ) );
+			}
 		}else{
 			ChatMessage.broadcast( DEFAULT_DISAPPEAR );
-		}		
+		}	
 	}
 	
 

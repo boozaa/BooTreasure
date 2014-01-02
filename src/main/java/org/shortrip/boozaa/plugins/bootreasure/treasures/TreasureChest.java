@@ -171,9 +171,14 @@ public class TreasureChest extends Treasure {
 		
 		if( this._block.getState().getType().equals(Material.CHEST) ){
 			
-			Chest chest = (Chest)this._block.getState();			
-			// Clear its inventory
-			chest.getInventory().clear();			
+			try{
+				Chest chest = (Chest)this._block.getState();			
+				// Clear its inventory
+				chest.getInventory().clear();
+			}catch( Exception e){
+				Log.warning("Error on disappear() -> " + e.getLocalizedMessage());
+			}
+						
 						
 		}		
 		

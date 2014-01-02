@@ -22,30 +22,34 @@ public class BlockSearcher {
 		Log.debug("Search valid block to support treasure on:");
 		Log.debug("world: " + treasure.get_world());
 		Log.debug("onsurface: " + treasure.get_onlyonsurface());
-		Log.debug("placesMaterials: " + treasure.get_placesMaterials().toString());
 		
 		World world = Bukkit.getWorld(treasure.get_world());
+		Boolean hasPlacesMaterials = false;
+		if( treasure.get_placesMaterials() !=null && !treasure.get_placesMaterials().isEmpty() )
+			hasPlacesMaterials = true;
+		
+		Log.debug("hasPlacesMaterials: " + hasPlacesMaterials);
 				
 		// Treasure on surface without allowed ids fixed
-		if( treasure.get_onlyonsurface() && treasure.get_placesMaterials().isEmpty() ){
+		if( treasure.get_onlyonsurface() && !hasPlacesMaterials ){
 			return findGoodSpawn(world, true);
 		}
 		
 		
 		// Treasure on surface with allowed ids fixed
-		if( treasure.get_onlyonsurface() && !treasure.get_placesMaterials().isEmpty() ){
+		if( treasure.get_onlyonsurface() && hasPlacesMaterials ){
 			return findGoodSpawn(world, treasure.get_placesMaterials(), true);
 		}
 		
 		
 		// Treasure without allowed ids fixed
-		if( !treasure.get_onlyonsurface() && treasure.get_placesMaterials().isEmpty() ){
+		if( !treasure.get_onlyonsurface() && !hasPlacesMaterials ){
 			return findGoodSpawn(world, false);
 		}
 		
 		
 		// Treasure with allowed ids fixed
-		if( !treasure.get_onlyonsurface() && !treasure.get_placesMaterials().isEmpty() ){
+		if( !treasure.get_onlyonsurface() && hasPlacesMaterials ){
 			return findGoodSpawn(world, treasure.get_placesMaterials(), false);
 		}
 		
