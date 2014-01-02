@@ -13,7 +13,8 @@ public abstract class NamePrompt extends ValidatingPrompt {
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
 		// Au moins 6 caractères le nom
-    	return isAlphaNumeric(in);
+    	//return isAlphaNumeric(in);
+		return true;
 	}
 	
 	

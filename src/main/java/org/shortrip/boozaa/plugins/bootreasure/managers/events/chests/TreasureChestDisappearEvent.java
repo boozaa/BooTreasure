@@ -25,6 +25,7 @@ public class TreasureChestDisappearEvent extends Events {
 					Log.debug("Chest disappear: " + t.get_name());						    															
 					try {
 						t.disappear();
+						t.announceDisAppear();
 					} catch (Exception e) {
 						e.printStackTrace();
 						StringBuilder build = new StringBuilder();

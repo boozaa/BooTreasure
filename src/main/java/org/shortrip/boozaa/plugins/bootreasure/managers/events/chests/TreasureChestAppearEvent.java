@@ -30,6 +30,7 @@ public class TreasureChestAppearEvent extends Events {
 					Log.debug("Name: " + t.get_name());
 					try {
 						t.appear();
+						t.announceAppear();
 					} catch (Exception e) {
 						e.printStackTrace();
 						StringBuilder build = new StringBuilder();

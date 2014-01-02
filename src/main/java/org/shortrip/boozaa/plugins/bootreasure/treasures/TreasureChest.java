@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.craftbukkit.v1_7_R1.block.CraftChest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -35,14 +36,13 @@ public class TreasureChest extends Treasure {
 	
 	@Getter @Setter private transient ItemStack[] _inventory;
 	@Getter private transient Block _block;	
-	@Getter @Setter protected Boolean _preservecontent = true;	
+	@Getter @Setter protected Boolean _preservecontent=true;	
 	@Getter @Setter protected List<Material> _placesMaterials;
 	@Getter private int _x, _y, _z;
 	
 	
 	public TreasureChest(){
 		super( TreasureType.CHEST);
-		populateMessages();
 		
 	}
 	
@@ -50,7 +50,6 @@ public class TreasureChest extends Treasure {
 		super( TreasureType.CHEST, section);
 		this._preservecontent 	= this._conf.getBoolean( PRESERVE_CONTENT );
 		this._placesMaterials 	= new ArrayList<Material>();
-		populateMessages();
 		generateContents();
 	}
 	
@@ -59,13 +58,17 @@ public class TreasureChest extends Treasure {
 		this._x 	= loc.getBlockX();
 		this._y 	= loc.getBlockY();
 		this._z 	= loc.getBlockZ();
-		this._block = loc.getBlock();		
-		populateMessages();
+		this._block = loc.getBlock();	
+		this._placesMaterials 	= new ArrayList<Material>();
 		generateContents();
 		
 		
 	}
 	
+	/*
+	 * Constructor from file
+	 * Only to get this from serialization and make it disappears
+	 */
 	public TreasureChest( File file ){
 		super( TreasureType.CHEST, file);
 		
@@ -78,12 +81,17 @@ public class TreasureChest extends Treasure {
 			this._y 				= cht.get_y();
 			this._z 				= cht.get_z();
 			this._block 			= Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
-			// Places materials
-			this._placesMaterials 	= cht.get_placesMaterials();
+			/*
+			// Places materials			
+			if( cht.get_placesMaterials() != null ){
+				this._placesMaterials 	= cht.get_placesMaterials();
+			}else{
+				this._placesMaterials 	= new ArrayList<Material>();
+			}
+			
 			// ItemStack[]
 			this._inventory 		= cht.get_inventory();
-
-			populateMessages();
+			*/
 		}
 		
 	}
@@ -146,14 +154,11 @@ public class TreasureChest extends Treasure {
 		chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.get_instance(), this._id));
 		
 		// Serialization and lost treasure will be deleted on next start
-		this.serialize();
-		
-		this._found = true;
-		
+		this.serialize();		
+				
 		// Delayed task to disappear on duration fixed
 		BooTreasure.get_eventsManager().chestDisappearDelayedEvent(this);
-		
-		
+				
 	}
 	
 	
@@ -166,17 +171,29 @@ public class TreasureChest extends Treasure {
 		
 		if( this._block.getState().getType().equals(Material.CHEST) ){
 			
-			Chest chest = (Chest)this._block.getState();			
+			CraftChest chest = (CraftChest)this._block.getState();			
 			// Clear its inventory
 			chest.getInventory().clear();
-			// Set dedicated block as AIR
-			this._block.setType(Material.AIR);
+			
+			if( Log.get_debugON() ){
+				// Debug set glowstone in place
+				this._block.setType(Material.GLOWSTONE);
+			}else{
+				// Set dedicated block as AIR
+				this._block.setType(Material.AIR);
+			}
+			
+			
+			
+			
+			
+			
+			
 			// Remove unecessary serialization representation
 			this.deleteSerializedFile();				
 			this._found = false;
-			
-		}
-		
+						
+		}		
 		
 	}
 	

@@ -2,7 +2,6 @@ package org.shortrip.boozaa.plugins.bootreasure.treasures;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import lombok.Getter;
@@ -18,24 +17,27 @@ public abstract class Treasure implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final String NAME 				= "basics.name";
-	private static final String CRON_PATTERN 		= "basics.cronpattern";
-	private static final String DURATION 			= "basics.duration";
-	private static final String WORLD 				= "basics.world";
-	private static final String ONLY_ON_SURFACE 	= "basics.onlyonsurface";
-	private static final String INFINITE 			= "basics.infinite";
-	private static final String MESSAGES_SPAWN 		= "setup.messages.spawn";
-	private static final String MESSAGES_FOUND 		= "setup.messages.found";
-	private static final String MESSAGES_DISAPPEAR 	= "setup.messages.disappear";
+	private final String NAME 					= "basics.name";
+	private final String CRON_PATTERN 			= "basics.cronpattern";
+	private final String DURATION 				= "basics.duration";
+	private final String WORLD 					= "basics.world";
+	private final String ONLY_ON_SURFACE 		= "basics.onlyonsurface";
+	private final String INFINITE 				= "basics.infinite";
+	private final String MESSAGES_SPAWN 		= "setup.messages.spawn";
+	private final String MESSAGES_FOUND 		= "setup.messages.found";
+	private final String MESSAGES_DISAPPEAR 	= "setup.messages.disappear";
 	
+	private final String DEFAULT_SPAWN 			= "A new treasure appear";
+	private final String DEFAULT_FOUND 			= "A treasure was founded";
+	private final String DEFAULT_DISAPPEAR 		= "A treasure disappear";
 	
 	@Getter protected transient TreasureType _type;
 	@Getter @Setter protected transient ConfigurationSection _conf = null;
 	@Getter protected String _path;
-	@Getter @Setter protected Boolean _infinite = false, _onlyonsurface=false, _found=false;
+	@Getter protected Boolean _infinite=true, _onlyonsurface=true, _found=true;
+	
 	@Getter @Setter protected String _name="", _id="", _pattern="", _taskId="", _world="";
 	@Getter @Setter protected Long _duration;
-	@Getter protected Map<String, String> _messagesMap;
 	
 	
 	public Treasure(TreasureType type){
@@ -87,46 +89,18 @@ public abstract class Treasure implements Serializable {
 		}
 	}
 	
-	
-	
-	protected void populateMessages(){
-		
-		/*
-		 * Store the messages
-		 * If the _messagesMap already contains sentences -> do nothing
-		 * If not -> take sentences from _conf if it isn't null
-		 * If null -> store default messages
-		 */
-		
-		if( this._messagesMap == null )
-			this._messagesMap = new HashMap<String, String>();
-		
-		if( this._conf != null ){
-			
-			if( this._conf.get( MESSAGES_SPAWN ) != null && !this._messagesMap.containsKey(MESSAGES_SPAWN) ){
-				this._messagesMap.put(MESSAGES_SPAWN, replaceVariables( this._conf.getString( MESSAGES_SPAWN ) ) );
-			}else{
-				this._messagesMap.put(MESSAGES_SPAWN, "A new treasure spawned" );
-			}
 
-
-			if( this._conf.get( MESSAGES_FOUND ) != null && !this._messagesMap.containsKey(MESSAGES_FOUND) ){
-				this._messagesMap.put(MESSAGES_FOUND, replaceVariables( this._conf.getString( MESSAGES_FOUND ) ) );
-			}else{
-				this._messagesMap.put(MESSAGES_FOUND, "A treasure has been founded" );
-			}
-
-
-			if( this._conf.get( MESSAGES_DISAPPEAR ) != null && !this._messagesMap.containsKey(MESSAGES_DISAPPEAR) ){
-				this._messagesMap.put(MESSAGES_DISAPPEAR, replaceVariables( this._conf.getString( MESSAGES_DISAPPEAR ) ) );
-			}else{
-				this._messagesMap.put(MESSAGES_DISAPPEAR, "A treasure disappear" );
-			}
-			
-		}
-		
+	public void set_infinite(Boolean _infinite) {
+		this._infinite = _infinite;
 	}
 
+	public void set_onlyonsurface(Boolean _onlyonsurface) {
+		this._onlyonsurface = _onlyonsurface;
+	}
+
+	public void set_found(Boolean _found) {
+		this._found = _found;
+	}
 	
 	public void serialize() {		
 		BooTreasure.get_serializationManager().serializeBukkitObjectToFile(this, _path);		
@@ -159,15 +133,27 @@ public abstract class Treasure implements Serializable {
 	
 	
 	public void announceAppear() {
-		ChatMessage.broadcast(this._messagesMap.get(MESSAGES_SPAWN));
+		if( this._conf.contains( MESSAGES_SPAWN ) ){
+			ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_SPAWN ) ) );
+		}else{
+			ChatMessage.broadcast( DEFAULT_SPAWN );
+		}		
 	}
 
 	public void announceFound() {
-		ChatMessage.broadcast(this._messagesMap.get(MESSAGES_FOUND));
+		if( this._conf.contains( MESSAGES_FOUND ) ){
+			ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_FOUND ) ) );
+		}else{
+			ChatMessage.broadcast( DEFAULT_FOUND );
+		}		
 	}
 
 	public void announceDisAppear() {
-		ChatMessage.broadcast(this._messagesMap.get(MESSAGES_DISAPPEAR));
+		if( this._conf.contains( MESSAGES_DISAPPEAR ) ){
+			ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_DISAPPEAR ) ) );
+		}else{
+			ChatMessage.broadcast( DEFAULT_DISAPPEAR );
+		}		
 	}
 	
 

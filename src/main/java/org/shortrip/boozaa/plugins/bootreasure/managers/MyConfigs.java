@@ -42,6 +42,7 @@ public class MyConfigs extends Manager {
 		Configuration config = get("treasures.yml");
 
 		config.set("treasures." + id + ".basics.name", 				name);
+		config.set("treasures." + id + ".basics.type", 				"chest");
 		config.set("treasures." + id + ".basics.cronpattern", 		pattern);
 		config.set("treasures." + id + ".basics.duration", 			duration);		
 		config.set("treasures." + id + ".basics.world", 			world);
@@ -49,9 +50,14 @@ public class MyConfigs extends Manager {
 		config.set("treasures." + id + ".basics.preservecontent", 	preservecontent);
 		config.set("treasures." + id + ".basics.infinite", 			infinite);
 
-		ItemStack[] items = t.get_inventory();
-		config.set("treasures." + id + ".setup.contents.items", items);
+		if( t.get_inventory() != null ){
+			ItemStack[] items = t.get_inventory();
+			config.set("treasures." + id + ".setup.contents.items", items);
+		}		
 		
+		config.set("treasures." + id + ".setup.messages.spawn", "&b%name% vient d'apparaitre" );
+		config.set("treasures." + id + ".setup.messages.found", "&b%name% a été découvert" );
+		config.set("treasures." + id + ".setup.messages.disappear", "&b%name% vient de disparaitre" );
 		
 		config.save();
 		config.load();

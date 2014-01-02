@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Getter;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -19,6 +21,7 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.*;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
@@ -48,67 +51,73 @@ public class ChestCreateProcedure implements Runnable {
 	@Override
 	public void run( ) {
 		
-		// Apparition du Chest devant le player
-		this.treasure.chestAppear();
+		try{
 		
-		// Le ConversationFactory
-		ConversationFactory factory = new ConversationFactory(this.plugin);
-		final Map<Object, Object> map = new HashMap<Object, Object>();
+			// Apparition du Chest devant le player
+			this.treasure.chestAppear();
+			
+			// Le ConversationFactory
+			ConversationFactory factory = new ConversationFactory(this.plugin);
+			final Map<Object, Object> map = new HashMap<Object, Object>();
+			
+			map.put( "YesCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.agree") );
+			map.put( "NoCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.disagree") );
+			map.put( "EndCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.end") );
+			map.put( "ExitCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.exit") );
+			// Le treasure
+			map.put( "TreasureChest", this.treasure );
+			
+			// On construit la conversation
+			Conversation conv = factory
+		            .withFirstPrompt(new AskName())
+		            .withEscapeSequence( BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.end") )
+		            .withPrefix(new ConversationPrefix() {	 
+		                @Override
+		                public String getPrefix(ConversationContext arg0) { return BooTreasure.get_configManager().get("messages.yml").getString("locales.create.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
+		            }).withInitialSessionData(map).withLocalEcho(true)
+		            .buildConversation(this.player);
+			
+			conv.addConversationAbandonedListener(new ConversationAbandonedListener() {	 
+		        @Override
+		        public void conversationAbandoned(ConversationAbandonedEvent event)
+		        {
+		            if (event.gracefulExit())
+		            {	            	
+		            	// On stocke son inventaire
+		    			treasure.getChestContents();
+		    			
+		    			Log.debug( "Serialization ..." );	    			
+		    			// On serialize
+		    			treasure.serialize();
+		    			Log.debug( "... done" );
+		            	
+		            	Log.debug("ChestTreasure created");
+		            	Log.debug( treasure.toString() );
+		            	
+		            	// Stockage en cache
+		            	BooTreasure.get_cacheManager().get_treasureCache().add(treasure.get_id(), treasure);
+		            	
+		            	// Stockage dans treasures.yml
+		            	BooTreasure.get_configManager().saveNewTreasureChest(treasure);
+		            		            		            	
+		            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
+		            	BooTreasure.get_eventsManager().chestDisappearSilentlyEvent(treasure);
+		            	
+		            	// Give it to the cronManager
+		            	BooTreasure.get_cronManager().addTask(new TreasureTask(plugin, treasure));
+		            	Log.debug("ChestTreasure stored in cache and sent to the CronTaskCollector");
+		            	
+		            }
+		        }
+		    });
+		    
+		    
+		    conv.begin();
 		
-		map.put( "YesCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.agree") );
-		map.put( "NoCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.disagree") );
-		map.put( "EndCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.end") );
-		map.put( "ExitCommand", BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.exit") );
-		// Le treasure
-		map.put( "TreasureChest", this.treasure );
-		
-		// On construit la conversation
-		Conversation conv = factory
-	            .withFirstPrompt(new AskName())
-	            .withEscapeSequence( BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.end") )
-	            .withPrefix(new ConversationPrefix() {	 
-	                @Override
-	                public String getPrefix(ConversationContext arg0) { return BooTreasure.get_configManager().get("messages.yml").getString("locales.create.prefix") + System.getProperty("line.separator"); }	 
-	            }).withInitialSessionData(map).withLocalEcho(true)
-	            .buildConversation(this.player);
-		
-		conv.addConversationAbandonedListener(new ConversationAbandonedListener() {	 
-	        @Override
-	        public void conversationAbandoned(ConversationAbandonedEvent event)
-	        {
-	            if (event.gracefulExit())
-	            {	            	
-	            	// On stocke son inventaire
-	    			treasure.getChestContents();
-	    			
-	    			Log.debug( "Serialization ..." );	    			
-	    			// On serialize
-	    			treasure.serialize();
-	    			Log.debug( "... done" );
-	            	
-	            	Log.debug("ChestTreasure created");
-	            	Log.debug( treasure.toString() );
-	            	
-	            	// Stockage en cache
-	            	BooTreasure.get_cacheManager().get_treasureCache().add(treasure.get_id(), treasure);
-	            	
-	            	// Stockage dans treasures.yml
-	            	BooTreasure.get_configManager().saveNewTreasureChest(treasure);
-	            	
-	            	
-	            	//TreasureConfig treasuresConfig = BooTreasure.get_treasuresConfiguration();
-	            	//treasuresConfig.createNewTreasure(treasure);
-	            	
-	            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
-	            	BooTreasure.get_eventsManager().chestDisappearSilentlyEvent(treasure);
-	            	
-	            }
-	        }
-	    });
-	    
-	    
-	    conv.begin();
-		
+		}catch (Exception e){
+			Log.severe("An error occured on ChestCreateProcedure", 
+					new ChestCreateProcedureException("An error occured on ChestCreateProcedure", e));			
+		}
 		
 	}
 	
@@ -137,7 +146,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return BooTreasure.get_configManager().get("messages.yml").getString("locales.create.chest.ask.cronpattern").replaceAll("&", "§");
+			return BooTreasure.get_configManager().get("messages.yml").getString("locales.create.chest.ask.pattern").replaceAll("&", "§");
 		}
 
 		@Override
@@ -335,6 +344,19 @@ public class ChestCreateProcedure implements Runnable {
 		
 		
 	}
+	
+	
+	
+
+	public class ChestCreateProcedureException extends Exception {
+		private static final long serialVersionUID = 1L;
+		@Getter private Throwable throwable;
+		public ChestCreateProcedureException(String message, Throwable t) {
+	        super(message);
+	        this.throwable = t;
+	    }		
+	}
+
 	
 	
 }

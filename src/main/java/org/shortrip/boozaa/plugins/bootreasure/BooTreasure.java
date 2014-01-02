@@ -98,16 +98,24 @@ public class BooTreasure  extends JavaPlugin{
 	
 	@Override
 	public void onDisable() {
-		/*
-		_configManager.onDisable();
-		_commandsManager.onDisable();
-		_cronManager.onDisable();
-		_cacheManager.onDisable();
-		_eventsManager.onDisable();
-		_serializationManager.onDisable();
-		_permissionsManager.onDisable();
-		_treasuresManager.onDisable();
-		*/
+		
+		if( _configManager != null)
+			_configManager.onDisable();
+		if( _commandsManager != null)
+			_commandsManager.onDisable();
+		if( _cronManager != null)
+			_cronManager.onDisable();
+		if( _cacheManager != null)
+			_cacheManager.onDisable();
+		if( _eventsManager != null)
+			_eventsManager.onDisable();
+		if( _serializationManager != null)
+			_serializationManager.onDisable();
+		if( _permissionsManager != null)
+			_permissionsManager.onDisable();
+		if( _treasuresManager != null)
+			_treasuresManager.onDisable();
+		
 	}
 	
 }
