@@ -2,12 +2,16 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Command;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.CommandArgs;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Completer;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.ChestCreateProcedure;
 
 
 public class CommandParser {
@@ -52,7 +56,7 @@ public class CommandParser {
 			permission = "bootreasure.chest.create", noPerm = "You can't do that")
 	public void createChest(CommandArgs args) {
 		args.getSender().sendMessage("This is the chest creation procedure");
-		//Bukkit.getScheduler().runTask(plugin, new ChestCreateProcedure( plugin, (Player) args.getSender() ) );
+		Bukkit.getScheduler().runTask(plugin, new ChestCreateProcedure( plugin, (Player) args.getSender() ) );
 	}
 	
 	@Completer(name = "bootreasure.chest", aliases = { "bootreasure.chest" })
