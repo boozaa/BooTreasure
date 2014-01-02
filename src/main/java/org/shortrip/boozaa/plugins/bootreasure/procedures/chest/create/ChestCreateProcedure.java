@@ -89,26 +89,30 @@ public class ChestCreateProcedure implements Runnable {
 		            	// On stocke son inventaire
 		    			treasure.getChestContents();
 		    			
-		    			Log.debug( "Serialization ..." );	    			
-		    			// On serialize
-		    			treasure.serialize();
-		    			Log.debug( "... done" );
+		    			if( BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == true ){
+		    				Log.debug( "Serialization ..." );	    			
+			    			// On serialize
+			    			treasure.serialize();
+			    			Log.debug( "... done" );
+		    			}		    			
 		            	
 		            	Log.debug("ChestTreasure created");
 		            	Log.debug( treasure.toString() );
 		            	
 		            	// Stockage en cache
 		            	BooTreasure.get_cacheManager().get_treasureCache().add(treasure.get_id(), treasure);
+		            	Log.debug("ChestTreasure stored in cache");
 		            	
 		            	// Stockage dans treasures.yml
 		            	BooTreasure.get_configManager().saveNewTreasureChest(treasure);
+		            	Log.debug("ChestTreasure saved in treasures.yml");
 		            		            		            	
 		            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
+		            	Log.debug("Launch disappear event");
 		            	BooTreasure.get_eventsManager().chestDisappearSilentlyEvent(treasure);
 		            	
 		            	// Give it to the cronManager
 		            	BooTreasure.get_cronManager().addTask(new TreasureTask(plugin, treasure));
-		            	Log.debug("ChestTreasure stored in cache and sent to the CronTaskCollector");
 		            	
 		            }
 		        }
