@@ -15,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.craftbukkit.v1_7_R1.block.CraftChest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -171,29 +170,24 @@ public class TreasureChest extends Treasure {
 		
 		if( this._block.getState().getType().equals(Material.CHEST) ){
 			
-			CraftChest chest = (CraftChest)this._block.getState();			
+			Chest chest = (Chest)this._block.getState();			
 			// Clear its inventory
-			chest.getInventory().clear();
-			
-			if( Log.get_debugON() ){
-				// Debug set glowstone in place
-				this._block.setType(Material.GLOWSTONE);
-			}else{
-				// Set dedicated block as AIR
-				this._block.setType(Material.AIR);
-			}
-			
-			
-			
-			
-			
-			
-			
-			// Remove unecessary serialization representation
-			this.deleteSerializedFile();				
-			this._found = false;
+			chest.getInventory().clear();			
 						
 		}		
+		
+
+		if( Log.get_debugON() ){
+			// Debug set glowstone in place
+			this._block.setType(Material.GLOWSTONE);
+		}else{
+			// Set dedicated block as AIR
+			this._block.setType(Material.AIR);
+		}
+					
+		// Remove unecessary serialization representation
+		this.deleteSerializedFile();				
+		this._found = false;
 		
 	}
 	
