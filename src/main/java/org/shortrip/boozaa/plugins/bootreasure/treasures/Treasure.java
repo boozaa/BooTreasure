@@ -31,7 +31,7 @@ public abstract class Treasure implements Serializable {
 	
 	@Getter protected transient TreasureType _type;
 	@Getter @Setter protected transient ConfigurationSection _conf = null;
-	@Getter protected transient String _path;
+	@Getter protected String _path;
 	@Getter @Setter protected Boolean _infinite = false, _onlyonsurface=false, _found=false;
 	@Getter @Setter protected String _name="", _id="", _pattern="", _taskId="", _world="";
 	@Getter @Setter protected Long _duration;

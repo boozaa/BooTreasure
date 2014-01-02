@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
 
 public class MySerializer extends Manager {
 	
@@ -56,7 +57,7 @@ public class MySerializer extends Manager {
 		try {
 			
 			fis = new FileInputStream(file); 
-			System.out.println("Total file size to read (in bytes) : " + fis.available()); 						
+			Log.debug("Total file size to read (in bytes) : " + fis.available()); 						
 			BukkitObjectInputStream bois = new BukkitObjectInputStream(fis);
 			item = bois.readObject();
 			bois.close();

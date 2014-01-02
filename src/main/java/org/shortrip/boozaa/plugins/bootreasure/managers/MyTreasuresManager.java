@@ -36,7 +36,7 @@ public class MyTreasuresManager extends Manager {
 		int qty = 0;
 		
 		try{
-			/*
+			
 			File losts = new File(lost_folder_path);
 			for (File file : losts.listFiles()) {
 				// Si fichier serial on le traite
@@ -46,10 +46,10 @@ public class MyTreasuresManager extends Manager {
 				
 				// ChestTreasures
 				if (extension.equalsIgnoreCase("chest")) {
+					
 					Log.info("Found old Treasure Chest: " + filename);
 					// Deserialize
-					ChestTreasure t = (ChestTreasure) BukkitSerializer
-							.deserializeFromFile(file);
+					TreasureChest t = (TreasureChest) BooTreasure.get_serializationManager().unserializeBukkitObjectFromFile(file);
 					
 					Log.debug(t.toString());
 					
@@ -57,11 +57,13 @@ public class MyTreasuresManager extends Manager {
 					t.disappear();
 					// Delete serialization file
 					t.deleteSerializedFile();
-					Log.info("ChestTreasure " + file + " deleted");
+					Log.info("TreasureChest " + file + " deleted");
+					// Increment counter
+					qty++;
 				}
 				
 			}
-			*/
+			
 			Log.info(" ... " + qty + " lost Treasures cleared");
 
 		}catch( Exception e){
