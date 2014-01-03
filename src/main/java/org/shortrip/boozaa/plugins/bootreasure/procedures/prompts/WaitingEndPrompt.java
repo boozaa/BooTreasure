@@ -27,8 +27,6 @@ public class WaitingEndPrompt extends ValidatingPrompt {
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
 		return true;
-	}
-	
-	
+	}	
 	
 }

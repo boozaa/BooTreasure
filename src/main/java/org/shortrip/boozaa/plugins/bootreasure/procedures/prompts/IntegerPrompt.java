@@ -7,7 +7,6 @@ public abstract class IntegerPrompt extends ValidatingPrompt {
 
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
-		// oui ou o
 		if( isInt(in) ){
 			return true;
 		}

@@ -7,9 +7,6 @@ import org.bukkit.conversations.ValidatingPrompt;
 
 public abstract class CronPatternPrompt extends ValidatingPrompt {
 
-	//protected Treasure _treasure;
-	
-
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
 		// Doit etre valide cronpattern
@@ -18,6 +15,5 @@ public abstract class CronPatternPrompt extends ValidatingPrompt {
 		}
     	return false;
 	}
-		
-	
+			
 }

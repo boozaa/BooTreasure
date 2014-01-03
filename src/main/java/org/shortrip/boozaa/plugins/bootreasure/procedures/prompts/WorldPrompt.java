@@ -9,7 +9,6 @@ import org.bukkit.conversations.ValidatingPrompt;
 
 public abstract class WorldPrompt extends ValidatingPrompt {
 
-	//protected Treasure _treasure;
 	protected List<World> _worlds;
 	
 	

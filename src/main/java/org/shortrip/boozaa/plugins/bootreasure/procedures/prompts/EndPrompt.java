@@ -25,14 +25,7 @@ public class EndPrompt extends MessagePrompt {
 		treasure.getChestContents();
 		
 		Log.debug( treasure.toString() );
-		
-		//Log.debug( "Serialization ..." );
-		
-		// On serialize
-		//treasure.serialize();
-
-		//Log.debug( "... done" );
-		
+				
 		return context.getSessionData(this._message).toString();
 	}
 	

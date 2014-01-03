@@ -6,7 +6,6 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 
 public abstract class MaterialPrompt extends ValidatingPrompt {
-
 	
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {

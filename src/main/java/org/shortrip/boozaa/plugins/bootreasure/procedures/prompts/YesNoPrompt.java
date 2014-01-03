@@ -7,9 +7,6 @@ import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 
 public abstract class YesNoPrompt extends ValidatingPrompt {
 
-	//protected Treasure _treasure;
-	
-
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
 		// oui ou o
@@ -21,8 +18,5 @@ public abstract class YesNoPrompt extends ValidatingPrompt {
 		}
     	return false;
 	}
-	
-	
-	
-	
+		
 }

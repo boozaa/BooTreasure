@@ -32,9 +32,9 @@ public class CommandParser {
 	@Command(name = "bootreasure.chest", aliases = { "bootreasure.chest" }, 
 			description = "This is bootreasure command", usage = "This is how you use it")
 	public void chestMenu(final CommandArgs args) {
-		IconMenu menu = new IconMenu("Chest Treasure Menu", 9, new IconMenu.OptionClickEventHandler() {
+		ChestMenu menu = new ChestMenu("Chest Treasure Menu", 9, new ChestMenu.OptionClickEventHandler() {
 	        @Override
-	        public void onOptionClick(IconMenu.OptionClickEvent event) {
+	        public void onOptionClick(ChestMenu.OptionClickEvent event) {
 	            String action = event.getName();
 	            if( action.equalsIgnoreCase("Create") ){
 	            	//Bukkit.getScheduler().runTask(plugin, new ChestCreateProcedure( plugin, (Player) args.getSender() ) );

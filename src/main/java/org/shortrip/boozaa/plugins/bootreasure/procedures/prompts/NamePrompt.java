@@ -4,16 +4,11 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ValidatingPrompt;
 
 
-
 public abstract class NamePrompt extends ValidatingPrompt {
 
-	//protected Treasure _treasure;
-
-
+	
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
-		// Au moins 6 caractères le nom
-    	//return isAlphaNumeric(in);
 		return true;
 	}
 		

@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-public class IconMenu implements Listener {
+public class ChestMenu implements Listener {
 
 	private String name;
     private int size;
@@ -24,7 +24,7 @@ public class IconMenu implements Listener {
     private String[] optionNames;
     private ItemStack[] optionIcons;
    
-    public IconMenu(String name, int size, OptionClickEventHandler handler, Plugin plugin) {
+    public ChestMenu(String name, int size, OptionClickEventHandler handler, Plugin plugin) {
         this.name = name;
         this.size = size;
         this.handler = handler;
@@ -34,7 +34,7 @@ public class IconMenu implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
    
-    public IconMenu setOption(int position, ItemStack icon, String name, String... info) {
+    public ChestMenu setOption(int position, ItemStack icon, String name, String... info) {
         optionNames[position] = name;
         optionIcons[position] = setItemNameAndLore(icon, name, info);
         return this;
