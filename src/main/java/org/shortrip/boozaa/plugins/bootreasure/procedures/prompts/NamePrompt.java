@@ -16,12 +16,6 @@ public abstract class NamePrompt extends ValidatingPrompt {
     	//return isAlphaNumeric(in);
 		return true;
 	}
-	
-	
-	private boolean isAlphaNumeric(String s)
-    {
-		return s.matches("^[a-zA-Z0-9]*$");
-    }
-	
+		
 	
 }

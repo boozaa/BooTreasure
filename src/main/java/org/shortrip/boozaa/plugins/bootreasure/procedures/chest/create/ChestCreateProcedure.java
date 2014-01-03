@@ -35,8 +35,10 @@ public class ChestCreateProcedure implements Runnable {
 	private Location chestLocation;
 	
 	private final String YES = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.agree");
+	@SuppressWarnings("unused")
 	private final String NO = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.disagree");
 	private final String EXIT = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.exit");
+	@SuppressWarnings("unused")
 	private final String END = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.end");
 	
 	
