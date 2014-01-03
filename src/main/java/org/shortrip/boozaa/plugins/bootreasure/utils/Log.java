@@ -48,7 +48,6 @@ public class Log {
 		
 		if( _debugON ) {			
 			console.sendMessage(prefix + "- DEBUG - " + ChatColor.GREEN + message);
-			ChatMessage.broadcast(ChatColor.GREEN + message);
 		}
 		
 	}

@@ -3,9 +3,7 @@ package org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import lombok.Getter;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -89,12 +87,10 @@ public class ChestCreateProcedure implements Runnable {
 		            	// On stocke son inventaire
 		    			treasure.getChestContents();
 		    			
-		    			if( BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == true ){
-		    				Log.debug( "Serialization ..." );	    			
-			    			// On serialize
-			    			treasure.serialize();
-			    			Log.debug( "... done" );
-		    			}		    			
+		    			Log.debug( "Serialization ..." );	    			
+		    			// On serialize
+		    			treasure.serialize();
+		    			Log.debug( "... done" );
 		            	
 		            	Log.debug("ChestTreasure created");
 		            	Log.debug( treasure.toString() );

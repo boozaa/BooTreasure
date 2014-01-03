@@ -5,38 +5,39 @@ import java.io.Serializable;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
-import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public abstract class Treasure implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private transient static final long serialVersionUID = 1L;
 	
-	private final String NAME 					= "basics.name";
-	private final String CRON_PATTERN 			= "basics.cronpattern";
-	private final String DURATION 				= "basics.duration";
-	private final String WORLD 					= "basics.world";
-	private final String ONLY_ON_SURFACE 		= "basics.onlyonsurface";
-	private final String INFINITE 				= "basics.infinite";
-	private final String MESSAGES_SPAWN 		= "setup.messages.spawn";
-	private final String MESSAGES_FOUND 		= "setup.messages.found";
-	private final String MESSAGES_DISAPPEAR 	= "setup.messages.disappear";
-	
-	private final String DEFAULT_SPAWN 			= "&bUn trésor vient d'apparaitre";
-	private final String DEFAULT_FOUND 			= "&bUn trésor vient d'être découvert";
-	private final String DEFAULT_DISAPPEAR 		= "&bUn trésor vient de disparaître";
-	
+	private transient final String NAME 					= "basics.name";
+	private transient final String CRON_PATTERN 			= "basics.cronpattern";
+	private transient final String DURATION 				= "basics.duration";
+	private transient final String WORLD 					= "basics.world";
+	private transient final String ONLY_ON_SURFACE 			= "basics.onlyonsurface";
+	private transient final String INFINITE 				= "basics.infinite";
+	private transient final String MESSAGES_SPAWN 			= "setup.messages.spawn";
+	private transient final String MESSAGES_FOUND 			= "setup.messages.found";
+	private transient final String MESSAGES_DISAPPEAR 		= "setup.messages.disappear";
+	private transient final String DEFAULT_SPAWN 			= ChatColor.AQUA + "Un trésor vient d'apparaitre";
+	private transient final String DEFAULT_FOUND 			= ChatColor.AQUA + "Un trésor vient d'être découvert";
+	private transient final String DEFAULT_DISAPPEAR 		= ChatColor.AQUA + "Un trésor vient de disparaître";
 	@Getter protected transient TreasureType _type;
 	@Getter @Setter protected transient ConfigurationSection _conf = null;
-	@Getter protected String _path;
 	@Getter protected Boolean _infinite=true, _onlyonsurface=true, _found=true;	
-	@Getter @Setter protected String _name="", _id="", _pattern="", _taskId="", _world="";
-	@Getter @Setter protected Long _duration;
+	@Getter @Setter protected transient String _id, _pattern, _taskId;
+	@Getter @Setter protected transient Long _duration;
+	
+	// In serialized representation
+	@Getter @Setter protected String _name, _world, _path;
 	
 	
 	public Treasure(TreasureType type){
@@ -90,6 +91,7 @@ public abstract class Treasure implements Serializable {
 			this._infinite 			= cht.get_infinite();
 		}
 	}
+
 	
 
 	public void set_infinite(Boolean _infinite) {
@@ -105,33 +107,21 @@ public abstract class Treasure implements Serializable {
 	}
 	
 	public void serialize() {		
-		if( !BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") ){
-			Log.debug("BukkitSerialization is disabled on config.yml");
-			return;
-		}
-		BooTreasure.get_serializationManager().serializeBukkitObjectToFile(this, _path);		
+		BooTreasure.get_serializationManager().serializeObjectToFile(this, _path);		
 	}
 	
 	
 	public Treasure unserialize() {		
-		if( BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == false ){
-			Log.debug("BukkitSerialization is disabled on config.yml");
-			return null;
-		}
 		File file = new File( _path );
 		if( file.exists() ){		    				
-			return (Treasure) BooTreasure.get_serializationManager().unserializeBukkitObjectFromFile(file);				    				
+			return (Treasure) BooTreasure.get_serializationManager().unserializeObjectFromFile(file);				    				
 		}
 		return null;		
 	}
 
 	public Treasure unserialize(File f) {
-		if( BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == false ){
-			Log.debug("BukkitSerialization is disabled on config.yml");
-			return null;
-		}
 		if( f.exists() ){		    				
-			return (Treasure) BooTreasure.get_serializationManager().unserializeBukkitObjectFromFile(f);				    				
+			return (Treasure) BooTreasure.get_serializationManager().unserializeObjectFromFile(f);				    				
 		}
 		return null;
 		

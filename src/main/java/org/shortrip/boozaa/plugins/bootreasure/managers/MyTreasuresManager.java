@@ -55,17 +55,20 @@ public class MyTreasuresManager extends Manager {
 					
 					Log.info("Found old Treasure Chest: " + filename);
 					// Deserialize
-					TreasureChest t = (TreasureChest) BooTreasure.get_serializationManager().unserializeBukkitObjectFromFile(file);
+					TreasureChest t = new TreasureChest(file);
 					
-					Log.debug(t.toString());
+					if( t != null ){
+						Log.debug(t.toString());
+						
+						// Launch disappear method
+						t.disappear();
+						// Delete serialization file
+						t.deleteSerializedFile();
+						Log.info("TreasureChest " + file + " deleted");
+						// Increment counter
+						qty++;
+					}
 					
-					// Launch disappear method
-					t.disappear();
-					// Delete serialization file
-					t.deleteSerializedFile();
-					Log.info("TreasureChest " + file + " deleted");
-					// Increment counter
-					qty++;
 				}
 				
 			}

@@ -27,16 +27,15 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 @EqualsAndHashCode(callSuper=true)
 public class TreasureChest extends Treasure {
 
-	private static final long serialVersionUID = 1L;
-	
-	private static final String PRESERVE_CONTENT 	= "basics.preservecontent";	
-	private static final String CONTENTS_ITEMS 		= "setup.contents.items";
-	
-	
+	private transient static final long serialVersionUID = 1L;
+	private transient static final String PRESERVE_CONTENT 		= "basics.preservecontent";	
+	private transient static final String CONTENTS_ITEMS 		= "setup.contents.items";
 	@Getter @Setter private transient ItemStack[] _inventory;
 	@Getter private transient Block _block;	
 	@Getter @Setter protected Boolean _preservecontent=true;	
-	@Getter @Setter protected List<Material> _placesMaterials;
+	@Getter @Setter protected transient List<Material> _placesMaterials;
+	
+	// In serialized representation
 	@Getter private int _x, _y, _z;
 	
 	
@@ -99,18 +98,14 @@ public class TreasureChest extends Treasure {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void generateContents(){
-		
-		if( this._conf != null ){
-			
+	protected void generateContents(){		
+		if( this._conf != null ){			
 			if( this._conf.get( CONTENTS_ITEMS ) != null ){
 				// Populate _inventory
 				List<ItemStack> items = (List<ItemStack>) this._conf.get( CONTENTS_ITEMS );
 				this._inventory = items.toArray(new ItemStack[0]);			
-			}
-			
-		}
-		
+			}			
+		}		
 	}
 	
 	
@@ -135,6 +130,7 @@ public class TreasureChest extends Treasure {
 		
 		// Search for empty good block
 		this._block = BlockSearcher.findGoodBlock(this);
+		
 		// TODO: later checking, perhaps useless
 		if( this._block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
 		
@@ -156,7 +152,7 @@ public class TreasureChest extends Treasure {
 		// Serialization and lost treasure will be deleted on next start
 		this.serialize();		
 				
-		// Delayed task to disappear on duration fixed
+		// Delayed task to disappear on duration fixed on bukkit synchron way
 		BooTreasure.get_eventsManager().chestDisappearDelayedEvent(this);
 				
 	}
@@ -165,31 +161,34 @@ public class TreasureChest extends Treasure {
 	@Override
 	public void disappear() {
 		
+		Log.debug("Trying to obtain block from world(" + this._world + ") and coordinates(" + this._x + " " + this._y + " " + this._z + ")");
+		
 		if( this._block == null ){	
+			// Get the block with world and coordinates
 			this._block = Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
 		}
 		
 		if( this._block.getState().getType().equals(Material.CHEST) ){
 			
-			try{
-				Chest chest = (Chest)this._block.getState();			
-				// Clear its inventory
+			//try{
+				
+				Chest chest = (Chest)this._block.getState();
+				
+				// If preserveContent we keep the new chest's inventory
+				if( this._preservecontent ){
+					this._inventory = chest.getInventory().getContents();
+				}				
+				
+				// Clear its inventory before AIR
 				chest.getInventory().clear();
-			}catch( Exception e){
-				Log.warning("Error on disappear() -> " + e.getLocalizedMessage());
-			}
-						
+				
+			//}catch( Exception e){
+			//	Log.warning("Error on disappear() -> " + e);
+			//}						
 						
 		}		
 		
-
-		if( Log.get_debugON() ){
-			// Debug set glowstone in place
-			this._block.setType(Material.GLOWSTONE);
-		}else{
-			// Set dedicated block as AIR
-			this._block.setType(Material.AIR);
-		}
+		this._block.setType(Material.AIR);
 					
 		// Remove unecessary serialization representation
 		this.deleteSerializedFile();				
@@ -253,15 +252,9 @@ public class TreasureChest extends Treasure {
 		build.append(nl);
 		build.append(ChatColor.RESET + "  - World: " + ChatColor.AQUA + this._world);
 		build.append(nl);
-		build.append(ChatColor.RESET + "  - Cron Pattern: " + ChatColor.AQUA + this._pattern);
-		build.append(nl);
-		build.append(ChatColor.RESET + "  - Duration: " + ChatColor.AQUA + this._duration);
-		build.append(nl);
 		build.append(ChatColor.RESET + "  - X: " + ChatColor.AQUA + this._x + ChatColor.RESET + ", Y: " + ChatColor.AQUA + this._y + ChatColor.RESET + ", Z: " + ChatColor.AQUA + this._z  );
 		build.append(nl);
 		build.append(ChatColor.RESET + "  - Infinite: " + ChatColor.AQUA + this._infinite + ChatColor.RESET + ", Only On Surface: " + ChatColor.AQUA + this._onlyonsurface + ChatColor.RESET + ", Preserve Content: " + ChatColor.AQUA + this._preservecontent  );
-		build.append(nl);
-		build.append(ChatColor.RESET + "  - Contents: " + ChatColor.AQUA + Arrays.toString(_inventory));
 		build.append(nl);
 		
 		return build.toString();

@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -21,7 +21,7 @@ public class MySerializer extends Manager {
 	}
 	
 	
-	public void serializeBukkitObjectToFile( Object obj, String path ){
+	public void serializeObjectToFile( Object obj, String path ){
 				
 		FileOutputStream baos = null;
 		
@@ -30,7 +30,7 @@ public class MySerializer extends Manager {
 			// ItemStack
 			//baos = new FileOutputStream(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
 			baos = new FileOutputStream(path);			
-			BukkitObjectOutputStream boos = new BukkitObjectOutputStream(baos);
+			ObjectOutputStream boos = new ObjectOutputStream(baos);
 			boos.writeObject(obj);
 			boos.close();
 			
@@ -48,7 +48,7 @@ public class MySerializer extends Manager {
 	}
 	
 	
-	public Object unserializeBukkitObjectFromFile(File file){
+	public Object unserializeObjectFromFile(File file){
 		
 		//File file = new File(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
 		FileInputStream fis = null;
@@ -58,7 +58,7 @@ public class MySerializer extends Manager {
 			
 			fis = new FileInputStream(file); 
 			Log.debug("Total file size to read (in bytes) : " + fis.available()); 						
-			BukkitObjectInputStream bois = new BukkitObjectInputStream(fis);
+			ObjectInputStream bois = new ObjectInputStream(fis);
 			item = bois.readObject();
 			bois.close();
 				
