@@ -11,7 +11,6 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.MyCron;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyEvents;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyPermissions;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyPermissions.PermissionsVaultNullException;
-import org.shortrip.boozaa.plugins.bootreasure.managers.MySerializer;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands.CommandHandlerException;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands.CommandNullException;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyConfigs.ConfigNullFileException;
@@ -32,7 +31,6 @@ public class BooTreasure  extends JavaPlugin{
 	@Getter private static MyCron _cronManager;
 	@Getter private static MyCache _cacheManager;
 	@Getter private static MyEvents _eventsManager;
-	@Getter private static MySerializer _serializationManager;
 	@Getter private static MyPermissions _permissionsManager;
 	@Getter private static MyTreasuresManager _treasuresManager;
 	
@@ -51,7 +49,6 @@ public class BooTreasure  extends JavaPlugin{
 			_cronManager 			= new MyCron(this);
 			_cacheManager 			= new MyCache(this);
 			_eventsManager			= new MyEvents(this);
-			_serializationManager 	= new MySerializer(this);
 			_permissionsManager 	= new MyPermissions(this);
 			_treasuresManager 		= new MyTreasuresManager(this);
 			
@@ -109,8 +106,6 @@ public class BooTreasure  extends JavaPlugin{
 			_cacheManager.onDisable();
 		if( _eventsManager != null)
 			_eventsManager.onDisable();
-		if( _serializationManager != null)
-			_serializationManager.onDisable();
 		if( _permissionsManager != null)
 			_permissionsManager.onDisable();
 		if( _treasuresManager != null)

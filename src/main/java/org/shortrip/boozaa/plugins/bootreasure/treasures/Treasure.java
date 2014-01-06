@@ -1,6 +1,11 @@
 package org.shortrip.boozaa.plugins.bootreasure.treasures;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.UUID;
 import lombok.Getter;
@@ -12,6 +17,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public abstract class Treasure implements Serializable {
@@ -107,23 +113,106 @@ public abstract class Treasure implements Serializable {
 	}
 	
 	public void serialize() {		
-		BooTreasure.get_serializationManager().serializeObjectToFile(this, _path);		
+		
+		FileOutputStream baos = null;
+		
+		try {
+			
+			// ItemStack
+			//baos = new FileOutputStream(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
+			baos = new FileOutputStream(this._path);			
+			ObjectOutputStream boos = new ObjectOutputStream(baos);
+			boos.writeObject(this);
+			boos.close();
+			
+		} catch (IOException ioexception) {
+			ioexception.printStackTrace();
+		} finally {
+			try {
+				if (baos != null)
+					baos.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
 	}
 	
 	
 	public Treasure unserialize() {		
+		
+		Treasure item = null;
 		File file = new File( _path );
 		if( file.exists() ){		    				
-			return (Treasure) BooTreasure.get_serializationManager().unserializeObjectFromFile(file);				    				
+			//File file = new File(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
+			FileInputStream fis = null;
+			;
+			
+			try {
+				
+				fis = new FileInputStream(file); 
+				Log.debug("Unserialization -> Total file size to read (in bytes) : " + fis.available()); 						
+				ObjectInputStream bois = new ObjectInputStream(fis);
+				item = (Treasure) bois.readObject();
+				bois.close();
+					
+	 
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					if (fis != null)
+						fis.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}				    				
 		}
-		return null;		
+		
+		return item;	
+		
 	}
 
 	public Treasure unserialize(File f) {
+		
+		Treasure item = null;
 		if( f.exists() ){		    				
-			return (Treasure) BooTreasure.get_serializationManager().unserializeObjectFromFile(f);				    				
+			
+			if( f.exists() ){		    				
+				//File file = new File(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
+				FileInputStream fis = null;
+				;
+				
+				try {
+					
+					fis = new FileInputStream(f); 
+					Log.debug("Unserialization -> Total file size to read (in bytes) : " + fis.available()); 						
+					ObjectInputStream bois = new ObjectInputStream(fis);
+					item = (Treasure) bois.readObject();
+					bois.close();
+						
+		 
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					try {
+						if (fis != null)
+							fis.close();
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				}				    				
+			}
+					    				
 		}
-		return null;
+
+		return item;		
 		
 	}
 	
