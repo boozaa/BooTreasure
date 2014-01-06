@@ -12,6 +12,7 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramewor
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.CommandArgs;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Completer;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestCreateProcedure;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestEditProcedure;
 
 
 public class CommandParser {
@@ -40,7 +41,11 @@ public class CommandParser {
 	            if( action.equalsIgnoreCase("Create") ){
 	            	Bukkit.getScheduler().runTask(plugin, new ChestCreateProcedure( plugin, (Player) args.getSender() ) );
 	            	event.setWillClose(true);
-				}	            
+				}
+	            if( action.equalsIgnoreCase("Edit") ){
+	            	Bukkit.getScheduler().runTask(plugin, new ChestEditProcedure( plugin, (Player) args.getSender() ) );
+	            	event.setWillClose(true);
+				}	            	            
 	        }
 	    }, plugin)
 	    .setOption(0, new ItemStack(Material.CHEST, 1), "Create", "Create a new Chest Treasure")

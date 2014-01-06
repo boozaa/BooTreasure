@@ -1,5 +1,8 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cache.Cache;
@@ -37,6 +40,14 @@ public class MyCache extends Manager {
 		return (Treasure)this._treasureCache.getObject(id);
 	}
 
+	
+	public HashMap<String, Object> getTreasures(){
+		return this._treasureCache.getCache();
+	}
+	
+	
+	
+	
 	public void remove( String id ) throws CacheNotExistException{
 		if( exists(id) ){
 			this._treasureCache.remove(id);

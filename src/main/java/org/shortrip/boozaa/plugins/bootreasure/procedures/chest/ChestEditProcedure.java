@@ -2,6 +2,7 @@ package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lombok.Getter;
 
@@ -19,7 +20,9 @@ import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestCreateProcedure.AskName;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestCreateProcedure.ChestCreateProcedureException;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
+import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
@@ -40,20 +43,22 @@ public class ChestEditProcedure implements Runnable {
 	private final String END = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.end");
 	
 	
-	public ChestEditProcedure(  Plugin plugin, Player p, String treasureId  ){
+	public ChestEditProcedure(  Plugin plugin, Player p  ){
 		
 		this.plugin = plugin;
 		this.player = p;
 		this.world = p.getWorld();
 		chestLocation = this.player.getLocation().toVector().add(this.player.getLocation().getDirection().multiply(1)).toLocation(this.world);
 		chestLocation.setY(chestLocation.getY()+1);
+		this.treasure = new TreasureChest(chestLocation);
+		/*
 		// Search treasure in cache
 		if( BooTreasure.getCacheManager().exists(treasureId ) ){
 			this.treasure = (TreasureChest) BooTreasure.getCacheManager().get(treasureId);
 			// Set the new Location of this chest front of the player
 			this.treasure.set_block( chestLocation.getBlock() );
 		}
-		
+		*/
 	}
 	
 	
@@ -62,10 +67,17 @@ public class ChestEditProcedure implements Runnable {
 		
 		try{
 			
-			Log.debug("The cached treasure appear");
+			Log.debug("ChestEditProcedure: list available treasure");
+
+			ChatMessage.forPlayer(player, "List of treasures:");
+			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
+				String id = entry.getKey();
+				Treasure tr = (Treasure) entry.getValue();
+				ChatMessage.forPlayer(player, id + " - " + tr.get_name() );				
+			}
 			
 			// Apparition du Chest devant le player
-			this.treasure.chestAppear();
+			//this.treasure.chestAppear();
 			
 			// Le ConversationFactory
 			ConversationFactory factory = new ConversationFactory(this.plugin);
