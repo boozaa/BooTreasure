@@ -2,21 +2,21 @@ locales:
   create:
     chest:
       ask:
-        preservecontent: '&3Conserve son &econtenu&3 ?'
-        waitingend: '&3Remplis ce trésor et pour finir tapes: &7'
-        infinite: '&3Apparition &einfinie&3 ?'
-        world: '&3Indiques le &eMonde&3 '
-        pattern: '&3Indiques le &ecron pattern&3'
-        name: '&3Quel &enom &3donner à ce trésor ?'
-        allowedids: '&3Blocks particuliers'
-        onlyonsurface: '&3Uniquement &een surface&3 ?'
-        duration: '&3Combien de &etemps&3 doit rester le trésor ?'
-      intro: '&3Création d''un trésor'
+        preservecontent: '&3Did its future &econtents &3must be preserved ?'
+        waitingend: '&3Fill the chest and when finish type: &7'
+        infinite: '&eInfinite &3Apparition ?'
+        world: '&3In which &eworld&3 ?'
+        pattern: '&3Type the &ecron pattern&3'
+        name: '&3What &ename &3this treasure will have ?'
+        allowedids: '&eParticular block &bon where this treasure must pop'
+        onlyonsurface: '&3Only appear &eon surface&3 ?'
+        duration: '&eHow long &3this treasure must be in world ?'
+      intro: '&3Treasure creation'
     prefix: '&2[BooTreasure] '
-    success: '&3Trésor configuré avec succés'
-    error: '&4Une erreur est survenue'
+    success: '&3Treasure successfully configured'
+    error: '&4An error occured'
   commands:
-    disagree: non
+    disagree: no
     exit: exit
-    agree: oui
+    agree: yes
     end: /end
