@@ -18,7 +18,6 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager.TreasuresCleanupException;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager.TreasuresLoadException;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
-
 import lombok.Getter;
 
 
