@@ -12,6 +12,20 @@ locales:
         onlyonsurface: '&3Only appear &eon surface&3 ?'
         duration: '&eHow long &3this treasure must be in world ?'
       intro: '&3Treasure creation'
+  edit:
+    chest:
+      ask:
+      	listalltreasures: '&3Choose which treasure to &eedit'
+        preservecontent: '&3Did its future &econtents &3must be preserved ?'
+        waitingend: '&3Fill the chest and when finish type: &7'
+        infinite: '&eInfinite &3Apparition ?'
+        world: '&3In which &eworld&3 ?'
+        pattern: '&3Type the &ecron pattern&3'
+        name: '&3What &ename &3this treasure will have ?'
+        allowedids: '&eParticular block &bon where this treasure must pop'
+        onlyonsurface: '&3Only appear &eon surface&3 ?'
+        duration: '&eHow long &3this treasure must be in world ?'
+      intro: '&3Treasure edit'
     prefix: '&2[BooTreasure] '
     success: '&3Treasure successfully configured'
     error: '&4An error occured'

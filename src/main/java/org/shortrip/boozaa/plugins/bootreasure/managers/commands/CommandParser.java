@@ -30,6 +30,7 @@ public class CommandParser {
 		args.getSender().sendMessage("This is bootreasure command");
 	}
 	
+	
 	@Command(name = "bootreasure.chest", aliases = { "bootreasure.chest" }, 
 			description = "This is bootreasure command", usage = "This is how you use it")
 	public void chestMenu(final CommandArgs args) {
@@ -64,6 +65,16 @@ public class CommandParser {
 		args.getSender().sendMessage("This is the chest creation procedure");
 		Bukkit.getScheduler().runTask(plugin, new ChestCreateProcedure( plugin, (Player) args.getSender() ) );
 	}
+	
+	
+	@Command(name = "bootreasure.chest.edit", aliases = { "bootreasure.edit" }, 
+			description = "Start Chest Treasure edit procedure", usage = "/bootreasure chest edit", 
+			permission = "bootreasure.chest.edit", noPerm = "You can't do that")
+	public void editChest(CommandArgs args) {
+		args.getSender().sendMessage("This is the chest edit procedure");
+		Bukkit.getScheduler().runTask(plugin, new ChestEditProcedure( plugin, (Player) args.getSender() ) );
+	}
+	
 	
 	@Completer(name = "bootreasure.chest", aliases = { "bootreasure.chest" })
 	public List<String> chestCompleter(CommandArgs args) {
