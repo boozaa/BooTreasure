@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -106,10 +108,11 @@ public class ChestCreateProcedure implements Runnable {
 		            	Log.debug("ChestTreasure saved in treasures.yml");
 		            		            		            	
 		            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
-		            	Log.debug("Launch disappear event");
+		            	Log.debug("Launch disappear event silently for creation chest");
 		            	BooTreasure.getEventsManager().chestDisappearSilentlyEvent(treasure);
 		            	
 		            	// Give it to the cronManager
+		            	Log.debug("Give a TreasureTask of this treasure to the CronManager");
 		            	BooTreasure.getCronManager().addTask(new TreasureTask(plugin, treasure));
 		            	
 		            }
@@ -123,6 +126,7 @@ public class ChestCreateProcedure implements Runnable {
 			Log.severe("An error occured on ChestCreateProcedure", 
 					new ChestCreateProcedureException("An error occured on ChestCreateProcedure", e));			
 		}
+	
 		
 	}
 	
