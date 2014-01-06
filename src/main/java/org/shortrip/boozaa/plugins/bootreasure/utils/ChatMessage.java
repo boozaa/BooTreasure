@@ -19,7 +19,7 @@ public class ChatMessage {
 	public static void forGroup(List<String> groups, String message){
 		for(Player player : Bukkit.getServer().getOnlinePlayers()){
 			for( String group : groups ){
-				if( BooTreasure.get_permissionsManager().playerInGroup(group, player) ){
+				if( BooTreasure.getPermissionsManager().playerInGroup(group, player) ){
 					player.sendMessage(message);
 				}
 			}			

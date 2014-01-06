@@ -10,7 +10,7 @@ public abstract class MaterialPrompt extends ValidatingPrompt {
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
 		Material mat = Material.getMaterial(in);
-		String exit = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.exit");
+		String exit = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.exit");
 		if( mat != null || in.equalsIgnoreCase( exit ) ){
 			return true;
 		}

@@ -146,13 +146,13 @@ public class TreasureChest extends Treasure {
 		chest.getInventory().setContents(this._inventory);
 		
 		// Metadata store to distinguish chest as ChestTreasure
-		chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.get_instance(), this._id));
+		chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
 		
 		// Serialization and lost treasure will be deleted on next start
 		this.serialize();		
 				
 		// Delayed task to disappear on duration fixed on bukkit synchron way
-		BooTreasure.get_eventsManager().chestDisappearDelayedEvent(this);
+		BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
 				
 	}
 	

@@ -10,8 +10,8 @@ public abstract class YesNoPrompt extends ValidatingPrompt {
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
 		// oui ou o
-		String yes = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.agree");
-		String no = BooTreasure.get_configManager().get("messages.yml").getString("locales.commands.disagree");
+		String yes = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.agree");
+		String no = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.disagree");
 		
 		if( in.equalsIgnoreCase( yes ) || in.equalsIgnoreCase(no) ){
 			return true;

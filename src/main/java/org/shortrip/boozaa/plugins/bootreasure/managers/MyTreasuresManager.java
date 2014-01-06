@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
@@ -15,13 +16,11 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 public class MyTreasuresManager extends Manager {
 
 	private Plugin plugin;
-	@Getter public String lost_folder_path;
 	@Getter public final String treasures_file = "treasures.yml";
 	
 	
 	public MyTreasuresManager( BooTreasure booTreasure ) throws TreasuresCleanupException, TreasuresLoadException{
 		this.plugin = booTreasure;
-		lost_folder_path = this.plugin.getDataFolder() + File.separator + "lost+found" + File.separator;
 		// Make folders
 		makeFolders();
 		// Cleanup lost treasures
@@ -34,7 +33,7 @@ public class MyTreasuresManager extends Manager {
 
 		Log.info("Cleanup eventual lost treasures ... ");
 		
-		if( BooTreasure.get_configManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == false ){
+		if( BooTreasure.getConfigManager().get( "config.yml" ).getBoolean("config.bukkitserialization") == false ){
 			Log.debug("BukkitSerialization is disabled on config.yml");
 			return;
 		}
@@ -43,7 +42,7 @@ public class MyTreasuresManager extends Manager {
 		
 		try{
 			
-			File losts = new File(lost_folder_path);
+			File losts = new File( Const.LOST_FOLDER_PATH );
 			for (File file : losts.listFiles()) {
 				// Si fichier serial on le traite
 				
@@ -99,7 +98,7 @@ public class MyTreasuresManager extends Manager {
 		Log.debug("Search 'treasures' node in treasures.yml");
 		
 		// On charge le fichier config/treasures.yml		
-		Configuration config = BooTreasure.get_configManager().get("treasures.yml");
+		Configuration config = BooTreasure.getConfigManager().get("treasures.yml");
 		if (config.get("treasures") != null) {
 
 			Log.debug("treasures.yml loaded and 'treasures' node found");
@@ -122,10 +121,10 @@ public class MyTreasuresManager extends Manager {
 						if( section.getString("basics.type").equalsIgnoreCase("chest") ){
 							TreasureChest treasure = new TreasureChest(section);
 							// Store in cache
-							BooTreasure.get_cacheManager().add(treasure.get_id(), treasure);
+							BooTreasure.getCacheManager().add(treasure.get_id(), treasure);
 							
 							// Give the new CronTask
-							BooTreasure.get_cronManager().addTask(new TreasureTask(this.plugin, treasure));
+							BooTreasure.getCronManager().addTask(new TreasureTask(this.plugin, treasure));
 							
 							// Quantity increment
 							qty++;

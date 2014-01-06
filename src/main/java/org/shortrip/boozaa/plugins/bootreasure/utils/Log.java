@@ -40,7 +40,7 @@ public class Log {
 	public static void severe(String error, Throwable message) {
 		console.sendMessage(prefix + ChatColor.RED + "- SEVERE - Fatal error, the plugin must be disabled: " + message.getMessage());
 		writeError(error, message);
-		Bukkit.getPluginManager().disablePlugin(BooTreasure.get_instance());
+		Bukkit.getPluginManager().disablePlugin(BooTreasure.getInstance());
 	}
 	
 	// Debug si activé
@@ -77,7 +77,7 @@ public class Log {
 	        ps.print( "------------------------------------------------------------------\n" );
 	        ps.print( sdf.format(today) + "\n" );
 	        ps.print( "Server bukkit Version: " + Bukkit.getServer().getBukkitVersion() + "\n" );
-	        ps.print( BooTreasure.get_instance().getName() + " version: " + BooTreasure.get_instance().getDescription().getVersion() + "\n" );
+	        ps.print( BooTreasure.getInstance().getName() + " version: " + BooTreasure.getInstance().getDescription().getVersion() + "\n" );
 	        ps.print( "Vault Version: " + vaultVersion + "\n" + "\n" + "\n" );
 	        ps.print( "Error occured on " + error + "\n" + "\n" );
 	        message.printStackTrace(ps);

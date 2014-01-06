@@ -17,13 +17,13 @@ public class TreasureChestDisappearSilentlyEvent extends Events {
 		this.plugin = plugin;
 		Log.debug("TreasureChestDisappearSilentlyEvent event for id " + id);
 		// On prend le Treasure dans le Cache
-		if( BooTreasure.get_cacheManager().exists(id)){
+		if( BooTreasure.getCacheManager().exists(id)){
 			Log.debug("Treasure exists in cache: " + id);
 			Bukkit.getServer().getScheduler().runTask(this.plugin, new Runnable() {
 				
 				@Override
 				public void run() {
-					final TreasureChest t = (TreasureChest) BooTreasure.get_cacheManager().get_treasureCache().getObject(id);
+					final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
 					t.chestDisappear();	
 				}
 				

@@ -16,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -50,9 +51,9 @@ public abstract class Treasure implements Serializable {
 		this._type = type;
 		this._id =	UUID.randomUUID().toString();
 		if( type.equals(TreasureType.CHEST ) )
-			this._path = BooTreasure.get_treasuresManager().lost_folder_path + this._id + ".chest";
+			this._path = Const.LOST_FOLDER_PATH + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
-			this._path = BooTreasure.get_treasuresManager().lost_folder_path + this._id + ".schematic";
+			this._path = Const.LOST_FOLDER_PATH + this._id + ".schematic";
 	}
 	
 	public Treasure( TreasureType type, ConfigurationSection section ){
@@ -60,9 +61,9 @@ public abstract class Treasure implements Serializable {
 		this._id =	UUID.randomUUID().toString();
 		this._conf	= section;
 		if( type.equals(TreasureType.CHEST ) )
-			this._path = BooTreasure.get_instance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
+			this._path = BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
-			this._path = BooTreasure.get_instance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".schematic";
+			this._path = BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".schematic";
 		this._name 				= this._conf.getString( NAME );
 		this._pattern 			= this._conf.getString( CRON_PATTERN );		
 		this._duration 			= this._conf.getLong( DURATION );
@@ -77,9 +78,9 @@ public abstract class Treasure implements Serializable {
 		this._infinite 			= false;
 		this._found 			= false;
 		if( type.equals(TreasureType.CHEST ) )
-			this._path = BooTreasure.get_treasuresManager().lost_folder_path + this._id + ".chest";
+			this._path = Const.LOST_FOLDER_PATH + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
-			this._path = BooTreasure.get_treasuresManager().lost_folder_path + this._id + ".schematic";			
+			this._path = Const.LOST_FOLDER_PATH + this._id + ".schematic";			
 	}
 	
 	public Treasure( TreasureType type, File file ){

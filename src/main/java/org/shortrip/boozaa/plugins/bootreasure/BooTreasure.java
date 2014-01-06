@@ -24,14 +24,14 @@ import lombok.Getter;
 public class BooTreasure  extends JavaPlugin{
 
 	
-	@Getter private static BooTreasure _instance;
-	@Getter private static MyConfigs _configManager;
-	@Getter private static MyCommands _commandsManager;
-	@Getter private static MyCron _cronManager;
-	@Getter private static MyCache _cacheManager;
-	@Getter private static MyEvents _eventsManager;
-	@Getter private static MyPermissions _permissionsManager;
-	@Getter private static MyTreasuresManager _treasuresManager;
+	@Getter private static BooTreasure instance;
+	@Getter private static MyConfigs configManager;
+	@Getter private static MyCommands commandsManager;
+	@Getter private static MyCron cronManager;
+	@Getter private static MyCache cacheManager;
+	@Getter private static MyEvents eventsManager;
+	@Getter private static MyPermissions permissionsManager;
+	@Getter private static MyTreasuresManager treasuresManager;
 	
 	
 	
@@ -40,16 +40,16 @@ public class BooTreasure  extends JavaPlugin{
 				
 		try {
 			
-			_instance = this;
+			instance = this;
 			
 			// Instanciate system
-			_configManager 			= new MyConfigs(this);
-			_commandsManager 		= new MyCommands(this);
-			_cronManager 			= new MyCron(this);
-			_cacheManager 			= new MyCache(this);
-			_eventsManager			= new MyEvents(this);
-			_permissionsManager 	= new MyPermissions(this);
-			_treasuresManager 		= new MyTreasuresManager(this);
+			configManager 			= new MyConfigs(this);
+			commandsManager 		= new MyCommands(this);
+			cronManager 			= new MyCron(this);
+			cacheManager 			= new MyCache(this);
+			eventsManager			= new MyEvents(this);
+			permissionsManager 		= new MyPermissions(this);
+			treasuresManager 		= new MyTreasuresManager(this);
 			
 			// MyPlayerListener
 			getServer().getPluginManager().registerEvents( new MyPlayerListener(this), this );
@@ -83,7 +83,7 @@ public class BooTreasure  extends JavaPlugin{
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 		Boolean result = true;
 		try {
-			result = _commandsManager.handleCommand(sender, command, commandLabel, args);
+			result = commandsManager.handleCommand(sender, command, commandLabel, args);
 		} catch (CommandHandlerException e) {
 			// SEVERE -> disable plugin
 			Log.severe("onCommand() fatal error: CommandHandlerException", e.getThrowable());
@@ -95,20 +95,20 @@ public class BooTreasure  extends JavaPlugin{
 	@Override
 	public void onDisable() {
 		
-		if( _configManager != null)
-			_configManager.onDisable();
-		if( _commandsManager != null)
-			_commandsManager.onDisable();
-		if( _cronManager != null)
-			_cronManager.onDisable();
-		if( _cacheManager != null)
-			_cacheManager.onDisable();
-		if( _eventsManager != null)
-			_eventsManager.onDisable();
-		if( _permissionsManager != null)
-			_permissionsManager.onDisable();
-		if( _treasuresManager != null)
-			_treasuresManager.onDisable();
+		if( configManager != null)
+			configManager.onDisable();
+		if( commandsManager != null)
+			commandsManager.onDisable();
+		if( cronManager != null)
+			cronManager.onDisable();
+		if( cacheManager != null)
+			cacheManager.onDisable();
+		if( eventsManager != null)
+			eventsManager.onDisable();
+		if( permissionsManager != null)
+			permissionsManager.onDisable();
+		if( treasuresManager != null)
+			treasuresManager.onDisable();
 		
 	}
 	

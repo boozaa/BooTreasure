@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 import lombok.Getter;
@@ -14,15 +15,6 @@ import lombok.Setter;
 
 public class MyPermissions extends Manager {
 
-	private final String PLAYER_CAN_ALL 			= "bootreasure.all";
-	private final String PLAYER_CAN_FIND 			= "bootreasure.treasure.find";
-	private final String PLAYER_CAN_BE_INFORMED 	= "bootreasure.treasure.informed";
-	
-	private final String ADMIN_CAN_ALL 				= "bootreasure.admin.all";
-	private final String ADMIN_CAN_CREATE 			= "bootreasure.admin.create";
-	private final String ADMIN_CAN_EDIT 			= "bootreasure.admin.edit";
-	private final String ADMIN_CAN_DELETE 			= "bootreasure.admin.delete";
-	
 	
 	private Plugin plugin;
 	private Permission perms;
@@ -47,7 +39,7 @@ public class MyPermissions extends Manager {
 
 	private Boolean playerCanAll( Player player ){
 		if( useVault ){
-			return perms.playerHas(player, PLAYER_CAN_ALL);
+			return perms.playerHas(player, Const.PERMISSIONS_PLAYER_CAN_ALL);
 		}
 		return true;
 	}
@@ -57,7 +49,7 @@ public class MyPermissions extends Manager {
 			if( playerCanAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, PLAYER_CAN_FIND);
+				return perms.playerHas(player, Const.PERMISSIONS_PLAYER_CAN_FIND);
 			}
 		}
 		return true;
@@ -69,7 +61,7 @@ public class MyPermissions extends Manager {
 			if( playerCanAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, PLAYER_CAN_FIND);
+				return perms.playerHas(player, Const.PERMISSIONS_PLAYER_CAN_FIND);
 			}
 		}
 		return true;				
@@ -80,7 +72,7 @@ public class MyPermissions extends Manager {
 			if( playerCanAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, PLAYER_CAN_BE_INFORMED);
+				return perms.playerHas(player, Const.PERMISSIONS_PLAYER_CAN_BE_INFORMED);
 			}	
 		}
 		return true;
@@ -92,7 +84,7 @@ public class MyPermissions extends Manager {
 			if( playerCanAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, PLAYER_CAN_BE_INFORMED);
+				return perms.playerHas(player, Const.PERMISSIONS_PLAYER_CAN_BE_INFORMED);
 			}	
 		}
 		return true;
@@ -102,7 +94,7 @@ public class MyPermissions extends Manager {
 	
 	private Boolean playerAdminAll( Player player ){
 		if( useVault ){
-			return perms.playerHas(player, ADMIN_CAN_ALL);
+			return perms.playerHas(player, Const.PERMISSIONS_ADMIN_CAN_ALL);
 		}
 		return true;		
 	}
@@ -112,7 +104,7 @@ public class MyPermissions extends Manager {
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, ADMIN_CAN_CREATE);
+				return perms.playerHas(player, Const.PERMISSIONS_ADMIN_CAN_CREATE);
 			}
 		}
 		return true;				
@@ -124,7 +116,7 @@ public class MyPermissions extends Manager {
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, ADMIN_CAN_CREATE);
+				return perms.playerHas(player, Const.PERMISSIONS_ADMIN_CAN_CREATE);
 			}
 		}
 		return true;				
@@ -135,7 +127,7 @@ public class MyPermissions extends Manager {
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, ADMIN_CAN_EDIT);
+				return perms.playerHas(player, Const.PERMISSIONS_ADMIN_CAN_EDIT);
 			}
 		}
 		return true;				
@@ -147,7 +139,7 @@ public class MyPermissions extends Manager {
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, ADMIN_CAN_EDIT);
+				return perms.playerHas(player, Const.PERMISSIONS_ADMIN_CAN_EDIT);
 			}
 		}
 		return true;				
@@ -158,7 +150,7 @@ public class MyPermissions extends Manager {
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, ADMIN_CAN_DELETE);
+				return perms.playerHas(player, Const.PERMISSIONS_ADMIN_CAN_DELETE);
 			}
 		}
 		return true;				
@@ -170,7 +162,7 @@ public class MyPermissions extends Manager {
 			if( playerAdminAll(player) ){
 				return true;
 			}else{
-				return perms.playerHas(player, ADMIN_CAN_DELETE);
+				return perms.playerHas(player, Const.PERMISSIONS_ADMIN_CAN_DELETE);
 			}
 		}
 		return true;				
