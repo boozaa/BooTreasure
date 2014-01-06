@@ -2,7 +2,6 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
@@ -15,7 +14,7 @@ import java.io.File;
 public class MyConfigs extends Manager {
 
 	private Plugin plugin;
-	@Getter private static Map<String, Configuration> configs;
+	private static Map<String, Configuration> configs;
 	
 	
 	public MyConfigs(BooTreasure booTreasure) throws ConfigNullFileException {
@@ -78,7 +77,7 @@ public class MyConfigs extends Manager {
         return configs.containsKey(fileName);
     }
 
-	    /**
+	/**
 	* Loads a files configuration into Memory
 	*
 	* @param plugin Plugin to load file from if fileName does not exist in
@@ -105,7 +104,7 @@ public class MyConfigs extends Manager {
         }
     }
 
-	    /**
+	/**
 	* Gets the FileConfiguration for a specified file
 	*
 	* @param fileName File to load data from
@@ -118,7 +117,7 @@ public class MyConfigs extends Manager {
         return null;
     }
 
-	    /**
+	/**
 	* Updates the FileConfiguration at the given path. If path already exists
 	* this will return false.
 	*
@@ -137,7 +136,7 @@ public class MyConfigs extends Manager {
         return false;
     }
 
-	    /**
+	/**
 	* Sets data at any given path. If path already exists it will be over
 	* written.
 	*
@@ -152,7 +151,7 @@ public class MyConfigs extends Manager {
     }
 
 
-	    /**
+	/**
 	* Removes a path from the FileConfiguration.
 	*
 	* @param fileName File to update
@@ -164,7 +163,7 @@ public class MyConfigs extends Manager {
         }
     }
 
-	    /**
+	/**
 	* Checks if a file has a path.
 	*
 	* @param fileName File to check
@@ -178,7 +177,7 @@ public class MyConfigs extends Manager {
         return false;
     }
 
-	    /**
+	/**
 	* Reload the config from the given Plugin.
 	*
 	* @param plugin Plugin to get the File from
@@ -198,7 +197,7 @@ public class MyConfigs extends Manager {
         }
     }
 
-	    /**
+	/**
 	* Save the config for the given plugin
 	*
 	* @param plugin Plugin dir to save to the file to
@@ -216,6 +215,12 @@ public class MyConfigs extends Manager {
     }
 	
 	
+	@Override
+	public void onDisable() {
+		configs = null;
+	}
+	
+	
 	
 	
 
@@ -227,12 +232,5 @@ public class MyConfigs extends Manager {
 	}
 
 
-
-
-
-	@Override
-	public void onDisable() {
-		configs = null;
-	}
 	
 }
