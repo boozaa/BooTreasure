@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Command;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.CommandArgs;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Completer;
-import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create.ChestCreateProcedure;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestCreateProcedure;
 
 
 public class CommandParser {
@@ -32,12 +32,13 @@ public class CommandParser {
 	@Command(name = "bootreasure.chest", aliases = { "bootreasure.chest" }, 
 			description = "This is bootreasure command", usage = "This is how you use it")
 	public void chestMenu(final CommandArgs args) {
+		
 		ChestMenu menu = new ChestMenu("Chest Treasure Menu", 9, new ChestMenu.OptionClickEventHandler() {
 	        @Override
 	        public void onOptionClick(ChestMenu.OptionClickEvent event) {
 	            String action = event.getName();
 	            if( action.equalsIgnoreCase("Create") ){
-	            	//Bukkit.getScheduler().runTask(plugin, new ChestCreateProcedure( plugin, (Player) args.getSender() ) );
+	            	Bukkit.getScheduler().runTask(plugin, new ChestCreateProcedure( plugin, (Player) args.getSender() ) );
 	            	event.setWillClose(true);
 				}	            
 	        }

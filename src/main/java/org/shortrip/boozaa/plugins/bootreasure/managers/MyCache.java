@@ -3,6 +3,7 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cache.Cache;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.Treasure;
 
 import lombok.Getter;
 
@@ -23,20 +24,24 @@ public class MyCache extends Manager {
 		return this._treasureCache.exists(name);
 	}
 	
-	public void add( String name, Object obj ) throws CacheExistException{
-		if( !exists(name) ){
-			this._treasureCache.add(name, obj);
+	public void add( String id, Object obj ) throws CacheExistException{
+		if( !exists(id) ){
+			this._treasureCache.add(id, obj);
 		}else{
-			throw new CacheExistException("The object called " + name + " already exists in cache");
+			throw new CacheExistException("The treasure " + id + " already exists in cache");
 		}
 			
 	}
+	
+	public Treasure get( String id ){
+		return (Treasure)this._treasureCache.getObject(id);
+	}
 
-	public void remove( String name ) throws CacheNotExistException{
-		if( exists(name) ){
-			this._treasureCache.remove(name);
+	public void remove( String id ) throws CacheNotExistException{
+		if( exists(id) ){
+			this._treasureCache.remove(id);
 		}else{
-			throw new CacheNotExistException("The object called " + name + " already exists in cache");
+			throw new CacheNotExistException("The treasure " + id + " already exists in cache");
 		}
 			
 	}

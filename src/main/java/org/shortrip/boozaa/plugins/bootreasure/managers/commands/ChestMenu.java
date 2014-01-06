@@ -2,6 +2,8 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.commands;
 
 import java.util.Arrays;
 
+import lombok.Getter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -88,9 +90,9 @@ public class ChestMenu implements Listener {
     }
     
     public class OptionClickEvent {
-        private Player player;
-        private int position;
-        private String name;
+        @Getter private Player player;
+        @Getter private int position;
+        @Getter private String name;
         private boolean close;
         private boolean destroy;
        
@@ -101,19 +103,7 @@ public class ChestMenu implements Listener {
             this.close = true;
             this.destroy = false;
         }
-       
-        public Player getPlayer() {
-            return player;
-        }
-       
-        public int getPosition() {
-            return position;
-        }
-       
-        public String getName() {
-            return name;
-        }
-       
+              
         public boolean willClose() {
             return close;
         }

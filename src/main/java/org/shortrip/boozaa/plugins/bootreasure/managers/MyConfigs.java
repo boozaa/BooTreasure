@@ -2,10 +2,15 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.managers.MyCache.CacheNotExistException;
 import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
+import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 import java.io.File;
@@ -63,6 +68,36 @@ public class MyConfigs extends Manager {
 		
 	}
 	
+	
+	public void deleteTreasure( String name ) throws CacheNotExistException{
+		
+		Configuration config = get("treasures.yml");
+		Set<String> nodes = config.getKeys("treasures");
+		for( String treasureId : nodes ){
+			String path = "treasures." + treasureId;
+			if( config.contains( path + "." + name ) ){
+				
+				// This is the treasure that we must delete
+				ConfigurationSection section = config.getConfigurationSection( path );
+				
+				// Retrieve the CronTask associated to this treasure
+				if( BooTreasure.getCronManager().get_taskCollector().contains(treasureId) ){
+					BooTreasure.getCronManager().get_taskCollector().removeTaskById(treasureId);
+				}
+				
+				// Remove this treasure from cache
+				if( BooTreasure.getCacheManager().exists(treasureId) )
+					BooTreasure.getCacheManager().remove(treasureId);
+				
+				// Delete this ConfigurationSection from treasures.yml
+				section = null;
+				config.save();
+				config.load();
+				
+			}
+		}
+		
+	}
 	
 	
 	

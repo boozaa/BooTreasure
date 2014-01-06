@@ -36,6 +36,16 @@ public abstract class CronTask extends Task {
     private String id;
     
     
+
+
+	public CronTask(String id, String pattern){
+    	// If pattern is valid add the task to the list
+    	if( SchedulingPattern.validate(pattern) ){
+    		this.id = id;
+    		this.cronPattern = new SchedulingPattern(pattern);
+    	}    	
+    }
+
     public void setId(String id) {
 		this.id = id;
 	}
@@ -43,16 +53,6 @@ public abstract class CronTask extends Task {
     public String get_Id() {
     	return id;
 	}
-
-
-	public CronTask(String name, String pattern){
-    	// If pattern is valid add the task to the list
-    	if( SchedulingPattern.validate(pattern) ){
-    		this.name = name;
-    		this.cronPattern = new SchedulingPattern(pattern);
-    	}    	
-    }
-
     
     public String getName(){
     	return this.name;

@@ -16,8 +16,8 @@ import lombok.Getter;
 public class MyCron extends Manager {
 
 	// The Cron4J Scheduler instance
-	@Getter private static CronScheduler _scheduler;
-	@Getter private static CronTaskCollector _taskCollector;
+	@Getter private CronScheduler _scheduler;
+	@Getter private CronTaskCollector _taskCollector;
 	
 
 	public MyCron(BooTreasure booTreasure) {

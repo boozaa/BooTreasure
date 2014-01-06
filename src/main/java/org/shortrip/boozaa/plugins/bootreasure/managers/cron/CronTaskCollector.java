@@ -46,7 +46,21 @@ public class CronTaskCollector implements TaskCollector {
     }
     
     
+    public Boolean contains( String id ){
+    	for( CronTask t : this.tasks ){
+    		if( t.get_Id().equalsIgnoreCase(id) )
+    			return true;
+    	}
+    	return false;
+    }
     
+    public CronTask getTask( String id ){
+    	for( CronTask t : this.tasks ){
+    		if( t.get_Id().equalsIgnoreCase(id) )
+    			return t;
+    	}
+    	return null;
+    }
     
     
     public void addTask(CronTask task){

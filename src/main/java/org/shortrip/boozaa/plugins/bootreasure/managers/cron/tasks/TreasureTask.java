@@ -16,7 +16,7 @@ public class TreasureTask extends CronTask {
 	private Treasure treasure;
 	
 	public TreasureTask(Plugin plugin, Treasure treasure) {
-		super("Treasure", treasure.get_pattern());
+		super(treasure.get_id(), treasure.get_pattern());
 		this.plugin = plugin;
 		this.treasure = treasure;
 	}

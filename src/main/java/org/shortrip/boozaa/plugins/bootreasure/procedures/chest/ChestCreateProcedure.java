@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure.procedures.chest.create;
+package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +73,7 @@ public class ChestCreateProcedure implements Runnable {
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskName())
-		            .withEscapeSequence( BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.end") )
+		            .withEscapeSequence( END )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
 		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
