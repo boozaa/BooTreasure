@@ -7,13 +7,13 @@ import lombok.Synchronized;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.LocationUtils;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.AbstractBlockCondition;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.BasicBlockCondition;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.TypeBlockCondition;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -28,6 +28,8 @@ public class BlockSearcher {
 		
 		List<AbstractBlockCondition> conditions = new ArrayList<AbstractBlockCondition>();
 		
+		// Not chest and air
+		conditions.add(new BasicBlockCondition() );
 			
 		// places conditions, block allowed
 		Boolean hasPlacesMaterials = false;	
@@ -155,13 +157,6 @@ public class BlockSearcher {
 	}
 
 
-
-	private static Boolean validSupport(Block block){
-		
-		
-		return true;
-	}
-	
 	
 	/*
 	@Synchronized

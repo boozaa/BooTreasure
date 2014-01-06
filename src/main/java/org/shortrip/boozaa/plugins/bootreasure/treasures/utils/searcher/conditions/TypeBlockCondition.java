@@ -28,10 +28,8 @@ public class TypeBlockCondition extends AbstractBlockCondition {
 	
 	
 	@Override
-	public Boolean isBlockValid(Block block) {
-		
-		return !allowedBlocks.contains( block.getRelative(BlockFace.DOWN)) && block.getType() != Material.CHEST && block.getType() != Material.AIR;
-		
+	public Boolean isBlockValid(Block block) {		
+		return !allowedBlocks.contains( block.getRelative(BlockFace.DOWN) );		
 	}
 
 }
