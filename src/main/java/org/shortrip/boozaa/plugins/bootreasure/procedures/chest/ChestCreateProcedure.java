@@ -124,8 +124,7 @@ public class ChestCreateProcedure implements Runnable {
 		    conv.begin();
 		
 		}catch (Exception e){
-			Log.severe("An error occured on ChestCreateProcedure", 
-					new ChestCreateProcedureException("An error occured on ChestCreateProcedure", e));			
+			Log.severe("An error occured on ChestCreateProcedure", e);			
 		}
 	
 		
