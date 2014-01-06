@@ -79,7 +79,7 @@ public class BlockSearcher {
 	}
 	
 	
-	
+	@Synchronized
 	private static Block findGoodSpawn(World world, Boolean onlyOnSurface, List<AbstractBlockCondition> conditions) {
 		
 		Chunk[] chunks = world.getLoadedChunks();

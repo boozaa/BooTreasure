@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -170,38 +171,50 @@ public class TreasureChest extends Treasure {
 	@Override
 	public void disappear() {
 		
-		Log.debug("Trying to obtain block from world(" + this._world + ") and coordinates(" + this._x + " " + this._y + " " + this._z + ")");
-		
-		if( this._block == null ){	
-			// Get the block with world and coordinates
-			this._block = Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
-		}
-		
-		if( this._block.getState().getType().equals(Material.CHEST) ){
-			
-			//try{
-				
-				Chest chest = (Chest)this._block.getState();
-				
-				// If preserveContent we keep the new chest's inventory
-				if( this._preservecontent ){
-					this._inventory = chest.getInventory().getContents();
-				}				
-				
-				// Clear its inventory before AIR
-				chest.getInventory().clear();
-				
-			//}catch( Exception e){
-			//	Log.warning("Error on disappear() -> " + e);
-			//}						
-						
-		}		
-		
-		this._block.setType(Material.AIR);
+		try{
 					
-		// Remove unecessary serialization representation
-		this.deleteSerializedFile();				
-		this._found = false;
+			Log.debug("Trying to obtain block from world(" + this._world + ") and coordinates(" + this._x + " " + this._y + " " + this._z + ")");
+			
+			if( this._block == null ){	
+				// Get the block with world and coordinates
+				this._block = Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
+			}
+			
+			if( this._block.getState().getType().equals(Material.CHEST)  ){
+				
+				if( this._block.getState() instanceof Chest ){
+					Chest chest = (Chest)this._block.getState();
+					// If preserveContent we keep the new chest's inventory
+					if( this._preservecontent ){
+						this._inventory = chest.getInventory().getContents();
+					}				
+					
+					// Clear its inventory before AIR
+					chest.getInventory().clear();	
+					
+				}else if( this._block.getState() instanceof DoubleChest ){
+					DoubleChest chest = (DoubleChest)this._block.getState();
+					// If preserveContent we keep the new chest's inventory
+					if( this._preservecontent ){
+						this._inventory = chest.getInventory().getContents();
+					}				
+					
+					// Clear its inventory before AIR
+					chest.getInventory().clear();
+				}									
+							
+			}		
+			
+			this._block.setType(Material.AIR);
+						
+			// Remove unecessary serialization representation
+			this.deleteSerializedFile();				
+			this._found = false;
+			
+		}catch( Exception e){
+			Log.warning("Can't cast the block target as a chest, transform it into AIR");
+			this._block.setType(Material.AIR);
+		}
 		
 	}
 	
