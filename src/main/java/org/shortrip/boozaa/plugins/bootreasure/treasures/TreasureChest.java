@@ -183,6 +183,7 @@ public class TreasureChest extends Treasure {
 			if( this._block.getState().getType().equals(Material.CHEST)  ){
 				
 				if( this._block.getState() instanceof Chest ){
+					Log.debug("The target block is a Chest");
 					Chest chest = (Chest)this._block.getState();
 					// If preserveContent we keep the new chest's inventory
 					if( this._preservecontent ){
@@ -193,6 +194,7 @@ public class TreasureChest extends Treasure {
 					chest.getInventory().clear();	
 					
 				}else if( this._block.getState() instanceof DoubleChest ){
+					Log.debug("The target block is a DoubleChest");
 					DoubleChest chest = (DoubleChest)this._block.getState();
 					// If preserveContent we keep the new chest's inventory
 					if( this._preservecontent ){
