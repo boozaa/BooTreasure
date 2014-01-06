@@ -1,8 +1,6 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.util.HashMap;
-import java.util.List;
-
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cache.Cache;

@@ -10,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCache.CacheNotExistException;
 import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
-import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 import java.io.File;
@@ -78,7 +77,7 @@ public class MyConfigs extends Manager {
 			if( config.contains( path + "." + name ) ){
 				
 				// This is the treasure that we must delete
-				ConfigurationSection section = config.getConfigurationSection( path );
+				//ConfigurationSection section = config.getConfigurationSection( path );
 				
 				// Retrieve the CronTask associated to this treasure
 				if( BooTreasure.getCronManager().get_taskCollector().contains(treasureId) ){
@@ -90,7 +89,7 @@ public class MyConfigs extends Manager {
 					BooTreasure.getCacheManager().remove(treasureId);
 				
 				// Delete this ConfigurationSection from treasures.yml
-				section = null;
+				//section = null;
 				config.save();
 				config.load();
 				

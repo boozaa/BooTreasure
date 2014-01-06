@@ -76,7 +76,7 @@ public class ChestCreateProcedure implements Runnable {
 		            .withEscapeSequence( END )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
+		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
 		            }).withInitialSessionData(map).withLocalEcho(true)
 		            .buildConversation(this.player);
 			
@@ -286,7 +286,7 @@ public class ChestCreateProcedure implements Runnable {
 	        	// On lance le WaitingEndPrompt
 	    		return new WaitingEndPrompt(
 	    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.waitingend").replaceAll("&", "§"), 
-	    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.success").replaceAll("&", "§"));
+	    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.success").replaceAll("&", "§"));
 			}
 	    	
 	    	// On boucle pour attendre les prochains blocks

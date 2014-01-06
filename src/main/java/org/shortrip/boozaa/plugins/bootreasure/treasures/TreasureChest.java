@@ -127,33 +127,43 @@ public class TreasureChest extends Treasure {
 	@Override
 	public void appear() {
 		
-		// Search for empty good block
-		this._block = BlockSearcher.findGoodBlock(this);
+		try{
+			
+			// Search for empty good block
+			this._block = BlockSearcher.findGoodBlock(this);
+			
+			// TODO: later checking, perhaps useless
+			if( this._block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
+			
+			// Store coordinates
+			this._x = _block.getLocation().getBlockX();
+			this._y = _block.getLocation().getBlockY();
+			this._z = _block.getLocation().getBlockZ();
+			
+			// Make this block as chest
+			this._block.setType(Material.CHEST);
+			Chest chest = (Chest)this._block.getState();
+			
+			// Give own inventory to this chest
+			chest.getInventory().setContents(this._inventory);
+			
+			// Metadata store to distinguish chest as ChestTreasure
+			chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
+			
+			// Serialization and lost treasure will be deleted on next start
+			this.serialize();		
+					
+			// Delayed task to disappear on duration fixed on bukkit synchron way
+			BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
 		
-		// TODO: later checking, perhaps useless
-		if( this._block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
+		}catch( Exception e){
 		
-		// Store coordinates
-		this._x = _block.getLocation().getBlockX();
-		this._y = _block.getLocation().getBlockY();
-		this._z = _block.getLocation().getBlockZ();
+			// Error relaunch appear
+			Log.debug("Error during treasure " + this._name + " appear(), retrying...");
+			this.appear();
+			
+		}
 		
-		// Make this block as chest
-		this._block.setType(Material.CHEST);
-		Chest chest = (Chest)this._block.getState();
-		
-		// Give own inventory to this chest
-		chest.getInventory().setContents(this._inventory);
-		
-		// Metadata store to distinguish chest as ChestTreasure
-		chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
-		
-		// Serialization and lost treasure will be deleted on next start
-		this.serialize();		
-				
-		// Delayed task to disappear on duration fixed on bukkit synchron way
-		BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
-				
 	}
 	
 	

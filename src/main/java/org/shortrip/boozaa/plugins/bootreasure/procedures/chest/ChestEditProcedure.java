@@ -1,8 +1,6 @@
 package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.Getter;
@@ -92,7 +90,7 @@ public class ChestEditProcedure implements Runnable {
 		            .withEscapeSequence( END )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.edit.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
+		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.edit.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
 		            }).withInitialSessionData(map).withLocalEcho(true)
 		            .buildConversation(this.player);
 			
@@ -127,26 +125,31 @@ public class ChestEditProcedure implements Runnable {
 	 */
 	public class AskWhatTreasure extends ValidatingPrompt {
 
-		private List<String> validNames = new ArrayList<String>();
+		private Map<Integer,String> validNames = new HashMap<Integer,String>();
 		
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
 			build.append( BooTreasure.getConfigManager().get("messages.yml").getString("locales.edit.chest.ask.listalltreasures") );
 			build.append("\n");
+			int i = 1;
 			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
 				String id = entry.getKey();
 				Treasure tr = (Treasure) entry.getValue();
-				build.append(tr.get_name() + "\n");
-				validNames.add( tr.get_name() );
+				build.append( i + " - " + tr.get_name() + "\n" );
+				validNames.put( i, tr.get_name() );
+				i++;
 			}
 			return build.toString().replaceAll("&", "§");
 		}
 		
 		@Override
 		protected boolean isInputValid(ConversationContext context, String in) {
-			if( validNames.contains( in ) )
-				return true;
+			for( Entry<Integer, String> entry : validNames.entrySet() ){
+				if( in.equalsIgnoreCase( String.valueOf( entry.getKey() ) ) || in.equalsIgnoreCase( entry.getValue() ) ){
+					return true;
+				}
+			}
 			return false;
 		}
 
