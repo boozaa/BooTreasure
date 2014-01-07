@@ -45,37 +45,8 @@ public class BlockSearcher {
 		Log.debug( "hasPlacesMaterials: " + hasPlacesMaterials );
 		
 		
-		
 		return findGoodSpawn(world, onlyOnSurface, conditions);
-		
-		
-		
-		/*
-		// Treasure on surface without allowed ids fixed
-		if( treasure.get_onlyonsurface() && !hasPlacesMaterials ){
-			return findGoodSpawn(world, true);
-		}
-		
-		
-		// Treasure on surface with allowed ids fixed
-		if( treasure.get_onlyonsurface() && hasPlacesMaterials ){
-			return findGoodSpawn(world, treasure.get_placesMaterials(), true);
-		}
-		
-		
-		// Treasure without allowed ids fixed
-		if( !treasure.get_onlyonsurface() && !hasPlacesMaterials ){
-			return findGoodSpawn(world, false);
-		}
-		
-		
-		// Treasure with allowed ids fixed
-		if( !treasure.get_onlyonsurface() && hasPlacesMaterials ){
-			return findGoodSpawn(world, treasure.get_placesMaterials(), false);
-		}
-		*/
-		//return null;
-		
+				
 	}
 	
 	
@@ -111,40 +82,6 @@ public class BlockSearcher {
 		
 	}
 
-
-	/*
-	@Synchronized
-	private static Block findGoodSpawn(World world, Boolean onsurface){
-		
-		Chunk[] chunks = world.getLoadedChunks();
-		Block block = null;
-		Random random = new Random();
-		// On prends un chunk au hasard
-		if( chunks.length > 0 ){
-			
-			//do{	
-			do{
-				Chunk chunk = chunks[random.nextInt(chunks.length)];
-				// On prend ces points au hasard
-				int X = chunk.getX() * 16 + random.nextInt(16);
-				int Z = chunk.getZ() * 16 + random.nextInt(16);
-				int Y;
-				if( onsurface ){
-					Y = world.getHighestBlockYAt(new Location(world, X, random.nextInt(world.getMaxHeight()), Z));
-				}else{
-					Y = random.nextInt(world.getMaxHeight());
-				}				
-				block = LocationUtils.getNextFreeSpace(world.getBlockAt(new Location(world, X, Y, Z)), BlockFace.UP);
-			}while( !validSupport(block) );
-						
-			//}while( !Core.getWG().canSpawnHere(block) );
-			
-		}
-		
-		Log.debug("Block found randomly in " + world + ": " + block.getX() + " " + block.getY() + " " + block.getZ());
-		return block;
-	}
-	*/
 	
 	
 	private static boolean validSupport( List<AbstractBlockCondition> conditions, Block block ) {
@@ -158,39 +95,6 @@ public class BlockSearcher {
 
 
 	
-	/*
-	@Synchronized
-	private static Block findGoodSpawn(World world, List<Material> allowedids, Boolean onsurface){
-		
-		Chunk[] chunks = world.getLoadedChunks();		
-		Block block = null;
-		Random random = new Random();
-		// On prends un chunk au hasard
-		if( chunks.length > 0 ){
-			
-			//do{	
-			do{
-				Chunk chunk = chunks[random.nextInt(chunks.length)];
-				// On prend ces points au hasard
-				int X = chunk.getX() * 16 + random.nextInt(16);
-				int Z = chunk.getZ() * 16 + random.nextInt(16);
-				int Y;
-				if( onsurface ){
-					Y = world.getHighestBlockYAt(new Location(world, X, random.nextInt(world.getMaxHeight()), Z));
-				}else{
-					Y = random.nextInt(world.getMaxHeight());
-				}
-				block = LocationUtils.getNextFreeSpace(world.getBlockAt(new Location(world, X, Y, Z)), BlockFace.UP);
-			}while( !allowedids.contains( block.getRelative(BlockFace.DOWN)) && block.getType() != Material.CHEST && block.getType() != Material.AIR );
-						
-			//}while( !Core.getWG().canSpawnHere(block) );
-			
-		}
-		
-		Log.debug("Block found randomly in " + world + ": " + block.getX() + " " + block.getY() + " " + block.getZ());
-		return block;
-	}
-	*/
 	
 	/*
 	private static Boolean validSupport(Block block){
