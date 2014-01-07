@@ -39,7 +39,7 @@ public abstract class Treasure implements Serializable {
 	private transient final String DEFAULT_DISAPPEAR 		= ChatColor.AQUA + "Un trésor vient de disparaître";
 	@Getter protected transient TreasureType _type;
 	@Getter @Setter protected transient ConfigurationSection _conf = null;
-	@Getter protected Boolean _infinite=true, _onlyonsurface=true, _found=true;	
+	@Getter protected Boolean _infinite=true, _onlyonsurface=true, _found=false;	
 	@Getter @Setter protected transient String _id, _pattern, _taskId;
 	@Getter @Setter protected transient Long _duration;
 	

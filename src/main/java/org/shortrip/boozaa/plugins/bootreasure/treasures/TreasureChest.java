@@ -141,52 +141,21 @@ public class TreasureChest extends Treasure {
 			this._x = _block.getLocation().getBlockX();
 			this._y = _block.getLocation().getBlockY();
 			this._z = _block.getLocation().getBlockZ();
+							
+			this._block.setType(Material.CHEST);
+			Chest chest = (Chest)this._block.getState();
 			
-			// Make this block as chest
-			if( this._block.getState().getType().equals(Material.CHEST)  ){
-				
-				this._block.setType(Material.CHEST);
-				Chest chest = (Chest)this._block.getState();
-				
-				// Give own inventory to this chest
-				chest.getInventory().setContents(this._inventory);
-				
-				// Metadata store to distinguish chest as ChestTreasure
-				chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
-				
-				// Serialization and lost treasure will be deleted on next start
-				this.serialize();		
-						
-				// Delayed task to disappear on duration fixed on bukkit synchron way
-				BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
-				
-			}else if( this._block.getState() instanceof DoubleChest ){
-				
-				this._block.setType(Material.CHEST);
-				DoubleChest chest = (DoubleChest)this._block.getState();
-				
-				// Give own inventory to this chest
-				Log.debug("Inventory: " + "\n" + this._inventory.toString() );
-				if( (this._inventory.length%9 == 0) && (this._inventory.length <= 54) ){
-					chest.getInventory().setContents(this._inventory);
-				}else{
-					Log.warning("The inventory's content is not multiple of 9 and max 54 -> " + this._inventory.length);
-				}
-				
-				
-				// Metadata store to distinguish chest as ChestTreasure
-				((Metadatable) chest).setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
-				
-				// Serialization and lost treasure will be deleted on next start
-				this.serialize();		
-						
-				// Delayed task to disappear on duration fixed on bukkit synchron way
-				BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
-				
-			}
+			// Give own inventory to this chest
+			chest.getInventory().setContents(this._inventory);
 			
+			// Metadata store to distinguish chest as ChestTreasure
+			chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
 			
-			
+			// Serialization and lost treasure will be deleted on next start
+			this.serialize();		
+					
+			// Delayed task to disappear on duration fixed on bukkit synchron way
+			BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
 			
 		
 		}catch( Exception e){
@@ -194,6 +163,7 @@ public class TreasureChest extends Treasure {
 			// Error relaunch appear
 			Log.warning("Error during treasure " + this._name + " appear(), retrying...");
 			Log.warning( e.getLocalizedMessage() );
+			this._block.setType(Material.AIR);
 			this.appear();
 			
 		}finally{		
@@ -255,7 +225,7 @@ public class TreasureChest extends Treasure {
 			
 		}finally{		
 			
-			this._block.setType(Material.AIR);
+			//this._block.setType(Material.AIR);
 			
 		}
 		

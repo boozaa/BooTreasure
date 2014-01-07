@@ -1,6 +1,11 @@
 package org.shortrip.boozaa.plugins.bootreasure.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
+import org.bukkit.craftbukkit.libs.jline.internal.Log;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -8,6 +13,9 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestOpenEvent;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 
 
 
@@ -37,22 +45,19 @@ public class MyPlayerListener implements Listener {
 	@EventHandler
     public void onInventoryOpenEvent(InventoryOpenEvent e){
         
-		/*
+		
 		//if (e.getInventory().getHolder() instanceof Chest || e.getInventory().getHolder() instanceof DoubleChest){
 		if ( e.getInventory().getHolder() instanceof Chest || e.getInventory().getHolder() instanceof DoubleChest ){    
         	// On vérifie si metadata BooTreasure
         	Chest chest = (Chest) e.getInventory().getHolder();        	
         	if( chest.hasMetadata("BooTreasure-Chest") ){        		
     			String id = chest.getMetadata("BooTreasure-Chest").get(0).asString();
-    			final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);
     			// Call the event
-    			if( t != null ){
-    				Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
-    				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestOpenEvent(this.plugin, e.getPlayer(), t));
-    			}    			
+				Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
+				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestOpenEvent(this.plugin, (Player) e.getPlayer(), id));			
         	}        	
         }
-        */
+        
     }
 	
 	
