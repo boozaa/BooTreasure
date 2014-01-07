@@ -127,12 +127,12 @@ public class TreasureChest extends Treasure {
 
 	@Override
 	public void appear() {
-		
+				
 		try{
 			
 			// Search for empty good block
 			this._block = BlockSearcher.findGoodBlock(this);
-			
+						
 			// TODO: later checking, perhaps useless
 			if( this._block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
 			
@@ -156,11 +156,14 @@ public class TreasureChest extends Treasure {
 					
 			// Delayed task to disappear on duration fixed on bukkit synchron way
 			BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
+			
 		
 		}catch( Exception e){
 		
 			// Error relaunch appear
-			Log.debug("Error during treasure " + this._name + " appear(), retrying...");
+			this._block.setType(Material.AIR);
+			Log.warning("Error during treasure " + this._name + " appear(), retrying...");
+			Log.warning( e.getLocalizedMessage() );
 			this.appear();
 			
 		}
