@@ -7,6 +7,7 @@ import lombok.Synchronized;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -94,6 +95,10 @@ public class BlockSearcher {
 			return false;
 		
 		
+		if( chestSideBySide(block) )
+			return false;
+		
+		
 		for( AbstractBlockCondition c : conditions ){
 			if( !c.isBlockValid(block) ){
 				return false;
@@ -104,6 +109,30 @@ public class BlockSearcher {
 	}
 
 
+	
+	private static Boolean chestSideBySide(Block block){
+		
+		if( block.getRelative(BlockFace.UP).getType() == Material.CHEST )
+			return true;
+
+		if( block.getRelative(BlockFace.DOWN).getType() == Material.CHEST )
+			return true;
+
+		if( block.getRelative(BlockFace.NORTH).getType() == Material.CHEST )
+			return true;
+
+		if( block.getRelative(BlockFace.SOUTH).getType() == Material.CHEST )
+			return true;
+
+		if( block.getRelative(BlockFace.EAST).getType() == Material.CHEST )
+			return true;
+
+		if( block.getRelative(BlockFace.WEST).getType() == Material.CHEST )
+			return true;
+		
+		return false;
+		
+	}
 	
 	
 	/*

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.Getter;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.conversations.Conversation;
@@ -17,6 +19,8 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestCreateProcedure.AskCron;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.NamePrompt;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
@@ -87,7 +91,8 @@ public class ChestEditProcedure implements Runnable {
 		            if (event.gracefulExit())
 		            {	            	
 		            	
-		            	Log.debug( "Graceful exit" );
+		            	Log.debug( "Graceful exit, infos about treasures found:" );
+		            	Log.debug( treasure.toString() );		            	
 		            	
 		            }
 		        }
@@ -109,28 +114,28 @@ public class ChestEditProcedure implements Runnable {
 	 */
 	public class AskWhatTreasure extends ValidatingPrompt {
 
-		private Map<Integer,String> validNames = new HashMap<Integer,String>();
+		private Map<String,String> idToNameMap = new HashMap<String,String>();
 		
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
 			build.append( BooTreasure.getConfigManager().get("messages.yml").getString("locales.edit.chest.ask.listalltreasures") );
 			build.append("\n");
-			int i = 1;
 			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();
-				Treasure tr = (Treasure) entry.getValue();
-				build.append( i + " - " + tr.get_name() + "\n" );
-				validNames.put( i, tr.get_name() );
-				i++;
+				TreasureChest tr = (TreasureChest) entry.getValue();
+				build.append( tr.get_name() + "\n" );
+				idToNameMap.put( tr.get_id(), tr.get_name() );
 			}
 			return build.toString().replaceAll("&", "§");
+			
 		}
 		
 		@Override
 		protected boolean isInputValid(ConversationContext context, String in) {
-			for( Entry<Integer, String> entry : validNames.entrySet() ){
-				if( in.equalsIgnoreCase( String.valueOf( entry.getKey() ) ) || in.equalsIgnoreCase( entry.getValue() ) ){
+			for( Entry<String, String> entry : idToNameMap.entrySet() ){
+				if( in.equalsIgnoreCase( entry.getValue() ) ){
+					treasure = (TreasureChest) BooTreasure.getCacheManager().get( entry.getKey() );
 					return true;
 				}
 			}
@@ -139,9 +144,56 @@ public class ChestEditProcedure implements Runnable {
 
 		@Override
 		protected Prompt acceptValidatedInput(ConversationContext context, String in) {			
-			return Prompt.END_OF_CONVERSATION;			
+			return new ChangesMenu();			
 		}
 		
+	}
+	
+	
+	
+	public class ChangesMenu extends ValidatingPrompt {
+
+		private Map<Integer, String> idToAction = new HashMap<Integer, String>();
+		
+		public ChangesMenu(){
+			idToAction.put(0, "cancel");
+			idToAction.put(1, "name");
+			idToAction.put(2, "onlyOnSurface");
+			idToAction.put(3, "preserveContent");
+		}
+		
+		@Override
+		public String getPromptText(ConversationContext arg0) {
+			
+			StringBuilder build = new StringBuilder();
+			build.append("Type id to edit:" + "\n");
+			for( Entry<Integer, String> entry : idToAction.entrySet() ){
+				build.append( ChatColor.GREEN + entry.getKey().toString() + "-" + ChatColor.YELLOW + entry.getValue() + ChatColor.GREEN + "\n");
+			}
+			return build.toString();
+			//return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.name").replaceAll("&", "§");
+		}
+
+		@Override
+		protected boolean isInputValid(ConversationContext context, String input) {
+			
+			if( idToAction.keySet().contains(Integer.parseInt(input) ) )
+				return true;
+			
+			return false;
+		}		
+
+		@Override
+		protected Prompt acceptValidatedInput(ConversationContext context, String in) {			
+			
+			int choice = Integer.parseInt(in);
+			String action = idToAction.get(choice);
+			
+			Log.debug( in + " -> " + action );
+					
+			return Prompt.END_OF_CONVERSATION;			
+		}
+
 	}
 	
 	
