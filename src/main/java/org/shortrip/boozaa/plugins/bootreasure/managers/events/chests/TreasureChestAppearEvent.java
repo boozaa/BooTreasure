@@ -18,9 +18,11 @@ public class TreasureChestAppearEvent extends Events {
 		
 		super();
 		this.plugin = plugin;
+		
 		Log.debug("TreasureChestAppearEvent event for id " + id);
 		// On prend le Treasure dans le Cache
 		if( BooTreasure.getCacheManager().exists(id)){	
+			
 			Log.debug("Treasure exists in cache: " + id);
 			final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
 			if( t.get_found() == false ){
@@ -47,8 +49,7 @@ public class TreasureChestAppearEvent extends Events {
 						
 					} }); 
 				
-			}
-			
+			}			
 			
 		}else{
 			Log.debug("Treasure didn't exists in cache: " + id);

@@ -40,8 +40,7 @@ public class MyPlayerListener implements Listener {
 	
 	
 	@EventHandler
-    public void onInventoryOpenEvent(InventoryOpenEvent e){
-        
+    public void onInventoryOpenEvent(InventoryOpenEvent e){        
 		
 		//if (e.getInventory().getHolder() instanceof Chest || e.getInventory().getHolder() instanceof DoubleChest){
 		if ( e.getInventory().getHolder() instanceof Chest || e.getInventory().getHolder() instanceof DoubleChest ){    

@@ -22,6 +22,7 @@ public class TreasureChestOpenEvent extends Events {
 		
 		// On prend le Treasure dans le Cache
 		if( BooTreasure.getCacheManager().exists(id)){	
+			
 			Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
 			Log.debug("Treasure exists in cache: " + id);
 			final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
@@ -47,7 +48,9 @@ public class TreasureChestOpenEvent extends Events {
 							build.append( "Inventory: " + Arrays.toString(t.get_inventory()) );
 							Log.warning(build.toString() + "\n" + e);
 						}
-					} }); 
+					} 
+					
+				}); 
 				
 			}
 			
@@ -55,8 +58,7 @@ public class TreasureChestOpenEvent extends Events {
 		}else{
 			Log.debug("Treasure didn't exists in cache: " + id);
 		}
-		
-		
+				
 	}
 	
 	
