@@ -31,6 +31,7 @@ public class Log {
 	
 	public static void warning(String message) {
 		console.sendMessage(prefix + "- WARNING - " + ChatColor.GOLD +  message);
+		writeError(message);
 	}
 	
 	public static void error(String message) {
@@ -48,6 +49,43 @@ public class Log {
 		
 		if( _debugON ) {			
 			console.sendMessage(prefix + "- DEBUG - " + ChatColor.GREEN + message);
+		}
+		
+	}
+	
+	private static void writeError(String error){
+		try {
+		
+			errorFile = new File( "plugins"  + File.separator + "BooTreasure" + File.separator + "errors.txt");
+			
+			if( !errorFile.exists() )
+				errorFile.createNewFile();
+			
+			PrintStream ps = new PrintStream( new FileOutputStream(errorFile, true) );
+			
+			Date today = new Date();
+	        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	        	        
+	        String vaultVersion = "";
+	        if( Bukkit.getPluginManager().getPlugin("Vault") != null){
+	        	vaultVersion = Bukkit.getPluginManager().getPlugin("Vault").getDescription().getVersion();
+	        }else{
+	        	vaultVersion = "Vault is not installed";
+	        }
+	        
+	        ps.print( "\n" );
+	        ps.print( "------------------------------------------------------------------\n" );
+	        ps.print( sdf.format(today) + "\n" );
+	        ps.print( "Server bukkit Version: " + Bukkit.getServer().getBukkitVersion() + "\n" );
+	        ps.print( BooTreasure.getInstance().getName() + " version: " + BooTreasure.getInstance().getDescription().getVersion() + "\n" );
+	        ps.print( "Vault Version: " + vaultVersion + "\n" + "\n" + "\n" );
+	        ps.print( "Error occured on " + error + "\n" + "\n" );
+	        ps.print( "\n" );
+	        
+	        ps.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 	}
