@@ -30,18 +30,6 @@ public class BasicBlockCondition extends AbstractBlockCondition {
 		if( block.getType() == Material.CHEST )
 			return false;
 		
-		List<Material> invalidblock = new ArrayList<Material>();
-		invalidblock.add(Material.AIR);
-		invalidblock.add(Material.SAND);
-		invalidblock.add(Material.WATER);
-		invalidblock.add(Material.LAVA);
-		invalidblock.add(Material.GRAVEL);
-		invalidblock.add(Material.VINE);
-		invalidblock.add(Material.BED);
-		invalidblock.add(Material.FENCE);
-		invalidblock.add(Material.LEAVES);
-		if( invalidblock.contains( block.getType()) )
-			return false;
 		
 		return true;
 		
