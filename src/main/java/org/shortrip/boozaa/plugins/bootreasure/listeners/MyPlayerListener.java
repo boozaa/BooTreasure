@@ -1,6 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
@@ -50,7 +51,6 @@ public class MyPlayerListener implements Listener {
         	if( chest.hasMetadata("BooTreasure-Chest") ){        		
     			String id = chest.getMetadata("BooTreasure-Chest").get(0).asString();
     			// Call the event
-				Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
 				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestOpenEvent(this.plugin, (Player) e.getPlayer(), id));			
         	}        	
         }
@@ -81,24 +81,18 @@ public class MyPlayerListener implements Listener {
 	
 	@EventHandler
 	public void onBlockBreak( BlockBreakEvent event ){
-		/*
+		
 		// On vérifie si le block en question est un Chest
-		if( event.getBlock().getState().getType() == Material.CHEST ){
-			Chest chest = (Chest) event.getBlock().getState();
-			// On vérifie si ce Chest a la metadata BooTreasure
-			if( chest.hasMetadata("BooTreasure-Chest") ){
-				// Ok ici c'est un BooChest on lance event BooChestBreakEvent
-				String id = chest.getMetadata("BooTreasure-Chest").get(0).asString();
-    			final ChestTreasure t = (ChestTreasure) BooTreasure.get_treasureCache().getObject(id);
-				// Call the event
-    			if( t != null ){
-            		Log.debug("Chest metadata BooTreasure found, this breaking chest is a treasure");
-    				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestBreakEvent(event.getPlayer(), t)); 
-    			}
-    			
-			}
+		if( (event.getBlock().getState().getType() == Material.CHEST) && ( event.getPlayer() instanceof Player ) ){
+			// On vérifie si metadata BooTreasure
+        	Chest chest = (Chest) event.getBlock().getState();        	
+        	if( chest.hasMetadata("BooTreasure-Chest") ){        		
+    			String id = chest.getMetadata("BooTreasure-Chest").get(0).asString();
+    			// Call the event				
+				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestOpenEvent(this.plugin, (Player) event.getPlayer(), id));			
+        	}  
 		}
-		*/
+		
 	}
 	
 	

@@ -22,6 +22,7 @@ public class TreasureChestOpenEvent extends Events {
 		
 		// On prend le Treasure dans le Cache
 		if( BooTreasure.getCacheManager().exists(id)){	
+			Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
 			Log.debug("Treasure exists in cache: " + id);
 			Bukkit.getServer().getScheduler().runTask(this.plugin, new Runnable() {
 
@@ -29,7 +30,7 @@ public class TreasureChestOpenEvent extends Events {
 				public void run() {
 					final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
 					Log.debug("Name: " + t.get_name());
-					try {
+					try {						
 						t.found(player);
 					} catch (Exception e) {
 						e.printStackTrace();
