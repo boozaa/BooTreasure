@@ -24,26 +24,33 @@ public class TreasureChestOpenEvent extends Events {
 		if( BooTreasure.getCacheManager().exists(id)){	
 			Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
 			Log.debug("Treasure exists in cache: " + id);
-			Bukkit.getServer().getScheduler().runTask(this.plugin, new Runnable() {
+			final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
+			
+			if( t.get_found() == false ){
+				
+				Bukkit.getServer().getScheduler().runTask(this.plugin, new Runnable() {
 
-				@Override
-				public void run() {
-					final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
-					Log.debug("Name: " + t.get_name());
-					try {						
-						t.found(player);
-					} catch (Exception e) {
-						e.printStackTrace();
-						StringBuilder build = new StringBuilder();
-						String nl = System.getProperty("line.separator");
-						build.append( "TreasureChestOpenEvent()" );
-						build.append(nl);
-						build.append( "Id: " + t.get_id() );
-						build.append(nl);
-						build.append( "Inventory: " + Arrays.toString(t.get_inventory()) );
-						Log.warning(build.toString() + "\n" + e);
-					}
-				} }); 
+					@Override
+					public void run() {
+						
+						Log.debug("Name: " + t.get_name());
+						try {						
+							t.found(player);
+						} catch (Exception e) {
+							e.printStackTrace();
+							StringBuilder build = new StringBuilder();
+							String nl = System.getProperty("line.separator");
+							build.append( "TreasureChestOpenEvent()" );
+							build.append(nl);
+							build.append( "Id: " + t.get_id() );
+							build.append(nl);
+							build.append( "Inventory: " + Arrays.toString(t.get_inventory()) );
+							Log.warning(build.toString() + "\n" + e);
+						}
+					} }); 
+				
+			}
+			
 			
 		}else{
 			Log.debug("Treasure didn't exists in cache: " + id);
