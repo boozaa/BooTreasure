@@ -85,11 +85,21 @@ public class BlockSearcher {
 	
 	
 	private static boolean validSupport( List<AbstractBlockCondition> conditions, Block block ) {
+				
+		if( block.getRelative(BlockFace.DOWN).isBlockPowered() || block.getRelative(BlockFace.UP).isBlockPowered()  )
+			return false;
+		
+		
+		if( block.getRelative(BlockFace.DOWN).isLiquid() || block.getRelative(BlockFace.UP).isLiquid() )
+			return false;
+		
+		
 		for( AbstractBlockCondition c : conditions ){
 			if( !c.isBlockValid(block) ){
 				return false;
 			}
 		}
+		
 		return true;
 	}
 
