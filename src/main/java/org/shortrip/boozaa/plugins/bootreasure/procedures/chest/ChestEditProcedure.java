@@ -31,14 +31,16 @@ public class ChestEditProcedure implements Runnable {
 	private World world;
 	private Location chestLocation;
 	
+	@SuppressWarnings("unused")
 	private Map<String, String> treasuresIdAndNameMap = new HashMap<String, String>();
 	
 
+	@SuppressWarnings("unused")
 	private final String YES = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.agree");
 	@SuppressWarnings("unused")
 	private final String NO = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.disagree");
-	private final String EXIT = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.exit");
 	@SuppressWarnings("unused")
+	private final String EXIT = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.exit");
 	private final String END = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.end");
 	
 	
@@ -134,7 +136,7 @@ public class ChestEditProcedure implements Runnable {
 			build.append("\n");
 			int i = 1;
 			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
-				String id = entry.getKey();
+				//String id = entry.getKey();
 				Treasure tr = (Treasure) entry.getValue();
 				build.append( i + " - " + tr.get_name() + "\n" );
 				validNames.put( i, tr.get_name() );

@@ -106,7 +106,7 @@ public class ChestDeleteProcedure implements Runnable {
 			build.append( BooTreasure.getConfigManager().get("messages.yml").getString("locales.delete.chest.ask.listalltreasures") );
 			build.append("\n");
 			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
-				String id = entry.getKey();
+				//String id = entry.getKey();
 				TreasureChest tr = (TreasureChest) entry.getValue();
 				build.append( tr.get_name() + "\n" );
 			}

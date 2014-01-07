@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
-import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -89,7 +88,7 @@ public class MyPlayerListener implements Listener {
         	if( chest.hasMetadata("BooTreasure-Chest") ){        		
     			String id = chest.getMetadata("BooTreasure-Chest").get(0).asString();
     			// Call the event				
-				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestOpenEvent(this.plugin, (Player) event.getPlayer(), id));			
+				Bukkit.getServer().getPluginManager().callEvent(new TreasureChestOpenEvent(this.plugin, event.getPlayer(), id));			
         	}  
 		}
 		
