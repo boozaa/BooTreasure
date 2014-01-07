@@ -25,7 +25,6 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureCh
 public class MyPlayerListener implements Listener {
 
     
-	@SuppressWarnings("unused")
 	private Plugin plugin;
 	
 	/**

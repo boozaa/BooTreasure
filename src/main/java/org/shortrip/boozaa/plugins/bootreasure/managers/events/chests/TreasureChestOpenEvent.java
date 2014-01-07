@@ -31,7 +31,6 @@ public class TreasureChestOpenEvent extends Events {
 					Log.debug("Name: " + t.get_name());
 					try {
 						t.found(player);
-						//t.announceAppear();
 					} catch (Exception e) {
 						e.printStackTrace();
 						StringBuilder build = new StringBuilder();
@@ -41,7 +40,7 @@ public class TreasureChestOpenEvent extends Events {
 						build.append( "Id: " + t.get_id() );
 						build.append(nl);
 						build.append( "Inventory: " + Arrays.toString(t.get_inventory()) );
-						Log.severe(build.toString(), e);
+						Log.warning(build.toString() + "\n" + e);
 					}
 				} }); 
 			
