@@ -3,7 +3,6 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.events.chests;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;

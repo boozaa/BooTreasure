@@ -13,9 +13,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestOpenEvent;
-import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 
 
 

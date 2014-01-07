@@ -18,7 +18,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.Metadatable;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
@@ -161,13 +160,10 @@ public class TreasureChest extends Treasure {
 		}catch( Exception e){
 		
 			// Error relaunch appear
-			Log.warning("Error during treasure " + this._name + " appear(), retrying...");
-			Log.warning( e.getLocalizedMessage() );
+			Log.warning( "Error during treasure " + this._name + " appear(), retrying... " );
+			Log.warning( "Error during treasure " + this._name + " appear(), retrying... " + e.getLocalizedMessage() );
 			this._block.setType(Material.AIR);
 			this.appear();
-			
-		}finally{		
-			
 			
 		}
 		
@@ -221,7 +217,8 @@ public class TreasureChest extends Treasure {
 			
 		}catch( Exception e){
 			
-			Log.warning("Can't cast the block target as a chest, transform it into AIR");
+			Log.warning("TreasureChest -> disappear() -> Can't cast the block target as a chest, transform it into AIR");
+			this._block.setType(Material.AIR);
 			
 		}finally{		
 			
