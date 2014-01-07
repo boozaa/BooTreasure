@@ -25,6 +25,8 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class ChestEditProcedure implements Runnable {
 
+	
+	@SuppressWarnings("unused")
 	private volatile TreasureChest treasure;	
 	private Plugin plugin;
 	private Player player;
@@ -44,6 +46,7 @@ public class ChestEditProcedure implements Runnable {
 	private final String END = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.end");
 	
 	
+	
 	public ChestEditProcedure(  Plugin plugin, Player p  ){
 		
 		this.plugin = plugin;
@@ -51,19 +54,9 @@ public class ChestEditProcedure implements Runnable {
 		this.world = p.getWorld();
 		chestLocation = this.player.getLocation().toVector().add(this.player.getLocation().getDirection().multiply(1)).toLocation(this.world);
 		chestLocation.setY(chestLocation.getY()+1);
-		this.treasure = new TreasureChest(chestLocation);
 		
-		
-		
-		/*
-		// Search treasure in cache
-		if( BooTreasure.getCacheManager().exists(treasureId ) ){
-			this.treasure = (TreasureChest) BooTreasure.getCacheManager().get(treasureId);
-			// Set the new Location of this chest front of the player
-			this.treasure.set_block( chestLocation.getBlock() );
-		}
-		*/
 	}
+	
 	
 	
 	@Override
@@ -72,20 +65,10 @@ public class ChestEditProcedure implements Runnable {
 		try{
 			
 			Log.debug("ChestEditProcedure: list available treasure");
-
-			
-			
-			// Apparition du Chest devant le player
-			//this.treasure.chestAppear();
 			
 			// Le ConversationFactory
-			ConversationFactory factory = new ConversationFactory(this.plugin);
-			final Map<Object, Object> map = new HashMap<Object, Object>();
-			
-			// Le treasure
-			map.put( "TreasureChest", this.treasure );
-			
-			
+			ConversationFactory factory = new ConversationFactory(this.plugin);			
+						
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskWhatTreasure())
@@ -93,7 +76,8 @@ public class ChestEditProcedure implements Runnable {
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
 		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.edit.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
-		            }).withInitialSessionData(map).withLocalEcho(true)
+		            //}).withInitialSessionData(map).withLocalEcho(true)
+					}).withLocalEcho(true)
 		            .buildConversation(this.player);
 			
 			conv.addConversationAbandonedListener(new ConversationAbandonedListener() {	 
@@ -107,19 +91,17 @@ public class ChestEditProcedure implements Runnable {
 		            	
 		            }
 		        }
-		    });
+		    });		    
 		    
-		    
-		    conv.begin();
-			
+		    conv.begin();			
 			
 		}catch (Exception e){
-			Log.severe("An error occured on ChestCreateProcedure", e );			
-		}
-		
+			Log.severe("An error occured on ChestEditProcedure", e );			
+		}		
 		
 	}
 
+	
 	
 	/*
 	 * First prompt

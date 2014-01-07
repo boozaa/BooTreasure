@@ -65,10 +65,11 @@ public class ChestCreateProcedure implements Runnable {
 			
 			// Le ConversationFactory
 			ConversationFactory factory = new ConversationFactory(this.plugin);
-			final Map<Object, Object> map = new HashMap<Object, Object>();
 			
-			// Le treasure
-			map.put( "TreasureChest", this.treasure );
+			//final Map<Object, Object> map = new HashMap<Object, Object>();
+			
+			//// Le treasure
+			//map.put( "TreasureChest", this.treasure );
 			
 			// On construit la conversation
 			Conversation conv = factory
@@ -77,7 +78,8 @@ public class ChestCreateProcedure implements Runnable {
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
 		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
-		            }).withInitialSessionData(map).withLocalEcho(true)
+		            //}).withInitialSessionData(map).withLocalEcho(true)
+		            }).withLocalEcho(true)
 		            .buildConversation(this.player);
 			
 			conv.addConversationAbandonedListener(new ConversationAbandonedListener() {	 
