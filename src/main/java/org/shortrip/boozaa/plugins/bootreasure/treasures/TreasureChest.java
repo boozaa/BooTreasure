@@ -18,6 +18,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.Metadatable;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
@@ -142,29 +143,61 @@ public class TreasureChest extends Treasure {
 			this._z = _block.getLocation().getBlockZ();
 			
 			// Make this block as chest
-			this._block.setType(Material.CHEST);
-			Chest chest = (Chest)this._block.getState();
+			if( this._block.getState().getType().equals(Material.CHEST)  ){
+				
+				this._block.setType(Material.CHEST);
+				Chest chest = (Chest)this._block.getState();
+				
+				// Give own inventory to this chest
+				chest.getInventory().setContents(this._inventory);
+				
+				// Metadata store to distinguish chest as ChestTreasure
+				chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
+				
+				// Serialization and lost treasure will be deleted on next start
+				this.serialize();		
+						
+				// Delayed task to disappear on duration fixed on bukkit synchron way
+				BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
+				
+			}else if( this._block.getState() instanceof DoubleChest ){
+				
+				this._block.setType(Material.CHEST);
+				DoubleChest chest = (DoubleChest)this._block.getState();
+				
+				// Give own inventory to this chest
+				Log.debug("Inventory: " + "\n" + this._inventory.toString() );
+				if( (this._inventory.length%9 == 0) && (this._inventory.length <= 54) ){
+					chest.getInventory().setContents(this._inventory);
+				}else{
+					Log.warning("The inventory's content is not multiple of 9 and max 54 -> " + this._inventory.length);
+				}
+				
+				
+				// Metadata store to distinguish chest as ChestTreasure
+				((Metadatable) chest).setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
+				
+				// Serialization and lost treasure will be deleted on next start
+				this.serialize();		
+						
+				// Delayed task to disappear on duration fixed on bukkit synchron way
+				BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
+				
+			}
 			
-			// Give own inventory to this chest
-			chest.getInventory().setContents(this._inventory);
 			
-			// Metadata store to distinguish chest as ChestTreasure
-			chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
 			
-			// Serialization and lost treasure will be deleted on next start
-			this.serialize();		
-					
-			// Delayed task to disappear on duration fixed on bukkit synchron way
-			BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
 			
 		
 		}catch( Exception e){
 		
 			// Error relaunch appear
-			this._block.setType(Material.AIR);
 			Log.warning("Error during treasure " + this._name + " appear(), retrying...");
 			Log.warning( e.getLocalizedMessage() );
 			this.appear();
+			
+		}finally{		
+			
 			
 		}
 		
@@ -217,8 +250,13 @@ public class TreasureChest extends Treasure {
 			this._found = false;
 			
 		}catch( Exception e){
+			
 			Log.warning("Can't cast the block target as a chest, transform it into AIR");
+			
+		}finally{		
+			
 			this._block.setType(Material.AIR);
+			
 		}
 		
 	}
