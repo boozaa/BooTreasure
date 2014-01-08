@@ -44,8 +44,9 @@ public class TreasureChest extends Treasure {
 		
 	}
 	
-	public TreasureChest( ConfigurationSection section ){
+	public TreasureChest( String uuid, ConfigurationSection section ){
 		super( TreasureType.CHEST, section);
+		this._id = uuid;
 		this._preservecontent 	= this._conf.getBoolean( PRESERVE_CONTENT );
 		this._placesMaterials 	= new ArrayList<Material>();
 		generateContents();

@@ -19,9 +19,6 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestCreateProcedure.AskCron;
-import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.NamePrompt;
-import org.shortrip.boozaa.plugins.bootreasure.treasures.Treasure;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -30,7 +27,6 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 public class ChestEditProcedure implements Runnable {
 
 	
-	@SuppressWarnings("unused")
 	private volatile TreasureChest treasure;	
 	private Plugin plugin;
 	private Player player;

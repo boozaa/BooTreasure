@@ -119,7 +119,7 @@ public class MyTreasuresManager extends Manager {
 					// Depend on TreasureType
 					if( section.contains("basics.type") ){
 						if( section.getString("basics.type").equalsIgnoreCase("chest") ){
-							TreasureChest treasure = new TreasureChest(section);
+							TreasureChest treasure = new TreasureChest(treasureId,section);
 							// Store in cache
 							BooTreasure.getCacheManager().add(treasure.get_id(), treasure);
 							

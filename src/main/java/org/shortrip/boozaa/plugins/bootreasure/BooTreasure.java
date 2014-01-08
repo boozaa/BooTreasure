@@ -1,5 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure;
 
+import java.sql.SQLException;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +20,13 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager.TreasuresCleanupException;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager.TreasuresLoadException;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
 import lombok.Getter;
 
 
@@ -33,6 +42,9 @@ public class BooTreasure  extends JavaPlugin{
 	@Getter private static MyPermissions permissionsManager;
 	@Getter private static MyTreasuresManager treasuresManager;
 	
+	// Le ConnectionSource de ormlite
+	@Getter private static ConnectionSource _connectionSource;
+	@Getter private static Dao<TreasureDAO, String> _treasureDAO;
 	
 	
 	@Override
@@ -54,7 +66,8 @@ public class BooTreasure  extends JavaPlugin{
 			// MyPlayerListener
 			getServer().getPluginManager().registerEvents( new MyPlayerListener(this), this );
 			
-			
+			// Database storage
+			initDatabase();
 			
 		} catch (CommandNullException e) {
 			// SEVERE -> disable plugin
@@ -71,10 +84,31 @@ public class BooTreasure  extends JavaPlugin{
 		} catch (TreasuresLoadException e) {
 			// SEVERE -> disable plugin
 			Log.severe("onEnable() fatal error: TreasuresLoadException", e.getThrowable());
+		} catch (SQLException e) {
+			// SEVERE -> disable plugin
+			Log.severe("onEnable() fatal error: SQLException", e);
 		}
 				
 	}
 	
+	
+	private void initDatabase() throws SQLException{
+    	/*
+		 * Le ConnectionSource pour ormlite
+		 */				
+		//String databaseUrl = "jdbc:mysql://192.168.1.25:3306/test";
+		//_connectionSource = new JdbcConnectionSource(databaseUrl,"root","120676");	
+        
+		String databaseUrl = "jdbc:sqlite:plugins/BooTreasure/bootreasure.db";
+		_connectionSource = new JdbcConnectionSource(databaseUrl);
+		
+		// Le DAO pour PyroUser
+		_treasureDAO = DaoManager.createDao(_connectionSource, TreasureDAO.class);
+
+		// if you need to create the table
+        TableUtils.createTable(_connectionSource, TreasureDAO.class);
+			
+    }
 	
 	
 	

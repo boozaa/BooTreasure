@@ -24,4 +24,9 @@ public abstract class IntegerPrompt extends ValidatingPrompt {
 		return true;
 	}
 	
+	
+    
+	
+	
+	
 }

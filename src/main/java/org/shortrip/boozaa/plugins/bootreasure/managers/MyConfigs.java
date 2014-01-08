@@ -3,7 +3,6 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
@@ -16,6 +15,7 @@ import java.io.File;
 
 public class MyConfigs extends Manager {
 
+	
 	private Plugin plugin;
 	private static Map<String, Configuration> configs;
 	
@@ -75,8 +75,7 @@ public class MyConfigs extends Manager {
 			String path = "treasures." + treasureId;
 			if( config.contains( path + "." + name ) ){
 				
-				// This is the treasure that we must delete
-				//ConfigurationSection section = config.getConfigurationSection( path );
+				// This is the treasure that we must delete				
 				
 				// Retrieve the CronTask associated to this treasure
 				if( BooTreasure.getCronManager().get_taskCollector().contains(treasureId) ){
@@ -88,7 +87,8 @@ public class MyConfigs extends Manager {
 					BooTreasure.getCacheManager().remove(treasureId);
 				
 				// Delete this ConfigurationSection from treasures.yml
-				//section = null;
+				config.set(path + "." + name, null);
+				
 				config.save();
 				config.load();
 				

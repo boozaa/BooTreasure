@@ -1,8 +1,6 @@
 package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 
 import org.bukkit.Location;
@@ -66,10 +64,7 @@ public class ChestCreateProcedure implements Runnable {
 			// Le ConversationFactory
 			ConversationFactory factory = new ConversationFactory(this.plugin);
 			
-			//final Map<Object, Object> map = new HashMap<Object, Object>();
-			
-			//// Le treasure
-			//map.put( "TreasureChest", this.treasure );
+			final String prefix = BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator");
 			
 			// On construit la conversation
 			Conversation conv = factory
@@ -77,8 +72,7 @@ public class ChestCreateProcedure implements Runnable {
 		            .withEscapeSequence( END )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
-		            //}).withInitialSessionData(map).withLocalEcho(true)
+		                public String getPrefix(ConversationContext arg0) { return prefix; }	 
 		            }).withLocalEcho(true)
 		            .buildConversation(this.player);
 			
@@ -137,10 +131,10 @@ public class ChestCreateProcedure implements Runnable {
 	 * First prompt
 	 * Ask for a name
 	 */
-	public class AskName extends NamePrompt {
+	public class AskName extends ValidatingPrompt {
 
 		@Override
-		public String getPromptText(ConversationContext arg0) {
+		public String getPromptText(ConversationContext arg0) {			
 			return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.name").replaceAll("&", "§");
 		}
 
@@ -148,6 +142,11 @@ public class ChestCreateProcedure implements Runnable {
 		protected Prompt acceptValidatedInput(ConversationContext context, String in) {			
 			treasure.set_name(in);			
 			return new AskCron();			
+		}
+
+		@Override
+		protected boolean isInputValid(ConversationContext context, String input) {
+			return true;
 		}
 		
 	}
