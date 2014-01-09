@@ -101,7 +101,14 @@ public class MyDatabase extends Manager {
 			EventsDAO event = new EventsDAO( trDAO, type, treasure.get_block().getLocation() );
 			// Create this entry
 			this._eventsDAO.create(event);
-		}	
+		}else{
+			// we must store a TreasureDAO first
+			addTreasureToDatabase( treasure );
+			// Create new event for this entry
+			EventsDAO event = new EventsDAO( trDAO, type, treasure.get_block().getLocation() );
+			// Create this entry
+			this._eventsDAO.create(event);
+		}
 	}
 	
 	public void addEventToDatabase( TreasureChest treasure, Player player, EventType type ) throws SQLException{
@@ -112,11 +119,18 @@ public class MyDatabase extends Manager {
 			EventsDAO event = new EventsDAO( trDAO, type, player, treasure.get_block().getLocation() );
 			// Create this entry
 			this._eventsDAO.create(event);
+		}else{
+			// we must store a TreasureDAO first
+			addTreasureToDatabase( treasure );
+			// Create new event for this entry
+			EventsDAO event = new EventsDAO( trDAO, type, player, treasure.get_block().getLocation() );
+			// Create this entry
+			this._eventsDAO.create(event);
 		}	
 	}
 	
 	
-	private TreasureDAO getTreasureDAO( String uuid ) throws SQLException{		
+	public TreasureDAO getTreasureDAO( String uuid ) throws SQLException{		
 		QueryBuilder<TreasureDAO, String> statementBuilder = this._treasureDAO.queryBuilder();
 		statementBuilder.where().like( TreasureDAO.UUID_DATE_FIELD_NAME, uuid );
 		List<TreasureDAO> treasuresDAO = this._treasureDAO.query(statementBuilder.prepare());
