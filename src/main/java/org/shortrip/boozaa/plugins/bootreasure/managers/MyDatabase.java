@@ -34,7 +34,7 @@ public class MyDatabase extends Manager {
 	
 	public MyDatabase(Plugin plugin) throws SQLException{
 		
-		System.setProperty(LocalLog.LOCAL_LOG_LEVEL_PROPERTY, "trace");
+		System.setProperty(LocalLog.LOCAL_LOG_LEVEL_PROPERTY, "ERROR");
 		//System.setProperty(LocalLog.LOCAL_LOG_FILE_PROPERTY, "plugins/BooTreasure/ormlite_log.out");
 		
 		this.plugin = plugin;

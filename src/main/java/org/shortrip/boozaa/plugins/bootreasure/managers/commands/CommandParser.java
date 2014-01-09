@@ -8,11 +8,13 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Command;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.CommandArgs;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Completer;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestCreateProcedure;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestEditProcedure;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public class CommandParser {
@@ -21,6 +23,22 @@ public class CommandParser {
 	
 	public CommandParser( Plugin plugin ){
 		this.plugin = plugin;
+	}
+	
+	@Command( name = "bootreasure.debug", aliases = { "bootreasure.debug" } )
+	public void consoleToggleDebug(CommandArgs args) {
+		if( !( args.getSender() instanceof Player ) ) {
+			if( BooTreasure.getConfigManager().get("config.yml").getBoolean("config.debugMode") ){				
+				BooTreasure.getConfigManager().get("config.yml").set("config.debugMode", false);
+				Log.set_debugON(false);
+				Log.info("Debug mode deactivated");
+			}else{				
+				BooTreasure.getConfigManager().get("config.yml").set("config.debugMode", true);	
+				Log.set_debugON(true);
+				Log.info("Debug mode activated");
+			}
+			BooTreasure.getConfigManager().get("config.yml").save();
+		}		
 	}
 	
 	

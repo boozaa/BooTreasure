@@ -3,7 +3,7 @@ locales:
     chest:
       ask:
         preservecontent: '&3Did its future &econtents &3must be preserved ?'
-        waitingend: '&3Fill the chest and when finish type: &7'
+        waitingend: '&3Fill the chest and when finish type: &7exit'
         infinite: '&eInfinite &3Apparition ?'
         world: '&3In which &eworld&3 ?'
         pattern: '&3Type the &ecron pattern&3'
