@@ -10,6 +10,7 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.MyCache;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyConfigs;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCron;
+import org.shortrip.boozaa.plugins.bootreasure.managers.MyDatabase;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyEvents;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyPermissions;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyPermissions.PermissionsVaultNullException;
@@ -20,12 +21,6 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager.TreasuresCleanupException;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager.TreasuresLoadException;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
-
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 
 import lombok.Getter;
 
@@ -41,11 +36,7 @@ public class BooTreasure  extends JavaPlugin{
 	@Getter private static MyEvents eventsManager;
 	@Getter private static MyPermissions permissionsManager;
 	@Getter private static MyTreasuresManager treasuresManager;
-	
-	// Le ConnectionSource de ormlite
-	@Getter private static ConnectionSource _connectionSource;
-	@Getter private static Dao<TreasureDAO, String> _treasureDAO;
-	@Getter private static Dao<EventsDAO, String> _eventsDAO;
+	@Getter private static MyDatabase databaseManager;
 	
 	
 	@Override
@@ -63,12 +54,11 @@ public class BooTreasure  extends JavaPlugin{
 			eventsManager			= new MyEvents(this);
 			permissionsManager 		= new MyPermissions(this);
 			treasuresManager 		= new MyTreasuresManager(this);
+			databaseManager			= new MyDatabase(this);
 			
 			// MyPlayerListener
 			getServer().getPluginManager().registerEvents( new MyPlayerListener(this), this );
 			
-			// Database storage
-			initDatabase();
 			
 		} catch (CommandNullException e) {
 			// SEVERE -> disable plugin
@@ -91,29 +81,6 @@ public class BooTreasure  extends JavaPlugin{
 		}
 				
 	}
-	
-	
-	private void initDatabase() throws SQLException{
-    	/*
-		 * Le ConnectionSource pour ormlite
-		 */				
-		//String databaseUrl = "jdbc:mysql://192.168.1.25:3306/test";
-		//_connectionSource = new JdbcConnectionSource(databaseUrl,"root","120676");	
-        
-		String databaseUrl = "jdbc:sqlite:plugins/BooTreasure/bootreasure.db";
-		_connectionSource = new JdbcConnectionSource(databaseUrl);
-		
-		// Le DAO pour treasure
-		_treasureDAO = DaoManager.createDao(_connectionSource, TreasureDAO.class);
-		// Le DAO pour events
-		_eventsDAO = DaoManager.createDao(_connectionSource, EventsDAO.class);
-
-		// Create the table
-        TableUtils.createTable(_connectionSource, TreasureDAO.class);
-        TableUtils.createTable(_connectionSource, EventsDAO.class);
-			
-    }
-	
 	
 	
 	

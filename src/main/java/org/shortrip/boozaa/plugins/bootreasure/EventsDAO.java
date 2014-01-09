@@ -3,6 +3,7 @@ package org.shortrip.boozaa.plugins.bootreasure;
 import java.util.Date;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,8 +33,8 @@ public class EventsDAO {
 		
 	}
 	
-	public static final String TREASUREDAO_ID_FIELD_NAME 	= "treasuredao_id";
-	public static final String EVENT_TYPE_FIELD_NAME 				= "event_type";
+	public static final String TREASUREDAO_ID_FIELD_NAME 	= "treasure_uuid";
+	public static final String EVENT_TYPE_FIELD_NAME 		= "event_type";
 	public static final String DATE_FIELD_NAME 				= "timestamp";
 	public static final String PLAYER_FIELD_NAME 			= "player";
 	public static final String WORLD_FIELD_NAME 			= "world";
@@ -96,6 +97,17 @@ public class EventsDAO {
 		this.z = location.getBlockZ();
 		this.timestamp = new Date();	
 		this.player = playerName;		
+	}
+
+	public EventsDAO( TreasureDAO treasureDAO, EventType type, Player player, Location location ){
+		this.treasureDAO = treasureDAO;
+		this.event = type.getType().toUpperCase();
+		this.world = location.getWorld().getName();
+		this.x = location.getBlockX();
+		this.y = location.getBlockY();
+		this.z = location.getBlockZ();
+		this.timestamp = new Date();	
+		this.player = player.getName();		
 	}
 	
 	

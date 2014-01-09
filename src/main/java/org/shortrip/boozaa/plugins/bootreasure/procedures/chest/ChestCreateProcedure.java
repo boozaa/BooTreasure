@@ -18,14 +18,11 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.EventsDAO;
-import org.shortrip.boozaa.plugins.bootreasure.TreasureDAO;
+import org.shortrip.boozaa.plugins.bootreasure.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.*;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
-
-import com.j256.ormlite.stmt.QueryBuilder;
 
 
 
@@ -106,30 +103,13 @@ public class ChestCreateProcedure implements Runnable {
 			            	BooTreasure.getConfigManager().saveNewTreasureChest(treasure);
 			            	Log.debug("ChestTreasure saved in treasures.yml");
 			            	
-			            	// Store in database
-							// check if uuid exists
-							QueryBuilder<TreasureDAO, String> statementBuilder = BooTreasure.get_treasureDAO().queryBuilder();
-							statementBuilder.where().like( TreasureDAO.UUID_DATE_FIELD_NAME, treasure.get_id() );
-							List<TreasureDAO> treasuresDAO = BooTreasure.get_treasureDAO().query(statementBuilder.prepare());
-							if( treasuresDAO.isEmpty() == false){
-								// Here an entry in database exists for this uuid
-								for( TreasureDAO trDAO : treasuresDAO ){
-									// Create new event for this entry
-									EventsDAO e = new EventsDAO( trDAO, EventsDAO.EventType.CREATED, player.getName(), treasure.get_block().getLocation() );
-									// Create this entry
-									BooTreasure.get_eventsDAO().create(e);
-								}
-							}else{
-								// Add an entry in the database
-								TreasureDAO tdao = new TreasureDAO( treasure.get_id(), treasure.get_name(), treasure.get_onlyonsurface(), treasure.get_preservecontent() );
-								// Create new TreasureDAO in database
-								BooTreasure.get_treasureDAO().create( tdao );
-								// Associate new event entry
-								EventsDAO e = new EventsDAO( tdao, EventsDAO.EventType.CREATED, player.getName(), treasure.get_block().getLocation() );
-								// Create this EventsDAO in database
-								BooTreasure.get_eventsDAO().create(e);
-							}
+			            	// Create new TreasureDAO in database
+							BooTreasure.getDatabaseManager().addTreasureToDatabase( treasure );							
+							
+							// Store event in database
+							BooTreasure.getDatabaseManager().addEventToDatabase(treasure, player, EventType.CREATED);
 			            		            		            	
+							
 			            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
 			            	Log.debug("Launch disappear event silently for creation chest");
 			            	BooTreasure.getEventsManager().chestDisappearSilentlyEvent(treasure);

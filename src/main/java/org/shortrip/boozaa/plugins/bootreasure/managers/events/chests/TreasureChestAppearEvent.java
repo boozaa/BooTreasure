@@ -1,19 +1,12 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers.events.chests;
 
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.EventsDAO;
-import org.shortrip.boozaa.plugins.bootreasure.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.Events;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
-
-import com.j256.ormlite.stmt.QueryBuilder;
 
 
 public class TreasureChestAppearEvent extends Events {
