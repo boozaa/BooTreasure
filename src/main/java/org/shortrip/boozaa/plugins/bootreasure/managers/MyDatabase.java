@@ -68,7 +68,7 @@ public class MyDatabase extends Manager {
 				
 			}
 			
-		}
+		}		
 		this.initDatabase();
 	}
 	
@@ -79,11 +79,11 @@ public class MyDatabase extends Manager {
 		_treasureDAO = DaoManager.createDao(_connectionSource, TreasureDAO.class);
 		// Le DAO pour events
 		_eventsDAO = DaoManager.createDao(_connectionSource, EventsDAO.class);
-
-		// Create the table
-        TableUtils.createTable(_connectionSource, TreasureDAO.class);
-        TableUtils.createTable(_connectionSource, EventsDAO.class);
 			
+		// Create the table		
+        TableUtils.createTableIfNotExists(_connectionSource, TreasureDAO.class);
+        TableUtils.createTableIfNotExists(_connectionSource, EventsDAO.class);
+	    				
     }
 	
 	public void addTreasureToDatabase( TreasureChest treasure ) throws SQLException{

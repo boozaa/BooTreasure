@@ -20,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.EventsDAO.EventType;
-import org.shortrip.boozaa.plugins.bootreasure.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
