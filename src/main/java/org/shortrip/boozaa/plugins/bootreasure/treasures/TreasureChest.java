@@ -229,7 +229,8 @@ public class TreasureChest extends Treasure {
 			
 		}catch( Exception e){
 			
-			Log.warning("TreasureChest -> disappear() -> Can't cast the block target as a chest, transform it into AIR");
+			Log.warning("TreasureChest -> disappear() -> Can't cast the block target as a chest, transform it into AIR -> " 
+						 + this._world + "( " + this._x + " " + this._y + " " + this._z + " )");
 			this._block.setType(Material.AIR);
 			
 		}finally{		

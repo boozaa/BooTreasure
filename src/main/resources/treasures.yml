@@ -12,7 +12,8 @@ treasures:
     setup:
       contents:
         items:
-        - null
+        - ==: org.bukkit.inventory.ItemStack
+          type: BREAD
         - null
         - null
         - null
