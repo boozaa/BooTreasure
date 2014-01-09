@@ -12,6 +12,9 @@ locales:
         onlyonsurface: '&3Only appear &eon surface&3 ?'
         duration: '&eHow long &3this treasure must be in world ?'
       intro: '&3Treasure creation'
+      prefix: '&2[BooTreasure] '
+      success: '&3Treasure successfully configured'
+      error: '&4An error occured'
   edit:
     chest:
       ask:
@@ -26,11 +29,9 @@ locales:
         onlyonsurface: '&3Only appear &eon surface&3 ?'
         duration: '&eHow long &3this treasure must be in world ?'
       intro: '&3Treasure edit'
-    prefix: '&2[BooTreasure] '
-    success: '&3Treasure successfully configured'
-    error: '&4An error occured'
+      prefix: '&2[BooTreasure] '
+      success: '&3Treasure successfully configured'
+      error: '&4An error occured'
   commands:
-    disagree: no
     exit: exit
-    agree: yes
     end: /end

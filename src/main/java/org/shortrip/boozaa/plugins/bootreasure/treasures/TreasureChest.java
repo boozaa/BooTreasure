@@ -160,6 +160,7 @@ public class TreasureChest extends Treasure {
 			
 			// Store event in database
 			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.APPEAR);
+			Log.debug("Appear event stored in database");
 			
 		
 		}catch( Exception e){
@@ -223,6 +224,7 @@ public class TreasureChest extends Treasure {
 
 			// Store event in database
 			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.DISAPPEAR);
+			Log.debug("Disappear event stored in database");
 			
 			
 		}catch( Exception e){
@@ -253,6 +255,7 @@ public class TreasureChest extends Treasure {
 
 				// Store event in database
 				BooTreasure.getDatabaseManager().addEventToDatabase(this, p, EventType.FOUND);
+				Log.debug("Found event stored in database");
 			
 			}catch( Exception e){
 			

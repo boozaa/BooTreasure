@@ -147,7 +147,7 @@ public abstract class Treasure implements Serializable {
 		if( file.exists() ){		    				
 			//File file = new File(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
 			FileInputStream fis = null;
-			;
+		
 			
 			try {
 				

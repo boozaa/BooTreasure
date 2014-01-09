@@ -17,6 +17,7 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.logger.LocalLog;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -32,6 +33,10 @@ public class MyDatabase extends Manager {
 	
 	
 	public MyDatabase(Plugin plugin) throws SQLException{
+		
+		System.setProperty(LocalLog.LOCAL_LOG_LEVEL_PROPERTY, "trace");
+		//System.setProperty(LocalLog.LOCAL_LOG_FILE_PROPERTY, "plugins/BooTreasure/ormlite_log.out");
+		
 		this.plugin = plugin;
 		
 		Log.debug("Search for database storage type");

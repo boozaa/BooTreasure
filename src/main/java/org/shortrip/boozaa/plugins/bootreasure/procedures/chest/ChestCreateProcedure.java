@@ -34,9 +34,8 @@ public class ChestCreateProcedure implements Runnable {
 	private World world;
 	private Location chestLocation;
 	
-	private final String YES = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.agree");
-	@SuppressWarnings("unused")
-	private final String NO = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.disagree");
+	//private final String YES = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.agree");
+	//private final String NO = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.disagree");
 	private final String EXIT = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.exit");
 	private final String END = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.end");
 	
@@ -108,6 +107,7 @@ public class ChestCreateProcedure implements Runnable {
 							
 							// Store event in database
 							BooTreasure.getDatabaseManager().addEventToDatabase(treasure, player, EventType.CREATED);
+							Log.debug("Created event stored in database");
 			            		            		            	
 							
 			            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
@@ -204,7 +204,7 @@ public class ChestCreateProcedure implements Runnable {
 		@Override
 		protected Prompt acceptValidatedInput(ConversationContext context, String in) {
 			
-			if( in.equalsIgnoreCase(YES) ){
+			if( in.equalsIgnoreCase("true") ){
 				treasure.set_infinite(true);
 	    	}else{
 	    		treasure.set_infinite(false);
@@ -244,7 +244,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		protected Prompt acceptValidatedInput(ConversationContext context, String in) {
-			if( in.equalsIgnoreCase(YES) ){
+			if( in.equalsIgnoreCase("true") ){
 				treasure.set_onlyonsurface(true);
 	    	}else{
 	    		treasure.set_onlyonsurface(false);
@@ -265,12 +265,14 @@ public class ChestCreateProcedure implements Runnable {
 		@Override
 		protected Prompt acceptValidatedInput(ConversationContext context, String in) {
 			// Récuperation de données
-	    	if( in.equalsIgnoreCase(YES) ){
+	    	if( in.equalsIgnoreCase("true") ){
 	    		treasure.set_preservecontent(true);
 	    	}else{
 	    		treasure.set_preservecontent(false);
 	    	}    	    	
-	    	return new AskAllowedIds(); 
+	    	return new WaitingEndPrompt(
+    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.waitingend").replaceAll("&", "§"), 
+    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.success").replaceAll("&", "§")); 
 		}
 		
 	}

@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public abstract class TreasureNameExistPrompt extends ValidatingPrompt {
@@ -24,6 +25,8 @@ public abstract class TreasureNameExistPrompt extends ValidatingPrompt {
 	
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {		
+
+		Log.debug("Validating input, must be a cached treasure's name -> input = " + in);
 		if( this.treasureNames.contains(in) )
 			return true;
 		

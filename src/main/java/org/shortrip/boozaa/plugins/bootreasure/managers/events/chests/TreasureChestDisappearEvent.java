@@ -24,8 +24,15 @@ public class TreasureChestDisappearEvent extends Events {
 					Log.debug("Chest disappear: " + t.get_name());						    															
 					try {
 						
-						t.disappear();
-						t.announceDisAppear();
+						// If not already found 
+						if( t.get_found() == false){
+							// Disappear and send message
+							t.disappear();
+							t.announceDisAppear();
+						}else{
+							// Only disappear
+							t.disappear();
+						}
 						
 					} catch (Exception e) {
 						e.printStackTrace();
