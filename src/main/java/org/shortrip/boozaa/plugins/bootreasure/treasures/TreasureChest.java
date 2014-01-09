@@ -19,8 +19,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.EventsDAO;
+import org.shortrip.boozaa.plugins.bootreasure.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
+import com.j256.ormlite.stmt.QueryBuilder;
 
 
 @Data
@@ -157,6 +161,30 @@ public class TreasureChest extends Treasure {
 			// Delayed task to disappear on duration fixed on bukkit synchron way
 			BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
 			
+			// Store in database
+			// check if uuid exists
+			QueryBuilder<TreasureDAO, String> statementBuilder = BooTreasure.get_treasureDAO().queryBuilder();
+			statementBuilder.where().like( TreasureDAO.UUID_DATE_FIELD_NAME, this._id );
+			List<TreasureDAO> treasuresDAO = BooTreasure.get_treasureDAO().query(statementBuilder.prepare());
+			if( treasuresDAO.isEmpty() == false){
+				// Here an entry in database exists for this uuid
+				for( TreasureDAO trDAO : treasuresDAO ){
+					// Create new event for this entry
+					EventsDAO event = new EventsDAO( trDAO, EventsDAO.EventType.APPEAR, this._block.getLocation() );
+					// Create this entry
+					BooTreasure.get_eventsDAO().create(event);
+				}
+			}else{
+				// Add an entry in the database
+				TreasureDAO tdao = new TreasureDAO( this._id, this._name, this._onlyonsurface, this._preservecontent );
+				// Create new TreasureDAO in database
+				BooTreasure.get_treasureDAO().create( tdao );
+				// Associate new event entry
+				EventsDAO event = new EventsDAO( tdao, EventsDAO.EventType.APPEAR, this._block.getLocation() );
+				// Create this entry in database
+				BooTreasure.get_eventsDAO().create(event);
+			}
+			
 		
 		}catch( Exception e){
 		
@@ -216,6 +244,30 @@ public class TreasureChest extends Treasure {
 			this.deleteSerializedFile();				
 			this._found = false;
 			
+			// Store in database
+			// check if uuid exists
+			QueryBuilder<TreasureDAO, String> statementBuilder = BooTreasure.get_treasureDAO().queryBuilder();
+			statementBuilder.where().like( TreasureDAO.UUID_DATE_FIELD_NAME, this._id );
+			List<TreasureDAO> treasuresDAO = BooTreasure.get_treasureDAO().query(statementBuilder.prepare());
+			if( treasuresDAO.isEmpty() == false){
+				// Here an entry in database exists for this uuid
+				for( TreasureDAO trDAO : treasuresDAO ){
+					// Create new event for this entry
+					EventsDAO event = new EventsDAO( trDAO, EventsDAO.EventType.DISAPPEAR, this._block.getLocation() );
+					// Create this entry
+					BooTreasure.get_eventsDAO().create(event);
+				}
+			}else{
+				// Add an entry in the database
+				TreasureDAO tdao = new TreasureDAO( this._id, this._name, this._onlyonsurface, this._preservecontent );
+				// Create new TreasureDAO in database
+				BooTreasure.get_treasureDAO().create( tdao );
+				// Associate new event entry
+				EventsDAO event = new EventsDAO( tdao, EventsDAO.EventType.DISAPPEAR, this._block.getLocation() );
+				// Create this entry in database
+				BooTreasure.get_eventsDAO().create(event);
+			}
+			
 		}catch( Exception e){
 			
 			Log.warning("TreasureChest -> disappear() -> Can't cast the block target as a chest, transform it into AIR");
@@ -236,8 +288,41 @@ public class TreasureChest extends Treasure {
 		Log.debug(p.getName() + " has discover this treasure " + this._name);
 		
 		if( !this._found ){
-			this._found = true;
-			this.announceFound();
+			
+			try{
+				this._found = true;
+				this.announceFound();
+				
+				// Store in database
+				// check if uuid exists
+				QueryBuilder<TreasureDAO, String> statementBuilder = BooTreasure.get_treasureDAO().queryBuilder();
+				statementBuilder.where().like( TreasureDAO.UUID_DATE_FIELD_NAME, this._id );
+				List<TreasureDAO> treasuresDAO = BooTreasure.get_treasureDAO().query(statementBuilder.prepare());
+				if( treasuresDAO.isEmpty() == false){
+					// Here an entry in database exists for this uuid
+					for( TreasureDAO trDAO : treasuresDAO ){
+						// Create new event for this entry
+						EventsDAO event = new EventsDAO( trDAO, EventsDAO.EventType.FOUND, p.getName(), this._block.getLocation() );
+						// Create this entry
+						BooTreasure.get_eventsDAO().create(event);
+					}
+				}else{
+					// Add an entry in the database
+					TreasureDAO tdao = new TreasureDAO( this._id, this._name, this._onlyonsurface, this._preservecontent );
+					// Create new TreasureDAO in database
+					BooTreasure.get_treasureDAO().create( tdao );
+					// Associate new event entry
+					EventsDAO event = new EventsDAO( tdao, EventsDAO.EventType.FOUND, p.getName(), this._block.getLocation() );
+					// Create this EventsDAO in database
+					BooTreasure.get_eventsDAO().create(event);
+				}
+			
+			}catch( Exception e){
+			
+				Log.warning("TreasureChest -> found()" + e);
+			
+			}
+			
 		}
 		
 	}

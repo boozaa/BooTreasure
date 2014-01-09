@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.EventsDAO;
 import org.shortrip.boozaa.plugins.bootreasure.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.Events;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
@@ -38,27 +39,9 @@ public class TreasureChestAppearEvent extends Events {
 						
 						Log.debug("Name: " + t.get_name());
 						try {
+							
 							t.appear();
 							t.announceAppear();
-							
-							// DAO
-							// check if uuid exists
-							QueryBuilder<TreasureDAO, String> statementBuilder = BooTreasure.get_treasureDAO().queryBuilder();
-							statementBuilder.where().like(TreasureDAO.UUID_DATE_FIELD_NAME, t.get_id());
-							List<TreasureDAO> treasuresDAO = BooTreasure.get_treasureDAO().query(statementBuilder.prepare());
-							if( treasuresDAO.isEmpty() == false){
-								for( TreasureDAO trDAO : treasuresDAO ){
-									trDAO.setAppearDate(new Date() );
-									BooTreasure.get_treasureDAO().update(trDAO);
-								}
-							}else{
-								// Add an entry in the database
-								TreasureDAO tdao = new TreasureDAO( t.get_id(), t.get_name(), t.get_onlyonsurface(), t.get_preservecontent(), t.get_world(), t.get_x(), t.get_y(), t.get_z() );
-								BooTreasure.get_treasureDAO().create( tdao );
-							}
-							
-							
-							
 							
 						} catch (Exception e) {
 							e.printStackTrace();

@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.EventsDAO;
 import org.shortrip.boozaa.plugins.bootreasure.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.Events;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
@@ -29,18 +30,9 @@ public class TreasureChestDisappearEvent extends Events {
 					final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
 					Log.debug("Chest disappear: " + t.get_name());						    															
 					try {
+						
 						t.disappear();
 						t.announceDisAppear();
-						
-						// DAO
-						QueryBuilder<TreasureDAO, String> statementBuilder = BooTreasure.get_treasureDAO().queryBuilder();
-						statementBuilder.where().like(TreasureDAO.UUID_DATE_FIELD_NAME, t.get_id());
-						List<TreasureDAO> treasuresDAO = BooTreasure.get_treasureDAO().query(statementBuilder.prepare());
-						for( TreasureDAO trDAO : treasuresDAO ){
-							trDAO.setDisappearDate(new Date() );
-							BooTreasure.get_treasureDAO().update(trDAO);
-						}
-						
 						
 					} catch (Exception e) {
 						e.printStackTrace();

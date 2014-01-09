@@ -50,13 +50,16 @@ public class MyCache extends Manager {
 		if( exists(id) ){
 			this._treasureCache.remove(id);
 		}else{
-			throw new CacheNotExistException("The treasure " + id + " already exists in cache");
+			throw new CacheNotExistException("The treasure " + id + " didn't exists in cache");
 		}
 			
 	}
 	
 	
-	
+	@Override
+	public void onDisable() {
+		_treasureCache.erase();
+	}
 	
 	
 	
@@ -74,9 +77,6 @@ public class MyCache extends Manager {
 	    }		
 	}
 
-	@Override
-	public void onDisable() {
-		_treasureCache.erase();
-	}
+	
 	
 }

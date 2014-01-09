@@ -1,6 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,8 +18,12 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.EventsDAO;
+import org.shortrip.boozaa.plugins.bootreasure.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
+import com.j256.ormlite.stmt.QueryBuilder;
 
 public class ChestDeleteProcedure implements Runnable {
 
@@ -74,6 +79,40 @@ public class ChestDeleteProcedure implements Runnable {
 		            {	            	
 		            	
 		            	Log.debug( "Graceful exit" );
+		            	
+		            	try{
+		            	
+		            		
+		            		// Store in database
+							// check if uuid exists
+							QueryBuilder<TreasureDAO, String> statementBuilder = BooTreasure.get_treasureDAO().queryBuilder();
+							statementBuilder.where().like( TreasureDAO.UUID_DATE_FIELD_NAME, treasure.get_id() );
+							List<TreasureDAO> treasuresDAO = BooTreasure.get_treasureDAO().query(statementBuilder.prepare());
+							if( treasuresDAO.isEmpty() == false){
+								// Here an entry in database exists for this uuid
+								for( TreasureDAO trDAO : treasuresDAO ){
+									// Create new event for this entry
+									EventsDAO e = new EventsDAO( trDAO, EventsDAO.EventType.REMOVED, player.getName(), treasure.get_block().getLocation() );
+									// Create this entry
+									BooTreasure.get_eventsDAO().create(e);
+								}
+							}else{
+								// Add an entry in the database
+								TreasureDAO tdao = new TreasureDAO( treasure.get_id(), treasure.get_name(), treasure.get_onlyonsurface(), treasure.get_preservecontent() );
+								// Create new TreasureDAO in database
+								BooTreasure.get_treasureDAO().create( tdao );
+								// Associate new event entry
+								EventsDAO e = new EventsDAO( tdao, EventsDAO.EventType.REMOVED, player.getName(), treasure.get_block().getLocation() );
+								// Create this EventsDAO in database
+								BooTreasure.get_eventsDAO().create(e);
+							}
+		            		
+		            	
+		            	}catch( Exception e){
+		        			
+		    				Log.warning("ChestDeleteProcedure -> run()" + e);
+		    			
+		    			}
 		            	
 		            }
 		        }

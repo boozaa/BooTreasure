@@ -45,6 +45,7 @@ public class BooTreasure  extends JavaPlugin{
 	// Le ConnectionSource de ormlite
 	@Getter private static ConnectionSource _connectionSource;
 	@Getter private static Dao<TreasureDAO, String> _treasureDAO;
+	@Getter private static Dao<EventsDAO, String> _eventsDAO;
 	
 	
 	@Override
@@ -102,11 +103,14 @@ public class BooTreasure  extends JavaPlugin{
 		String databaseUrl = "jdbc:sqlite:plugins/BooTreasure/bootreasure.db";
 		_connectionSource = new JdbcConnectionSource(databaseUrl);
 		
-		// Le DAO pour PyroUser
+		// Le DAO pour treasure
 		_treasureDAO = DaoManager.createDao(_connectionSource, TreasureDAO.class);
+		// Le DAO pour events
+		_eventsDAO = DaoManager.createDao(_connectionSource, EventsDAO.class);
 
-		// if you need to create the table
+		// Create the table
         TableUtils.createTable(_connectionSource, TreasureDAO.class);
+        TableUtils.createTable(_connectionSource, EventsDAO.class);
 			
     }
 	
