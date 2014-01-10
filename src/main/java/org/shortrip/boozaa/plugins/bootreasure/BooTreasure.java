@@ -75,7 +75,7 @@ public class BooTreasure  extends JavaPlugin{
 	@Override
 	public void onDisable() {
 		
-		// TODO: launch onDisable() on managers
+		managers.onDisable();
 		
 	}
 	

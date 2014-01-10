@@ -55,7 +55,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 
-public class Managers {
+public class Managers extends Manager {
 
 	private Plugin plugin;
 	@Getter private MyCache cacheManager;
@@ -83,7 +83,26 @@ public class Managers {
 		
 	}
 	
-	
+
+	@Override
+	public void onDisable() {
+		if( cacheManager != null )
+			cacheManager.onDisable();	
+		if( commandsManager != null )
+			commandsManager.onDisable();
+		if( configsManager != null )	
+			configsManager.onDisable();
+		if( cronManager != null )	
+			cronManager.onDisable();	
+		if( databaseManager != null )
+			databaseManager.onDisable();
+		if( eventsManager != null )	
+			eventsManager.onDisable();	
+		if( permissionsManager != null )
+			permissionsManager.onDisable();	
+		if( treasuresManager != null )
+			treasuresManager.onDisable();	
+	}
 	
 	
 	
@@ -1024,5 +1043,6 @@ public class Managers {
 		
 		
 	}
+
 	
 }
