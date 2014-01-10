@@ -17,6 +17,7 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
@@ -28,8 +29,6 @@ public class ChestDeleteProcedure implements Runnable {
 	private Player player;
 	private World world;
 	private Location chestLocation;
-	
-	private final String END = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.end");
 	
 	
 	public ChestDeleteProcedure(  Plugin plugin, Player p  ){
@@ -60,10 +59,10 @@ public class ChestDeleteProcedure implements Runnable {
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskWhatTreasure())
-		            .withEscapeSequence( END )
+		            .withEscapeSequence( Const.END )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.edit.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
+		                public String getPrefix(ConversationContext arg0) { return Const.CHEST_DELETE_PREFIX; }	 
 		            }).withInitialSessionData(map).withLocalEcho(true)
 		            .buildConversation(this.player);
 			
@@ -117,14 +116,14 @@ public class ChestDeleteProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
-			build.append( BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.delete.chest.ask.listalltreasures") );
+			build.append( Const.CHEST_DELETE_LIST );
 			build.append("\n");
 			for( Entry<String, Object> entry : BooTreasure.getManagers().getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();
 				TreasureChest tr = (TreasureChest) entry.getValue();
 				build.append( tr.get_name() + "\n" );
 			}
-			return build.toString().replaceAll("&", "§");
+			return build.toString();
 		}
 		
 		@Override

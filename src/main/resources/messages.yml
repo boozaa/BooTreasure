@@ -14,7 +14,6 @@ locales:
       intro: '&3Treasure creation'
       prefix: '&2[BooTreasure] '
       success: '&3Treasure successfully configured'
-      error: '&4An error occured'
   edit:
     chest:
       ask:
@@ -31,7 +30,13 @@ locales:
       intro: '&3Treasure edit'
       prefix: '&2[BooTreasure] '
       success: '&3Treasure successfully configured'
-      error: '&4An error occured'
+  delete:
+    chest:
+      ask:
+        listalltreasures: '&3Choose which treasure to &eedit'
+      intro: '&3Treasure delete'
+      prefix: '&2[BooTreasure] '
+      success: '&3Treasure successfully deleted'
   commands:
     exit: exit
     end: /end

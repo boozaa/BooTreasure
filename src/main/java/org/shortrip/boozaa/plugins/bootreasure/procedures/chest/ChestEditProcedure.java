@@ -19,6 +19,7 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.Const;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -35,16 +36,6 @@ public class ChestEditProcedure implements Runnable {
 	
 	@SuppressWarnings("unused")
 	private Map<String, String> treasuresIdAndNameMap = new HashMap<String, String>();
-	
-
-	@SuppressWarnings("unused")
-	private final String YES = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.agree");
-	@SuppressWarnings("unused")
-	private final String NO = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.disagree");
-	@SuppressWarnings("unused")
-	private final String EXIT = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.exit");
-	private final String END = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.end");
-	
 	
 	
 	public ChestEditProcedure(  Plugin plugin, Player p  ){
@@ -72,10 +63,10 @@ public class ChestEditProcedure implements Runnable {
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskWhatTreasure())
-		            .withEscapeSequence( END )
+		            .withEscapeSequence( Const.END )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.edit.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
+		                public String getPrefix(ConversationContext arg0) { return Const.CHEST_EDIT_PREFIX; }	 
 		            //}).withInitialSessionData(map).withLocalEcho(true)
 					}).withLocalEcho(true)
 		            .buildConversation(this.player);
@@ -115,7 +106,7 @@ public class ChestEditProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
-			build.append( BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.edit.chest.ask.listalltreasures") );
+			build.append( Const.CHEST_EDIT_LIST );
 			build.append("\n");
 			for( Entry<String, Object> entry : BooTreasure.getManagers().getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();
@@ -123,7 +114,7 @@ public class ChestEditProcedure implements Runnable {
 				build.append( tr.get_name() + "\n" );
 				idToNameMap.put( tr.get_id(), tr.get_name() );
 			}
-			return build.toString().replaceAll("&", "§");
+			return build.toString();
 			
 		}
 		
