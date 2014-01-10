@@ -43,7 +43,8 @@ public class BooTreasure  extends JavaPlugin{
 				| PermissionsVaultNullException
 				| TreasuresCleanupException
 				| TreasuresLoadException e) {
-			
+
+			// SEVERE -> disable plugin
 			Log.warning("Fatal error occured during startup, the plugin must be disabled");
 			Log.severe("The fatal error will be stored in plugins/BooTreasure/errors.txt", e);
 		}
