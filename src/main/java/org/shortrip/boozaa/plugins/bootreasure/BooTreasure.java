@@ -20,7 +20,13 @@ import lombok.Getter;
 
 public class BooTreasure  extends JavaPlugin{
 
+	/*
+	 * Static access to the Plugin instance
+	 */
 	@Getter private static BooTreasure instance;
+	/*
+	 * Static access to the Managers instance
+	 */
 	@Getter private static Managers managers;
 
 	

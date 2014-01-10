@@ -16,7 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.Const;
+import org.shortrip.boozaa.plugins.bootreasure.constants.Const;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 

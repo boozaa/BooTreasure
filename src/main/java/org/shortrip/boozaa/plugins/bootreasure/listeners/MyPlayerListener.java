@@ -30,12 +30,10 @@ public class MyPlayerListener implements Listener {
 	/**
 	 * Create a MyPlayerListener
 	 *
-	 * @param plugin
-     *            The plugin caller
-	 * @return A new MyPlayerListener
+	 * @param plugin The plugin caller
 	 */
-	public MyPlayerListener( Plugin bplugin ){
-		plugin = bplugin;
+	public MyPlayerListener( Plugin plugin ){
+		this.plugin = plugin;
 	}
 	
 	

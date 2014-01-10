@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.shortrip.boozaa.plugins.bootreasure.Const;
+import org.shortrip.boozaa.plugins.bootreasure.constants.Const;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO;
 import org.shortrip.boozaa.plugins.bootreasure.dao.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
@@ -310,9 +310,7 @@ public class Managers {
 		/**
 		* Loads a files configuration into Memory
 		*
-		* @param plugin Plugin to load file from if fileName does not exist in
-		* Plugins folder
-		* @param fileName File to load
+		* @param fileName to load file
 		*/
 		public void load(String fileName) throws ConfigNullFileException {
 	        Log.info("Loading in memory: " + fileName);
@@ -410,8 +408,7 @@ public class Managers {
 		/**
 		* Reload the config from the given Plugin.
 		*
-		* @param plugin Plugin to get the File from
-		* @param fileName File to reload
+		* @param fileName to get the File from
 		*/
 		public void reload(String fileName) {
 	        //File file = new File(plugin.getDataFolder(), fileName);
@@ -430,8 +427,7 @@ public class Managers {
 		/**
 		* Save the config for the given plugin
 		*
-		* @param plugin Plugin dir to save to the file to
-		* @param fileName File to save
+		* @param fileName to save to the file to
 		*/
 		public void save(String fileName) {
 	        File file = new File(plugin.getDataFolder(), fileName);

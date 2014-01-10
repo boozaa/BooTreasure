@@ -211,14 +211,14 @@ public class CommandFramework {
 		* be separated by periods. ie. a command that would be a subcommand of
 		* test would be 'test.subcommandname'
 		*
-		* @return
+		* @return String
 		*/
 		public String name();
 		 
 		/**
 		* Gets the required permission of the command
 		*
-		* @return
+		* @return String
 		*/
 		public String permission() default "";
 		 
@@ -226,7 +226,7 @@ public class CommandFramework {
 		* The message sent to the player when they do not have permission to
 		* execute it
 		*
-		* @return
+		* @return String
 		*/
 		public String noPerm() default "You do not have permission to perform that action";
 		 
@@ -234,21 +234,21 @@ public class CommandFramework {
 		* A list of alternate names that the command is executed under. See
 		* name() for details on how names work
 		*
-		* @return
+		* @return String
 		*/
 		public String[] aliases() default {};
 		 
 		/**
 		* The description that will appear in /help of the command
 		*
-		* @return
+		* @return String
 		*/
 		public String description() default "";
 		 
 		/**
 		* The usage that will appear in /help (commandname)
 		*
-		* @return
+		* @return String
 		*/
 		public String usage() default "";
 		
@@ -271,7 +271,7 @@ public class CommandFramework {
 		* then its values would be separated by periods. ie. a command that
 		* would be a subcommand of test would be 'test.subcommandname'
 		*
-		* @return
+		* @return String
 		*/
 		String name();
 		 
@@ -279,7 +279,7 @@ public class CommandFramework {
 		* A list of alternate names that the completer is executed under. See
 		* name() for details on how names work
 		*
-		* @return
+		* @return String[]
 		*/
 		String[] aliases() default {};
 	 
@@ -459,7 +459,7 @@ public class CommandFramework {
 		/**
 		* Gets the original command object
 		*
-		* @return
+		* @return Command
 		*/
 		public org.bukkit.command.Command getCommand() {
 			return command;
@@ -480,7 +480,7 @@ public class CommandFramework {
 		* it would only return 'foo foo' because 'subcommand' is part of the
 		* command
 		*
-		* @return
+		* @return String[]
 		*/
 		public String[] getArgs() {
 			return args;

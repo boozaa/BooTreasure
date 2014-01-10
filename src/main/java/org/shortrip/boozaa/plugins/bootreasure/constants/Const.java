@@ -1,19 +1,20 @@
-package org.shortrip.boozaa.plugins.bootreasure;
+package org.shortrip.boozaa.plugins.bootreasure.constants;
 
 import java.io.File;
+
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 
 
 public class Const {
 
 	/*
-	 * System utils paths
+	 * Get the lost+found path
+	 * @Deprecated 
 	 */
 	public static final String LOST_FOLDER_PATH						= BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator;
 	
-	/*
-	 * Permissions node paths
-	 */
+	
 	public static final String PERMISSIONS_PLAYER_CAN_ALL 			= "bootreasure.all";
 	public static final String PERMISSIONS_PLAYER_CAN_FIND 			= "bootreasure.treasure.find";
 	public static final String PERMISSIONS_PLAYER_CAN_BE_INFORMED 	= "bootreasure.treasure.informed";
@@ -23,10 +24,7 @@ public class Const {
 	public static final String PERMISSIONS_ADMIN_CAN_EDIT 			= "bootreasure.admin.edit";
 	public static final String PERMISSIONS_ADMIN_CAN_DELETE 		= "bootreasure.admin.delete";
 	
-	/*
-	 * Procedure words paths
-	 * 
-	 */
+	// messages.yml
 	private static Configuration getMessagesConfig(){
 		return BooTreasure.getManagers().getConfigsManager().get("messages.yml");
 	}
