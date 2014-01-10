@@ -66,8 +66,8 @@ public class BooTreasure  extends JavaPlugin{
 		try {
 			result = managers.getCommandsManager().handleCommand(sender, command, commandLabel, args);
 		} catch (CommandHandlerException e) {
-			// SEVERE -> disable plugin
-			Log.severe("onCommand() fatal error: CommandHandlerException", e.getThrowable());
+			// WARNING
+			Log.warning("onCommand() fatal error: CommandHandlerException" + e.getThrowable());
 		}
 		return result;		
 	}
@@ -75,7 +75,7 @@ public class BooTreasure  extends JavaPlugin{
 	
 	@Override
 	public void onDisable() {
-		
+		// Launch all managers onDisable()
 		managers.onDisable();
 		
 	}
