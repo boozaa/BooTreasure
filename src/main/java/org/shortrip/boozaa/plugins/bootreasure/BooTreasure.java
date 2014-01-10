@@ -36,7 +36,8 @@ public class BooTreasure  extends JavaPlugin{
 		
 		try {
 			
-			instance = this;				
+			instance = this;
+			// Load all stuff
 			managers = new Managers(this);
 			// MyPlayerListener
 			getServer().getPluginManager().registerEvents( new MyPlayerListener(this), this );
