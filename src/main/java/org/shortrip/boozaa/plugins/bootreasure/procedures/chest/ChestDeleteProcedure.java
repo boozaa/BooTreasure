@@ -79,7 +79,7 @@ public class ChestDeleteProcedure implements Runnable {
 		            	
 		            		
 		            		// Store event in database
-		            		BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(treasure, player, EventType.REMOVED);
+		            		BooTreasure.getDatabaseManager().addEventToDatabase(treasure, player, EventType.REMOVED);
 		            		
 		            	
 		            	}catch( Exception e){
@@ -118,7 +118,7 @@ public class ChestDeleteProcedure implements Runnable {
 			StringBuilder build = new StringBuilder();
 			build.append( Const.CHEST_DELETE_LIST );
 			build.append("\n");
-			for( Entry<String, Object> entry : BooTreasure.getManagers().getCacheManager().getTreasures().entrySet() ){
+			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();
 				TreasureChest tr = (TreasureChest) entry.getValue();
 				build.append( tr.get_name() + "\n" );
@@ -129,7 +129,7 @@ public class ChestDeleteProcedure implements Runnable {
 		@Override
 		protected boolean isInputValid(ConversationContext context, String in) {
 			
-			for( Entry<String, Object> entr : BooTreasure.getManagers().getCacheManager().getTreasures().entrySet() ){
+			for( Entry<String, Object> entr : BooTreasure.getCacheManager().getTreasures().entrySet() ){
 				// If string sent is a name of a cached treasure
 				if( entr.getKey().equalsIgnoreCase(in) ){
 					

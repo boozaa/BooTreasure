@@ -21,6 +21,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
+import org.shortrip.boozaa.plugins.bootreasure.utils.DataUtil;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
@@ -105,7 +106,22 @@ public class TreasureChest extends Treasure {
 			if( this._conf.get( CONTENTS_ITEMS ) != null ){
 				// Populate _inventory
 				List<ItemStack> items = (List<ItemStack>) this._conf.get( CONTENTS_ITEMS );
-				this._inventory = items.toArray(new ItemStack[0]);			
+				this._inventory = items.toArray(new ItemStack[0]);	
+				
+				// TODO : test de DataUtil
+				for( Object is : items ){
+					if( is != null ){
+						Log.debug( "Item contained in this treasure's config: " + is.toString() );
+						if( is instanceof ItemStack){
+							Log.debug( "This object is an ItemStack");
+							Log.debug( "Item string via DataUtil: " + DataUtil.toString((ItemStack)is) );
+						}	
+					}									
+				}
+				
+				
+				
+				
 			}			
 		}		
 	}
@@ -156,10 +172,10 @@ public class TreasureChest extends Treasure {
 			this.serialize();		
 					
 			// Delayed task to disappear on duration fixed on bukkit synchron way
-			BooTreasure.getManagers().getEventsManager().chestDisappearDelayedEvent(this);
+			BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
 			
 			// Store event in database
-			BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(this, EventType.APPEAR);
+			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.APPEAR);
 			Log.debug("Appear event stored in database");
 			
 		
@@ -223,7 +239,7 @@ public class TreasureChest extends Treasure {
 			
 
 			// Store event in database
-			BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(this, EventType.DISAPPEAR);
+			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.DISAPPEAR);
 			Log.debug("Disappear event stored in database");
 			
 			
@@ -255,7 +271,7 @@ public class TreasureChest extends Treasure {
 				
 
 				// Store event in database
-				BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(this, p, EventType.FOUND);
+				BooTreasure.getDatabaseManager().addEventToDatabase(this, p, EventType.FOUND);
 				Log.debug("Found event stored in database");
 			
 			}catch( Exception e){

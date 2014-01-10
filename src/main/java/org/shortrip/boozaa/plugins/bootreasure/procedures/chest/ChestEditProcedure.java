@@ -108,7 +108,7 @@ public class ChestEditProcedure implements Runnable {
 			StringBuilder build = new StringBuilder();
 			build.append( Const.CHEST_EDIT_LIST );
 			build.append("\n");
-			for( Entry<String, Object> entry : BooTreasure.getManagers().getCacheManager().getTreasures().entrySet() ){
+			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();
 				TreasureChest tr = (TreasureChest) entry.getValue();
 				build.append( tr.get_name() + "\n" );
@@ -122,7 +122,7 @@ public class ChestEditProcedure implements Runnable {
 		protected boolean isInputValid(ConversationContext context, String in) {
 			for( Entry<String, String> entry : idToNameMap.entrySet() ){
 				if( in.equalsIgnoreCase( entry.getValue() ) ){
-					treasure = (TreasureChest) BooTreasure.getManagers().getCacheManager().get( entry.getKey() );
+					treasure = (TreasureChest) BooTreasure.getCacheManager().get( entry.getKey() );
 					return true;
 				}
 			}

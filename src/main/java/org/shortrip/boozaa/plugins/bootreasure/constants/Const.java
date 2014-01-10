@@ -26,7 +26,7 @@ public class Const {
 	
 	// messages.yml
 	private static Configuration getMessagesConfig(){
-		return BooTreasure.getManagers().getConfigsManager().get("messages.yml");
+		return BooTreasure.getConfigsManager().get("messages.yml");
 	}
 	public static String YES			= getMessagesConfig().getString("locales.commands.agree");
 	public static String NO 			= getMessagesConfig().getString("locales.commands.disagree");

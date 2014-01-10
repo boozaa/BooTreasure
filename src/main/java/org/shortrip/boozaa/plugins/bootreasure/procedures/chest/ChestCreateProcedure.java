@@ -87,28 +87,28 @@ public class ChestCreateProcedure implements Runnable {
 			            	Log.debug( treasure.toString() );
 			            	
 			            	// Stockage en cache
-			            	BooTreasure.getManagers().getCacheManager().get_treasureCache().add(treasure.get_id(), treasure);
+			            	BooTreasure.getCacheManager().get_treasureCache().add(treasure.get_id(), treasure);
 			            	Log.debug("ChestTreasure stored in cache");
 			            	
 			            	// Stockage dans treasures.yml
-			            	BooTreasure.getManagers().getConfigsManager().saveNewTreasureChest(treasure);
+			            	BooTreasure.getConfigsManager().saveNewTreasureChest(treasure);
 			            	Log.debug("ChestTreasure saved in treasures.yml");
 			            	
 			            	// Create new TreasureDAO in database
-			            	BooTreasure.getManagers().getDatabaseManager().addTreasureToDatabase( treasure );							
+			            	BooTreasure.getDatabaseManager().addTreasureToDatabase( treasure );							
 							
 							// Store event in database
-			            	BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(treasure, player, EventType.CREATED);
+			            	BooTreasure.getDatabaseManager().addEventToDatabase(treasure, player, EventType.CREATED);
 							Log.debug("Created event stored in database");
 			            		            		            	
 							
 			            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
 			            	Log.debug("Launch disappear event silently for creation chest");
-			            	BooTreasure.getManagers().getEventsManager().chestDisappearSilentlyEvent(treasure);
+			            	BooTreasure.getEventsManager().chestDisappearSilentlyEvent(treasure);
 			            	
 			            	// Give it to the cronManager
 			            	Log.debug("Give a TreasureTask of this treasure to the CronManager");
-			            	BooTreasure.getManagers().getCronManager().addTask(new TreasureTask(plugin, treasure));
+			            	BooTreasure.getCronManager().addTask(new TreasureTask(plugin, treasure));
 			            	
 		            	}catch( Exception e){
 		        			
@@ -213,7 +213,7 @@ public class ChestCreateProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder str = new StringBuilder();
-			str.append(BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.world").replaceAll("&", "§") + ": " + System.getProperty("line.separator")  );
+			str.append(BooTreasure.getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.world").replaceAll("&", "§") + ": " + System.getProperty("line.separator")  );
 			for( World w : this._worlds ){
 				str.append(w.getName() + " ");
 			}		
