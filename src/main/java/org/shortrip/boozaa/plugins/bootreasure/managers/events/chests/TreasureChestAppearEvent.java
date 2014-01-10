@@ -20,10 +20,10 @@ public class TreasureChestAppearEvent extends Events {
 		
 		Log.debug("TreasureChestAppearEvent event for id " + id);
 		// On prend le Treasure dans le Cache
-		if( BooTreasure.getCacheManager().exists(id)){	
+		if( BooTreasure.getManagers().getCacheManager().exists(id)){	
 			
 			Log.debug("Treasure exists in cache: " + id);
-			final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
+			final TreasureChest t = (TreasureChest) BooTreasure.getManagers().getCacheManager().get_treasureCache().getObject(id);
 			if( t.get_found() == false ){
 				
 				Bukkit.getServer().getScheduler().runTask(this.plugin, new Runnable() {

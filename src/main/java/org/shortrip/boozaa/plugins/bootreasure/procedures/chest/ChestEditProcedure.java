@@ -38,12 +38,12 @@ public class ChestEditProcedure implements Runnable {
 	
 
 	@SuppressWarnings("unused")
-	private final String YES = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.agree");
+	private final String YES = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.agree");
 	@SuppressWarnings("unused")
-	private final String NO = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.disagree");
+	private final String NO = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.disagree");
 	@SuppressWarnings("unused")
-	private final String EXIT = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.exit");
-	private final String END = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.end");
+	private final String EXIT = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.exit");
+	private final String END = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.end");
 	
 	
 	
@@ -75,7 +75,7 @@ public class ChestEditProcedure implements Runnable {
 		            .withEscapeSequence( END )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getConfigManager().get("messages.yml").getString("locales.edit.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
+		                public String getPrefix(ConversationContext arg0) { return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.edit.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator"); }	 
 		            //}).withInitialSessionData(map).withLocalEcho(true)
 					}).withLocalEcho(true)
 		            .buildConversation(this.player);
@@ -115,9 +115,9 @@ public class ChestEditProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
-			build.append( BooTreasure.getConfigManager().get("messages.yml").getString("locales.edit.chest.ask.listalltreasures") );
+			build.append( BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.edit.chest.ask.listalltreasures") );
 			build.append("\n");
-			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
+			for( Entry<String, Object> entry : BooTreasure.getManagers().getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();
 				TreasureChest tr = (TreasureChest) entry.getValue();
 				build.append( tr.get_name() + "\n" );
@@ -131,7 +131,7 @@ public class ChestEditProcedure implements Runnable {
 		protected boolean isInputValid(ConversationContext context, String in) {
 			for( Entry<String, String> entry : idToNameMap.entrySet() ){
 				if( in.equalsIgnoreCase( entry.getValue() ) ){
-					treasure = (TreasureChest) BooTreasure.getCacheManager().get( entry.getKey() );
+					treasure = (TreasureChest) BooTreasure.getManagers().getCacheManager().get( entry.getKey() );
 					return true;
 				}
 			}

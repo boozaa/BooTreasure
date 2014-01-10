@@ -29,7 +29,7 @@ public class TreasureTask extends CronTask {
 			
 			TreasureChest ch = (TreasureChest)treasure;			
 			// Launch chest appear event
-			BooTreasure.getEventsManager().chestAppearEvent(ch);
+			BooTreasure.getManagers().getEventsManager().chestAppearEvent(ch);
 			
 		}
     }

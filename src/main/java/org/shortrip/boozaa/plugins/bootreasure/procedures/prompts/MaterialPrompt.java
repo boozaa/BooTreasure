@@ -13,7 +13,7 @@ public abstract class MaterialPrompt extends ValidatingPrompt {
 
 		Log.debug("Validating input, must be a Material -> input = " + in);
 		Material mat = Material.getMaterial(in);		
-		String exit = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.exit");
+		String exit = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.exit");
 		if( mat != null || in.equalsIgnoreCase( exit ) ){
 			return true;
 		}

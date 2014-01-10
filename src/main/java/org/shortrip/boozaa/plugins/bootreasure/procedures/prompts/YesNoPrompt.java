@@ -8,8 +8,8 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public abstract class YesNoPrompt extends ValidatingPrompt {
 
-	private final String YES 	= BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.agree");
-	private final String NO 	= BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.disagree");
+	private final String YES 	= BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.agree");
+	private final String NO 	= BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.disagree");
 	
 	
 	@Override

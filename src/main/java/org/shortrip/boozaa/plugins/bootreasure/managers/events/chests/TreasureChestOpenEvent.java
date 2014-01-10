@@ -21,11 +21,11 @@ public class TreasureChestOpenEvent extends Events {
 		Log.debug("TreasureChestOpenEvent event for id " + id);
 		
 		// On prend le Treasure dans le Cache
-		if( BooTreasure.getCacheManager().exists(id)){	
+		if( BooTreasure.getManagers().getCacheManager().exists(id)){	
 			
 			Log.debug("Chest metadata BooTreasure found, this opened chest is a treasure"); 
 			Log.debug("Treasure exists in cache: " + id);
-			final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
+			final TreasureChest t = (TreasureChest) BooTreasure.getManagers().getCacheManager().get_treasureCache().getObject(id);
 			
 			if( t.get_found() == false ){
 				

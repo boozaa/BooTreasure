@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.EventsDAO.EventType;
+import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -156,10 +156,10 @@ public class TreasureChest extends Treasure {
 			this.serialize();		
 					
 			// Delayed task to disappear on duration fixed on bukkit synchron way
-			BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
+			BooTreasure.getManagers().getEventsManager().chestDisappearDelayedEvent(this);
 			
 			// Store event in database
-			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.APPEAR);
+			BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(this, EventType.APPEAR);
 			Log.debug("Appear event stored in database");
 			
 		
@@ -223,7 +223,7 @@ public class TreasureChest extends Treasure {
 			
 
 			// Store event in database
-			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.DISAPPEAR);
+			BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(this, EventType.DISAPPEAR);
 			Log.debug("Disappear event stored in database");
 			
 			
@@ -255,7 +255,7 @@ public class TreasureChest extends Treasure {
 				
 
 				// Store event in database
-				BooTreasure.getDatabaseManager().addEventToDatabase(this, p, EventType.FOUND);
+				BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(this, p, EventType.FOUND);
 				Log.debug("Found event stored in database");
 			
 			}catch( Exception e){

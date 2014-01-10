@@ -18,7 +18,7 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.EventsDAO.EventType;
+import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.*;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
@@ -36,8 +36,8 @@ public class ChestCreateProcedure implements Runnable {
 	
 	//private final String YES = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.agree");
 	//private final String NO = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.disagree");
-	private final String EXIT = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.exit");
-	private final String END = BooTreasure.getConfigManager().get("messages.yml").getString("locales.commands.end");
+	private final String EXIT = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.exit");
+	private final String END = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.commands.end");
 	
 	
 	
@@ -64,7 +64,7 @@ public class ChestCreateProcedure implements Runnable {
 			// Le ConversationFactory
 			ConversationFactory factory = new ConversationFactory(this.plugin);
 			
-			final String prefix = BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator");
+			final String prefix = BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator");
 			
 			// On construit la conversation
 			Conversation conv = factory
@@ -95,28 +95,28 @@ public class ChestCreateProcedure implements Runnable {
 			            	Log.debug( treasure.toString() );
 			            	
 			            	// Stockage en cache
-			            	BooTreasure.getCacheManager().get_treasureCache().add(treasure.get_id(), treasure);
+			            	BooTreasure.getManagers().getCacheManager().get_treasureCache().add(treasure.get_id(), treasure);
 			            	Log.debug("ChestTreasure stored in cache");
 			            	
 			            	// Stockage dans treasures.yml
-			            	BooTreasure.getConfigManager().saveNewTreasureChest(treasure);
+			            	BooTreasure.getManagers().getConfigsManager().saveNewTreasureChest(treasure);
 			            	Log.debug("ChestTreasure saved in treasures.yml");
 			            	
 			            	// Create new TreasureDAO in database
-							BooTreasure.getDatabaseManager().addTreasureToDatabase( treasure );							
+			            	BooTreasure.getManagers().getDatabaseManager().addTreasureToDatabase( treasure );							
 							
 							// Store event in database
-							BooTreasure.getDatabaseManager().addEventToDatabase(treasure, player, EventType.CREATED);
+			            	BooTreasure.getManagers().getDatabaseManager().addEventToDatabase(treasure, player, EventType.CREATED);
 							Log.debug("Created event stored in database");
 			            		            		            	
 							
 			            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
 			            	Log.debug("Launch disappear event silently for creation chest");
-			            	BooTreasure.getEventsManager().chestDisappearSilentlyEvent(treasure);
+			            	BooTreasure.getManagers().getEventsManager().chestDisappearSilentlyEvent(treasure);
 			            	
 			            	// Give it to the cronManager
 			            	Log.debug("Give a TreasureTask of this treasure to the CronManager");
-			            	BooTreasure.getCronManager().addTask(new TreasureTask(plugin, treasure));
+			            	BooTreasure.getManagers().getCronManager().addTask(new TreasureTask(plugin, treasure));
 		            	}catch( Exception e){
 		        			
 		    				Log.warning("ChestCreateProcedure -> run()" + e);
@@ -147,7 +147,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {			
-			return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.name").replaceAll("&", "§");
+			return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.name").replaceAll("&", "§");
 		}
 
 		@Override
@@ -168,7 +168,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.pattern").replaceAll("&", "§");
+			return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.pattern").replaceAll("&", "§");
 		}
 
 		@Override
@@ -183,7 +183,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.duration").replaceAll("&", "§");
+			return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.duration").replaceAll("&", "§");
 		}
 
 		@Override
@@ -198,7 +198,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.infinite").replaceAll("&", "§");
+			return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.infinite").replaceAll("&", "§");
 		}
 
 		@Override
@@ -220,7 +220,7 @@ public class ChestCreateProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder str = new StringBuilder();
-			str.append(BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.world").replaceAll("&", "§") + ": " + System.getProperty("line.separator")  );
+			str.append(BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.world").replaceAll("&", "§") + ": " + System.getProperty("line.separator")  );
 			for( World w : this._worlds ){
 				str.append(w.getName() + " ");
 			}		
@@ -239,7 +239,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.onlyonsurface").replaceAll("&", "§");
+			return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.onlyonsurface").replaceAll("&", "§");
 		}
 
 		@Override
@@ -259,7 +259,7 @@ public class ChestCreateProcedure implements Runnable {
 		
 		@Override
 		public String getPromptText(ConversationContext context) {
-			return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.preservecontent").replaceAll("&", "§");
+			return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.preservecontent").replaceAll("&", "§");
 		}
 			
 		@Override
@@ -271,8 +271,8 @@ public class ChestCreateProcedure implements Runnable {
 	    		treasure.set_preservecontent(false);
 	    	}    	    	
 	    	return new WaitingEndPrompt(
-    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.waitingend").replaceAll("&", "§"), 
-    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.success").replaceAll("&", "§")); 
+	    			BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.waitingend").replaceAll("&", "§"), 
+	    			BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.success").replaceAll("&", "§")); 
 		}
 		
 	}
@@ -284,7 +284,7 @@ public class ChestCreateProcedure implements Runnable {
 		
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.allowedids").replaceAll("&", "§");
+			return BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.allowedids").replaceAll("&", "§");
 		}
 
 		@Override
@@ -304,8 +304,8 @@ public class ChestCreateProcedure implements Runnable {
 	    		treasure.set_placesMaterials(this._materials);
 	        	// On lance le WaitingEndPrompt
 	    		return new WaitingEndPrompt(
-	    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.ask.waitingend").replaceAll("&", "§"), 
-	    				BooTreasure.getConfigManager().get("messages.yml").getString("locales.create.chest.success").replaceAll("&", "§"));
+	    				BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.waitingend").replaceAll("&", "§"), 
+	    				BooTreasure.getManagers().getConfigsManager().get("messages.yml").getString("locales.create.chest.success").replaceAll("&", "§"));
 			}
 	    	
 	    	// On boucle pour attendre les prochains blocks

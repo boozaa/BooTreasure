@@ -17,7 +17,7 @@ public abstract class TreasureNameExistPrompt extends ValidatingPrompt {
 	
 	
 	public TreasureNameExistPrompt(){
-		for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
+		for( Entry<String, Object> entry : BooTreasure.getManagers().getCacheManager().getTreasures().entrySet() ){
 			this.treasureNames.add(entry.getKey());
 		}
 	}
