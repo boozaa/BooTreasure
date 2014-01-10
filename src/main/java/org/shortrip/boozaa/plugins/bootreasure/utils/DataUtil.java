@@ -13,13 +13,14 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import java.lang.reflect.Field;
 
 
 @SuppressWarnings("deprecation")
 public class DataUtil {
 
 	
-    /** A comparator to sort Enchantments by name */
+	/** A comparator to sort Enchantments by name */
     private static final Comparator<Enchantment> ENCHANTMENT_COMPARATOR = new Comparator<Enchantment>() {
 
             @Override
@@ -77,56 +78,60 @@ public class DataUtil {
      * @see #fromString(String) to get an ItemStack from the provided String
      */
     public static String toString(final ItemStack is) {
-            final String idString = is.getType().name();
-            final String dataString = Short.toString(is.getDurability());
-            final String amountString = Integer.toString(is.getAmount());
+            
+    	Log.debug("Transform an ItemStack to string: " + is.toString() );
+    	final String idString = is.getType().name();
+        final String dataString = Short.toString(is.getDurability());
+        final String amountString = Integer.toString(is.getAmount());
 
-            final String enchantmentsString;
-            if (is.getEnchantments().isEmpty()) {
-                    enchantmentsString = "";
-            } else {
-                    final StringBuilder enchantmentsStringBuilder = new StringBuilder();
-                    final Map<Enchantment, Integer> sortedEnchantmentMap = new TreeMap<>(ENCHANTMENT_COMPARATOR);
-                    sortedEnchantmentMap.putAll(is.getEnchantments());
-                    for (final Map.Entry<Enchantment, Integer> e : sortedEnchantmentMap.entrySet()) {
-                            enchantmentsStringBuilder.append(e.getKey().getName());
-                            enchantmentsStringBuilder.append(':');
-                            enchantmentsStringBuilder.append(e.getValue());
-                            enchantmentsStringBuilder.append(',');
-                    }
-                    enchantmentsString = enchantmentsStringBuilder.substring(0, enchantmentsStringBuilder.length() - 1);
-            }
+        final String enchantmentsString;
+        if (is.getEnchantments().isEmpty()) {
+                enchantmentsString = "";
+        } else {
+                final StringBuilder enchantmentsStringBuilder = new StringBuilder();
+                final Map<Enchantment, Integer> sortedEnchantmentMap = new TreeMap<>(ENCHANTMENT_COMPARATOR);
+                sortedEnchantmentMap.putAll(is.getEnchantments());
+                for (final Map.Entry<Enchantment, Integer> e : sortedEnchantmentMap.entrySet()) {
+                        enchantmentsStringBuilder.append(e.getKey().getName());
+                        enchantmentsStringBuilder.append(':');
+                        enchantmentsStringBuilder.append(e.getValue());
+                        enchantmentsStringBuilder.append(',');
+                }
+                enchantmentsString = enchantmentsStringBuilder.substring(0, enchantmentsStringBuilder.length() - 1);
+        }
 
-            final ItemMeta meta = is.getItemMeta();
-            final String nameString;
-            if (meta.hasDisplayName()) {
-                    nameString = meta.getDisplayName();
-            } else {
-                    nameString = "";
-            }
+        final ItemMeta meta = is.getItemMeta();
+        final String nameString;
+        if (meta.hasDisplayName()) {
+                nameString = meta.getDisplayName();
+        } else {
+                nameString = "";
+        }
 
-            final String loreString;
-            if (meta.hasLore()) {
-                    final List<String> lore = meta.getLore();
-                    final String separator = getPossibleSeparator(lore);
-                    final StringBuilder loreStringBuilder = new StringBuilder();
-                    for (final String loreLine : lore) {
-                            loreStringBuilder.append(separator).append(loreLine);
-                    }
-                    loreString = loreStringBuilder.toString();
-            } else {
-                    loreString = "";
-            }
+        final String loreString;
+        if (meta.hasLore()) {
+                final List<String> lore = meta.getLore();
+                final String separator = getPossibleSeparator(lore);
+                final StringBuilder loreStringBuilder = new StringBuilder();
+                for (final String loreLine : lore) {
+                        loreStringBuilder.append(separator).append(loreLine);
+                }
+                loreString = loreStringBuilder.toString();
+        } else {
+                loreString = "";
+        }
 
-            final StringBuilder resultBuilder = new StringBuilder();
-            resultBuilder.append(idString).append(";;");
-            resultBuilder.append(dataString).append(";;");
-            resultBuilder.append(amountString).append(";;");
-            resultBuilder.append(enchantmentsString).append(";;");
-            resultBuilder.append(nameString).append(";;");
-            resultBuilder.append(loreString);
+        final StringBuilder resultBuilder = new StringBuilder();
+        resultBuilder.append(idString).append(";;");
+        resultBuilder.append(dataString).append(";;");
+        resultBuilder.append(amountString).append(";;");
+        resultBuilder.append(enchantmentsString).append(";;");
+        resultBuilder.append(nameString).append(";;");
+        resultBuilder.append(loreString);
 
-            return resultBuilder.toString();
+        Log.debug("Result: " + resultBuilder.toString() );
+        
+        return resultBuilder.toString();
     }
 
     /**
@@ -365,15 +370,34 @@ public class DataUtil {
      * @return the associated Material or null if not found
      */
     public static Material getMaterial(final String idString) {
-            Material result = Material.matchMaterial(idString);
-            if (result == null) {
-                    try {
-                            result = Material.getMaterial(Integer.parseInt(idString));
-                    } catch (final NumberFormatException e) {
-                            return null;
+            try {
+                    final int id = Integer.parseInt(idString);
+                    for (final Material m : Material.values()) {
+                            if (m.getId() == id && !isMaterialDeprecated(m)) {
+                                    return m;
+                            }
                     }
+                    return null;
+            } catch (final NumberFormatException e) {
+                    final String filtered = idString.toUpperCase().replaceAll("\\s+", "_").replaceAll("\\W", "");
+                    return Material.getMaterial(filtered);
             }
-            return result;
+    }
+
+    /**
+     * Checks if a Material is deprecated.
+     *
+     * @param material the Material to check
+     *
+     * @return true if deprecated, false otherwise
+     */
+    public static boolean isMaterialDeprecated(final Material material) {
+            try {
+                    final Field f = Material.class.getField(material.name());
+                    return f.isAnnotationPresent(Deprecated.class);
+            } catch (NoSuchFieldException e) {
+                    throw new IllegalArgumentException("Material not found: " + material.name(), e);
+            }
     }
 
     /**
@@ -384,7 +408,7 @@ public class DataUtil {
      *
      * @return the associated Enchantment or null if not found
      */
-	public static Enchantment getEnchantment(final String enchantmentName) {
+    public static Enchantment getEnchantment(final String enchantmentName) {
             Enchantment result = Enchantment.getByName(enchantmentName);
             if (result == null) {
                     try {
@@ -428,9 +452,7 @@ public class DataUtil {
             return SEPARATOR_CHARS.charAt(RANDOM.nextInt(SEPARATOR_CHARS.length()));
     }
 
-    
-    @SuppressWarnings("serial")
-	public static class DataUtilParserException extends Exception {
+    public static class DataUtilParserException extends Exception {
 
             private final String parsed;
             private final String reason;

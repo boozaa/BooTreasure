@@ -102,7 +102,9 @@ public class TreasureChest extends Treasure {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void generateContents(){		
+		
 		if( this._conf != null ){			
+			
 			if( this._conf.get( CONTENTS_ITEMS ) != null ){
 				// Populate _inventory
 				List<ItemStack> items = (List<ItemStack>) this._conf.get( CONTENTS_ITEMS );
@@ -113,17 +115,15 @@ public class TreasureChest extends Treasure {
 					if( is != null ){
 						Log.debug( "Item contained in this treasure's config: " + is.toString() );
 						if( is instanceof ItemStack){
-							Log.debug( "This object is an ItemStack");
-							Log.debug( "Item string via DataUtil: " + DataUtil.toString((ItemStack)is) );
+							DataUtil.toString((ItemStack)is);
 						}	
 					}									
 				}
 				
-				
-				
-				
-			}			
-		}		
+			}	
+			
+		}	
+		
 	}
 	
 	
