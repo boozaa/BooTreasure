@@ -52,7 +52,7 @@ public class BooTreasure  extends JavaPlugin{
 
 			// SEVERE -> disable plugin
 			Log.warning("Fatal error occured during startup, the plugin must be disabled");
-			Log.severe("The fatal error will be stored in plugins/BooTreasure/errors.txt", e);
+			Log.severe("onEnable() fatal error", e);
 		}
 				
 	}
