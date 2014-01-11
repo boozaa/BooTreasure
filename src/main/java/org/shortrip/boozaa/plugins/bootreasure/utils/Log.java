@@ -40,6 +40,7 @@ public class Log {
 	
 	public static void severe(String error, Throwable message) {
 		console.sendMessage(prefix + ChatColor.RED + "- SEVERE - Fatal error, the plugin must be disabled: " + message.getMessage());
+		console.sendMessage(prefix + ChatColor.RED + "- SEVERE - You will find the error in /plugins/BooTreasure/errors.txt, please provide it if you want to help solving this issue" );
 		writeError(error, message);
 		Bukkit.getPluginManager().disablePlugin(BooTreasure.getInstance());
 	}

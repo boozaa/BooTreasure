@@ -31,7 +31,9 @@ public class BooTreasure  extends JavaPlugin{
 	 * Static access to the Plugin instance
 	 */
 	@Getter private static BooTreasure instance;
-	
+	/*
+	 * All the static Managers
+	 */
 	@Getter private static MyCache cacheManager;
 	@Getter private static MyCommands commandsManager;
 	@Getter private static MyConfigs configsManager;
@@ -111,8 +113,31 @@ public class BooTreasure  extends JavaPlugin{
 	
 	@Override
 	public void onDisable() {
+		
 		// Launch all managers onDisable()
-		//managers.onDisable();
+		if( treasuresManager != null )
+			treasuresManager.onDisable();
+		
+		if( permissionsManager != null )
+			permissionsManager.onDisable();
+		
+		if( eventsManager != null )
+			eventsManager.onDisable();
+		
+		if( cronManager != null )
+			cronManager.onDisable();
+		
+		if( commandsManager != null )
+			commandsManager.onDisable();
+		
+		if( cacheManager != null )
+			cacheManager.onDisable();
+		
+		if( databaseManager != null )
+			databaseManager.onDisable();
+		
+		if( configsManager != null )
+			configsManager.onDisable();
 		
 	}
 	
