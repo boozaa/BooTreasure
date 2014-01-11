@@ -5,8 +5,8 @@ generator: Boozaa Bukkit Generator
 main: org.shortrip.boozaa.plugins.bootreasure.BooTreasure
 name: BooTreasure
 startup: POSTWORLD
-version: '0.5'
-softDepend: [Vault]
+version: '0.6'
+Depend: [Vault]
 commands:
   bootreasure:
     description: bootreasure

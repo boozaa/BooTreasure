@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.shortrip.boozaa.plugins.bootreasure</groupId>
     <artifactId>BooTreasure</artifactId>
-    <version>0.5</version>
+    <version>0.6</version>
     <name>BooTreasure</name>
     <repositories>
         <repository>
@@ -91,29 +91,9 @@
                                   <shadedPattern>org.shortrip.boozaa.plugins.ormlite</shadedPattern>
                               </relocation>
                               <relocation>
-                                  <pattern>com.mysql.jdbc</pattern>
-                                  <shadedPattern>org.shortrip.boozaa.plugins.mysql-connector</shadedPattern>
-                              </relocation>
-                              <relocation>
                                 <pattern>it.sauronsoftware.cron4j</pattern>
                                 <shadedPattern>org.shortrip.boozaa.plugins.cron4j</shadedPattern>
-                            </relocation>                            
-                            <relocation>
-                                <pattern>com.sun</pattern>
-                                <shadedPattern>org.shortrip.boozaa.plugins.lombok.com.sun</shadedPattern>
-                            </relocation>
-                            <relocation>
-                                <pattern>com.zwitserloot</pattern>
-                                <shadedPattern>org.shortrip.boozaa.plugins.lombok.com.zwitserloot</shadedPattern>
-                            </relocation>
-                            <relocation>
-                                <pattern>lombok</pattern>
-                                <shadedPattern>org.shortrip.boozaa.plugins.lombok.lombok</shadedPattern>
-                            </relocation>
-                            <relocation>
-                                <pattern>org.objectweb</pattern>
-                                <shadedPattern>org.shortrip.boozaa.plugins.lombok.org.objectweb</shadedPattern>
-                            </relocation>                            
+                            </relocation>                      
                           </relocations>
                       </configuration>
                   </execution>
@@ -163,7 +143,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>0.12.0</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency> 
         <dependency>
             <groupId>com.j256.ormlite</groupId>
@@ -184,7 +164,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.26</version>           
             <type>jar</type>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>        
 		<dependency>
 			<groupId>com.sk89q</groupId>
