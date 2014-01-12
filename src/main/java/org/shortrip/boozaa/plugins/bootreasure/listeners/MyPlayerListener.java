@@ -1,7 +1,6 @@
 package org.shortrip.boozaa.plugins.bootreasure.listeners;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.block.Chest;
@@ -127,8 +126,6 @@ public class MyPlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerMove( PlayerMoveEvent event ){
 		
-		
-		Player player = event.getPlayer();
 		// On récupère les Chests dans le radius de 10
 		Chest[] chests = LocationUtils.getNearbyChest(event.getPlayer(), 10);
 		for( Chest ch : chests ){
