@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure.procedures.prompts;
+package org.shortrip.boozaa.plugins.bootreasure.procedures.validityprompts;
 
 import org.bukkit.Material;
 import org.bukkit.conversations.ConversationContext;

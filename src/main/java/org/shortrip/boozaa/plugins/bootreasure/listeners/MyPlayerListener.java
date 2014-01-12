@@ -1,6 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.block.Chest;
@@ -12,8 +13,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestOpenEvent;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.LocationUtils;
+import org.shortrip.boozaa.plugins.bootreasure.utils.ParticleEffects;
 
 
 
@@ -117,7 +123,7 @@ public class MyPlayerListener implements Listener {
 				
 	}
 	
-	/*
+	
 	@EventHandler
 	public void onPlayerMove( PlayerMoveEvent event ){
 		
@@ -127,15 +133,22 @@ public class MyPlayerListener implements Listener {
 		Chest[] chests = LocationUtils.getNearbyChest(event.getPlayer(), 10);
 		for( Chest ch : chests ){
 			
-			if( ch.hasMetadata("BooTreasure") ){
+			if( ch.hasMetadata("BooTreasure-Chest") ){
 				
-				String id = ch.getMetadata("BooTreasure").get(0).asString();
+				String id = ch.getMetadata("BooTreasure-Chest").get(0).asString();
 				
-				if( BooTreasure.getTreasureCache().exists(id)){	
-					final Treasure treasure = (Treasure) BooTreasure.getTreasureCache().getObject(id);
+				if( BooTreasure.getCacheManager().exists(id)){	
+					final TreasureChest treasure = (TreasureChest) BooTreasure.getCacheManager().get(id);
 					if( treasure != null ){
-	        			// On lance effet au centre du block
-	            		Bukkit.getWorld(treasure.get_world()).playEffect( ch.getBlock().getLocation(), Effect.MOBSPAWNER_FLAMES,10);
+	        			
+						Bukkit.getScheduler().runTask(BooTreasure.getInstance(), new Runnable(){
+
+							@Override
+							public void run() {
+								ParticleEffects.sendToLocation(ParticleEffects.ENDER, treasure.get_block().getLocation(), 1.0F, 1.0F, 1.0F, 0, 20);
+							}
+							
+						});
 	            		
 	        		}					
 					
@@ -145,5 +158,5 @@ public class MyPlayerListener implements Listener {
 		}
 		
 	}
-	*/
+
 }

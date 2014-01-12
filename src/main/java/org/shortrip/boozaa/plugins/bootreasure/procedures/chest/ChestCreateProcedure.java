@@ -21,7 +21,7 @@ import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.constants.Const;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
-import org.shortrip.boozaa.plugins.bootreasure.procedures.prompts.*;
+import org.shortrip.boozaa.plugins.bootreasure.procedures.validityprompts.*;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -53,7 +53,7 @@ public class ChestCreateProcedure implements Runnable {
 		try{
 		
 			// Apparition du Chest devant le player
-			this.treasure.chestAppear();
+			this.treasure.appearSilently();
 			
 			// Le ConversationFactory
 			ConversationFactory factory = new ConversationFactory(this.plugin);

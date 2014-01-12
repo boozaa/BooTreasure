@@ -23,6 +23,7 @@ import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
 import org.shortrip.boozaa.plugins.bootreasure.utils.DataUtil;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+import org.shortrip.boozaa.plugins.bootreasure.utils.ParticleEffects;
 
 
 @Data
@@ -127,19 +128,40 @@ public class TreasureChest extends Treasure {
 	}
 	
 	
-	public void chestAppear(){
+	
+	private void storeBlockCoordinates( Location loc ){
+		this._x = loc.getBlockX();
+		this._y = loc.getBlockY();
+		this._z = loc.getBlockZ();
+	}
+	
+	private Chest setToChest(){
+		this._block.setType(Material.CHEST);
+		return (Chest)this._block.getState();
+	}
+	
+	
+	
+	@Override
+	public void appearSilently() {
+		
 		if( this._block == null ){
 			this._block = Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
 		}
 		this._block.setType(Material.CHEST);
+		ParticleEffects.sendToLocation(ParticleEffects.ENCHANTMENT_TABLE, _block.getLocation(), 2.0F, 2.0F, 2.0F, 0, 40);	
+		
 	}
-	
-	
-	public void chestDisappear(){
+
+	@Override
+	public void disAppearSilently() {
+				
+		ParticleEffects.sendToLocation(ParticleEffects.ENDER, _block.getLocation(), 2.0F, 2.0F, 2.0F, 0, 40);
 		if( this._block == null ){
 			this._block = Bukkit.getWorld(this._world).getBlockAt( this._x, this._y, this._z );
 		}
-		this._block.setType(Material.AIR);
+		this._block.setType(Material.AIR);	
+		
 	}
 	
 
@@ -155,12 +177,10 @@ public class TreasureChest extends Treasure {
 			if( this._block == null ){ Log.info("Can't find a good place for spawning this chest on loaded chunks"); return; }
 			
 			// Store coordinates
-			this._x = _block.getLocation().getBlockX();
-			this._y = _block.getLocation().getBlockY();
-			this._z = _block.getLocation().getBlockZ();
-							
-			this._block.setType(Material.CHEST);
-			Chest chest = (Chest)this._block.getState();
+			storeBlockCoordinates( _block.getLocation() );				
+			
+			// Set to chest
+			Chest chest = setToChest();
 			
 			// Give own inventory to this chest
 			chest.getInventory().setContents(this._inventory);
@@ -177,7 +197,7 @@ public class TreasureChest extends Treasure {
 			// Store event in database
 			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.APPEAR);
 			Log.debug("Appear event stored in database");
-			
+						
 		
 		}catch( Exception e){
 		
@@ -267,6 +287,7 @@ public class TreasureChest extends Treasure {
 			
 			try{
 				this._found = true;
+				this._player = p;
 				this.announceFound();
 				
 
@@ -308,7 +329,9 @@ public class TreasureChest extends Treasure {
 		message = message.replace("%x%", 				String.valueOf( this._x) );
 		message = message.replace("%y%", 				String.valueOf( this._y) );
 		message = message.replace("%z%", 				String.valueOf( this._z) );
-		message = message.replace("%name%", 			this._name);		
+		message = message.replace("%name%", 			this._name);
+		if( this._player != null)
+			message = message.replace("%player%", 		this._player.getName() );
 		return message;
 	}
 	

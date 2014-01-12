@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure.procedures.prompts;
+package org.shortrip.boozaa.plugins.bootreasure.procedures.validityprompts;
 
 import it.sauronsoftware.cron4j.SchedulingPattern;
 import org.bukkit.conversations.ConversationContext;

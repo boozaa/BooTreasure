@@ -34,12 +34,13 @@ public abstract class Treasure implements Serializable {
 	private transient final String MESSAGES_SPAWN 			= "setup.messages.spawn";
 	private transient final String MESSAGES_FOUND 			= "setup.messages.found";
 	private transient final String MESSAGES_DISAPPEAR 		= "setup.messages.disappear";
-	private transient final String DEFAULT_SPAWN 			= ChatColor.AQUA + "Un trésor vient d'apparaitre";
-	private transient final String DEFAULT_FOUND 			= ChatColor.AQUA + "Un trésor vient d'être découvert";
-	private transient final String DEFAULT_DISAPPEAR 		= ChatColor.AQUA + "Un trésor vient de disparaître";
+	private transient final String DEFAULT_SPAWN 			= ChatColor.AQUA + "%name% appear in %world% for %duration% seconds";
+	private transient final String DEFAULT_FOUND 			= ChatColor.AQUA + "%name% has been discovered in %world% by %player%";
+	private transient final String DEFAULT_DISAPPEAR 		= ChatColor.AQUA + "%name% disappear from %world%";
+	@Getter protected transient Player _player;
 	@Getter protected transient TreasureType _type;
 	@Getter @Setter protected transient ConfigurationSection _conf = null;
-	@Getter protected Boolean _infinite=true, _onlyonsurface=true, _found=false;	
+	@Getter @Setter protected Boolean _infinite=true, _onlyonsurface=true, _found=false;	
 	@Getter @Setter protected transient String _id, _pattern, _taskId;
 	@Getter @Setter protected transient Long _duration;
 	
@@ -100,19 +101,6 @@ public abstract class Treasure implements Serializable {
 	}
 
 	
-
-	public void set_infinite(Boolean _infinite) {
-		this._infinite = _infinite;
-	}
-
-	public void set_onlyonsurface(Boolean _onlyonsurface) {
-		this._onlyonsurface = _onlyonsurface;
-	}
-
-	public void set_found(Boolean _found) {
-		this._found = _found;
-	}
-	
 	public void serialize() {		
 		
 		FileOutputStream baos = null;
@@ -120,7 +108,6 @@ public abstract class Treasure implements Serializable {
 		try {
 			
 			// ItemStack
-			//baos = new FileOutputStream(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
 			baos = new FileOutputStream(this._path);			
 			ObjectOutputStream boos = new ObjectOutputStream(baos);
 			boos.writeObject(this);
@@ -145,9 +132,8 @@ public abstract class Treasure implements Serializable {
 		Treasure item = null;
 		File file = new File( _path );
 		if( file.exists() ){		    				
-			//File file = new File(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
+			
 			FileInputStream fis = null;
-		
 			
 			try {
 				
@@ -182,15 +168,13 @@ public abstract class Treasure implements Serializable {
 		Treasure item = null;
 		if( f.exists() ){		    				
 			
-			if( f.exists() ){		    				
-				//File file = new File(BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + "item.serialized");
+			if( f.exists() ){	
+				
 				FileInputStream fis = null;
-				;
 				
 				try {
 					
-					fis = new FileInputStream(f); 
-					Log.debug("Unserialization -> Total file size to read (in bytes) : " + fis.available()); 						
+					fis = new FileInputStream(f); 						
 					ObjectInputStream bois = new ObjectInputStream(fis);
 					item = (Treasure) bois.readObject();
 					bois.close();
@@ -231,7 +215,7 @@ public abstract class Treasure implements Serializable {
 				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_SPAWN ) ) );
 			}
 		}else{
-			ChatMessage.broadcast( DEFAULT_SPAWN );
+			ChatMessage.broadcast( replaceVariables( DEFAULT_SPAWN ) );
 		}	
 			
 	}
@@ -242,7 +226,7 @@ public abstract class Treasure implements Serializable {
 				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_FOUND ) ) );
 			}
 		}else{
-			ChatMessage.broadcast( DEFAULT_FOUND );
+			ChatMessage.broadcast( replaceVariables( DEFAULT_FOUND ) );
 		}	
 	}
 
@@ -252,7 +236,7 @@ public abstract class Treasure implements Serializable {
 				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_DISAPPEAR ) ) );
 			}
 		}else{
-			ChatMessage.broadcast( DEFAULT_DISAPPEAR );
+			ChatMessage.broadcast( replaceVariables( DEFAULT_DISAPPEAR ) );
 		}	
 	}
 	
@@ -260,7 +244,9 @@ public abstract class Treasure implements Serializable {
 	// Commons functions
 	protected abstract void generateContents();
 	protected abstract String replaceVariables( String msg );
+	public abstract void appearSilently() throws Exception;
 	public abstract void appear() throws Exception;
+	public abstract void disAppearSilently() throws Exception;
 	public abstract void disappear() throws Exception;
 	public abstract void found(Player p);
 	

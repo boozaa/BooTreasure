@@ -24,7 +24,7 @@ public class TreasureChestDisappearSilentlyEvent extends Events {
 				@Override
 				public void run() {
 					final TreasureChest t = (TreasureChest) BooTreasure.getCacheManager().get_treasureCache().getObject(id);
-					t.chestDisappear();	
+					t.disAppearSilently();	
 				}
 				
 			}); 			

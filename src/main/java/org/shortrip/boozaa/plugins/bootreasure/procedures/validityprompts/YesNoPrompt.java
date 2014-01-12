@@ -1,4 +1,4 @@
-package org.shortrip.boozaa.plugins.bootreasure.procedures.prompts;
+package org.shortrip.boozaa.plugins.bootreasure.procedures.validityprompts;
 
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ValidatingPrompt;
@@ -12,7 +12,7 @@ public abstract class YesNoPrompt extends ValidatingPrompt {
 	@Override
 	protected boolean isInputValid(ConversationContext context, String in) {
 		
-		Log.debug("Validating input, must be " + Const.YES + " or " + Const.NO + " -> input = " + in);
+		Log.debug("Validating input, must be true or false -> input = " + in);
 		if( in.equalsIgnoreCase( "true" ) || in.equalsIgnoreCase( "false" ) ){
 			return true;
 		}
