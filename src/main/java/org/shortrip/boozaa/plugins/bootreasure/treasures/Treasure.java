@@ -31,12 +31,16 @@ public abstract class Treasure implements Serializable {
 	private transient final String WORLD 					= "basics.world";
 	private transient final String ONLY_ON_SURFACE 			= "basics.onlyonsurface";
 	private transient final String INFINITE 				= "basics.infinite";
-	private transient final String MESSAGES_SPAWN 			= "setup.messages.spawn";
+	private transient final String MESSAGES_APPEAR 			= "setup.messages.appear";
 	private transient final String MESSAGES_FOUND 			= "setup.messages.found";
 	private transient final String MESSAGES_DISAPPEAR 		= "setup.messages.disappear";
-	private transient final String DEFAULT_SPAWN 			= ChatColor.AQUA + "%name% appear in %world% for %duration% seconds";
+	private transient final String DEFAULT_APPEAR 			= ChatColor.AQUA + "%name% appear in %world% for %duration% seconds";
 	private transient final String DEFAULT_FOUND 			= ChatColor.AQUA + "%name% has been discovered in %world% by %player%";
 	private transient final String DEFAULT_DISAPPEAR 		= ChatColor.AQUA + "%name% disappear from %world%";
+	
+	@Getter @Setter protected transient String _appearMessage, _disappearMessage, _foundMessage;
+	
+	
 	@Getter protected transient Player _player;
 	@Getter protected transient TreasureType _type;
 	@Getter @Setter protected transient ConfigurationSection _conf = null;
@@ -70,7 +74,28 @@ public abstract class Treasure implements Serializable {
 		this._duration 			= this._conf.getLong( DURATION );
 		this._world 			= this._conf.getString( WORLD );
 		this._onlyonsurface 	= this._conf.getBoolean( ONLY_ON_SURFACE );
-		this._infinite 			= this._conf.getBoolean( INFINITE );		
+		this._infinite 			= this._conf.getBoolean( INFINITE );
+		
+		// Messages
+		if( this._conf.contains(MESSAGES_APPEAR) ) {
+			this._appearMessage		= this._conf.getString(MESSAGES_APPEAR);
+		}else{
+			this._appearMessage		= this._conf.getString(DEFAULT_APPEAR);
+		}
+		
+		if( this._conf.contains(MESSAGES_DISAPPEAR) ) {
+			this._disappearMessage		= this._conf.getString(MESSAGES_DISAPPEAR);
+		}else{
+			this._disappearMessage		= this._conf.getString(DEFAULT_DISAPPEAR);
+		}
+		
+		if( this._conf.contains(MESSAGES_FOUND) ) {
+			this._foundMessage			= this._conf.getString(MESSAGES_FOUND);
+		}else{
+			this._foundMessage			= this._conf.getString(DEFAULT_FOUND);
+		}
+		
+		
 	}
 	
 	public Treasure( TreasureType type, Location loc ){
@@ -211,11 +236,11 @@ public abstract class Treasure implements Serializable {
 	
 	public void announceAppear() {
 		if( this._conf != null){
-			if( this._conf.contains( MESSAGES_SPAWN ) ){
-				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_SPAWN ) ) );
+			if( this._conf.contains( MESSAGES_APPEAR ) ){
+				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_APPEAR ) ) );
 			}
 		}else{
-			ChatMessage.broadcast( replaceVariables( DEFAULT_SPAWN ) );
+			ChatMessage.broadcast( replaceVariables( DEFAULT_APPEAR ) );
 		}	
 			
 	}

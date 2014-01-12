@@ -45,6 +45,10 @@ public class Const {
 	public static String CHEST_CREATE_ASK_ALLOWEDSID= getMessagesConfig().getString("locales.create.chest.ask.allowedids").replaceAll("&", "§");
 	public static String CHEST_CREATE_SUCCESS 		= getMessagesConfig().getString("locales.create.chest.success").replaceAll("&", "§");
 
+	public static String CHEST_CREATE_APPEAR 		= getMessagesConfig().getString("locales.create.chest.ask.appearmessage").replaceAll("&", "§");
+	public static String CHEST_CREATE_DISAPPEAR		= getMessagesConfig().getString("locales.create.chest.ask.disappearmessage").replaceAll("&", "§");
+	public static String CHEST_CREATE_FOUND 		= getMessagesConfig().getString("locales.create.chest.ask.foundmessage").replaceAll("&", "§");
+
 	// Chest edit
 	public static String CHEST_EDIT_PREFIX 			= getMessagesConfig().getString("locales.edit.chest.prefix").replaceAll("&", "§") + System.getProperty("line.separator");
 	public static String CHEST_EDIT_LIST			= getMessagesConfig().getString("locales.edit.chest.ask.listalltreasures").replaceAll("&", "§");

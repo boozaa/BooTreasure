@@ -294,7 +294,7 @@ public class ChestCreateProcedure implements Runnable {
 	    		// On stocke dans le context et dans l'instance de treasure
 	    		treasure.set_placesMaterials(this._materials);
 	        	// On lance le WaitingEndPrompt
-	    		return new WaitingEndPrompt(Const.CHEST_CREATE_ASK_WAITINGEND, Const.CHEST_CREATE_SUCCESS );
+	    		return new AskAppearSentence();
 			}
 	    	
 	    	// On boucle pour attendre les prochains blocks
@@ -302,6 +302,75 @@ public class ChestCreateProcedure implements Runnable {
 		}
 		
 	}
+	
+	
+	public class AskAppearSentence extends ValidatingPrompt{
+
+		@Override
+		public String getPromptText(ConversationContext context) {
+			return Const.CHEST_CREATE_APPEAR;
+		}
+
+		@Override
+		protected boolean isInputValid(ConversationContext context, String input) {
+			return true;
+		}
+		
+		@Override
+		protected Prompt acceptValidatedInput(ConversationContext context, String input) {
+			
+			treasure.set_appearMessage(input);
+			return new AskDisAppearSentence();
+		}
+
+		
+	}
+
+	public class AskDisAppearSentence extends ValidatingPrompt{
+
+		@Override
+		public String getPromptText(ConversationContext context) {
+			return Const.CHEST_CREATE_DISAPPEAR;
+		}
+
+		@Override
+		protected boolean isInputValid(ConversationContext context, String input) {
+			return true;
+		}
+		
+		@Override
+		protected Prompt acceptValidatedInput(ConversationContext context, String input) {
+			
+			treasure.set_disappearMessage(input);
+			return new AskFoundSentence();
+		}
+
+		
+	}
+
+	public class AskFoundSentence extends ValidatingPrompt{
+
+		@Override
+		public String getPromptText(ConversationContext context) {
+			return Const.CHEST_CREATE_FOUND;
+		}
+
+		@Override
+		protected boolean isInputValid(ConversationContext context, String input) {
+			return true;
+		}
+		
+		@Override
+		protected Prompt acceptValidatedInput(ConversationContext context, String input) {
+			
+			treasure.set_foundMessage(input);
+			return new WaitingEndPrompt( Const.CHEST_CREATE_ASK_WAITINGEND, Const.CHEST_CREATE_SUCCESS );
+		}
+
+		
+	}
+	
+	
 	
 	public class WaitingEndPrompt extends ValidatingPrompt {
 

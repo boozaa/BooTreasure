@@ -41,6 +41,6 @@ treasures:
         - null
         - null
       messages:
-        spawn: '&bMy First Treasure appear'
+        appear: '&bMy First Treasure appear'
         found: '&bMy First Treasure was found'
         disappear: '&bMy First Treasure disappear'
