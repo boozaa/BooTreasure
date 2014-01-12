@@ -453,8 +453,9 @@ public class DataUtil {
     }
 
     public static class DataUtilParserException extends Exception {
-
-            private final String parsed;
+           
+			private static final long serialVersionUID = 1L;
+			private final String parsed;
             private final String reason;
 
             public DataUtilParserException(final String parsed, final String reason) {

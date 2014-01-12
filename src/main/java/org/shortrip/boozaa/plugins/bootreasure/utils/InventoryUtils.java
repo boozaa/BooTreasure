@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+@SuppressWarnings("deprecation")
 public class InventoryUtils {
 
 	private static Comparator<ItemStack> comparator;
@@ -25,8 +26,8 @@ public class InventoryUtils {
                                             return -1;
                                     } else if (o1 == null) {
                                             return 1;
-                                    } else {
-                                            final int compareIds = Integer.compare(o1.getTypeId(), o2.getTypeId());
+                                    } else {                                            
+											final int compareIds = Integer.compare(o1.getTypeId(), o2.getTypeId());
                                             if (compareIds != 0) {
                                                     return compareIds;
                                             } else {

@@ -52,6 +52,8 @@ public class BooTreasure  extends JavaPlugin{
 			instance = this;
 			// Load all stuff
 			try {
+					
+				Log.info("To enable debug mode use command: bootreasure debug");
 				
 				configsManager 		= new MyConfigs(this);
 				databaseManager 	= new MyDatabase(this);
@@ -66,6 +68,8 @@ public class BooTreasure  extends JavaPlugin{
 				// MyPlayerListener
 				getServer().getPluginManager().registerEvents( new MyPlayerListener(this), this );
 
+				
+				Log.debug("The debug mode is activated. To disable it use command: bootreasure debug");
 			
 				
 			} catch (ConfigNullFileException e) {

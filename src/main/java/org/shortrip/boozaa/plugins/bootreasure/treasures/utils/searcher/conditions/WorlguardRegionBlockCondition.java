@@ -3,24 +3,17 @@ package org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditi
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.util.BlockIterator;
-import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.LocationUtils;
-
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.UnsupportedIntersectionException;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldedit.BlockVector;
-import com.sk89q.worldedit.BlockVector2D;
-import com.sk89q.worldedit.Vector;
+
 
 
 public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
@@ -43,6 +36,7 @@ public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
 	}
 	
 	
+	@SuppressWarnings("unused")
 	private static Block findGoodSpawnInWGRegion( World world, Boolean onlyOnSurface, List<AbstractBlockCondition> conditions, List<String> regionNames ){
 		
 		// Get all regions for world
@@ -155,7 +149,8 @@ public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
     }
     
     
-    public List<ProtectedRegion> getRegionsInChunk(Chunk chunk) {
+    @SuppressWarnings("unused")
+	public List<ProtectedRegion> getRegionsInChunk(Chunk chunk) {
         
         World world = chunk.getWorld();
         int chunkX = chunk.getX();
