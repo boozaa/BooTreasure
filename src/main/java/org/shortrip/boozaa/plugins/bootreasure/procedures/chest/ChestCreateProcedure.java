@@ -2,7 +2,6 @@ package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 
 import java.util.List;
 import lombok.Getter;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -16,9 +15,10 @@ import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.libs.configmanager.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.constants.Const;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
+import org.shortrip.boozaa.plugins.bootreasure.configs.LocalesNodes;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.validityprompts.*;
@@ -29,21 +29,22 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class ChestCreateProcedure implements Runnable {
 
+	private Configuration messageConfig;
 	private volatile TreasureChest treasure;	
-	private Plugin plugin;
+	private BooTreasure plugin;
 	private Player player;
 	private World world;
 	private Location chestLocation;
 
 	
-	public ChestCreateProcedure(  Plugin plugin, Player p  ){
+	public ChestCreateProcedure(  BooTreasure plugin, Player p  ){
 		this.plugin = plugin;
 		this.player = p;
 		this.world = p.getWorld();
 		chestLocation = this.player.getLocation().toVector().add(this.player.getLocation().getDirection().multiply(1)).toLocation(this.world);
 		chestLocation.setY(chestLocation.getY()+1);
 		this.treasure = new TreasureChest(chestLocation);
-		
+		this.messageConfig = BooTreasure.getConfigManager().get("messages.yml");
 	}
 	
 	
@@ -61,10 +62,12 @@ public class ChestCreateProcedure implements Runnable {
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskName())
-		            .withEscapeSequence( Const.END )
+		            .withEscapeSequence( messageConfig.getString( LocalesNodes.END.getConfigNode() ) )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return Const.CHEST_CREATE_PREFIX; }	 
+		                public String getPrefix(ConversationContext arg0) { 
+		                	return messageConfig.getString(LocalesNodes.CreateChest.CHEST_CREATE_PREFIX.getConfigNode()); 
+		                }	 
 		            }).withLocalEcho(true)
 		            .buildConversation(this.player);
 			
@@ -87,28 +90,31 @@ public class ChestCreateProcedure implements Runnable {
 			            	Log.debug( treasure.toString() );
 			            	
 			            	// Stockage en cache
-			            	BooTreasure.getCacheManager().get_treasureCache().add(treasure.get_id(), treasure);
+			            	Managers.getCacheManager().get_treasureCache().add(treasure.get_id(), treasure);
 			            	Log.debug("ChestTreasure stored in cache");
 			            	
+			            	// TODO correct this
+			            	/*
 			            	// Stockage dans treasures.yml
-			            	BooTreasure.getConfigsManager().saveNewTreasureChest(treasure);
+			            	BooTreasure.getConfigManager().saveNewTreasureChest(treasure);
 			            	Log.debug("ChestTreasure saved in treasures.yml");
+			            	*/
 			            	
 			            	// Create new TreasureDAO in database
-			            	BooTreasure.getDatabaseManager().addTreasureToDatabase( treasure );							
+			            	Managers.getDatabaseManager().addTreasureToDatabase( treasure );							
 							
 							// Store event in database
-			            	BooTreasure.getDatabaseManager().addEventToDatabase(treasure, player, EventType.CREATED);
+			            	Managers.getDatabaseManager().addEventToDatabase(treasure, player, EventType.CREATED);
 							Log.debug("Created event stored in database");
 			            		            		            	
 							
 			            	// On peut faire disparaitre le coffre aprés l'avoir donné au cron
 			            	Log.debug("Launch disappear event silently for creation chest");
-			            	BooTreasure.getEventsManager().chestDisappearSilentlyEvent(treasure);
+			            	Managers.getEventsManager().chestDisappearSilentlyEvent(treasure);
 			            	
 			            	// Give it to the cronManager
 			            	Log.debug("Give a TreasureTask of this treasure to the CronManager");
-			            	BooTreasure.getCronManager().addTask(new TreasureTask(plugin, treasure));
+			            	Managers.getCronManager().addTask(new TreasureTask(plugin, treasure));
 			            	
 		            	}catch( Exception e){
 		        			
@@ -125,7 +131,8 @@ public class ChestCreateProcedure implements Runnable {
 		    conv.begin();
 		
 		}catch (Exception e){
-			Log.severe("An error occured on ChestCreateProcedure", e);			
+			e.printStackTrace();
+			Log.severe(plugin, "An error occured on ChestCreateProcedure", e);			
 		}
 	
 		
@@ -140,7 +147,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {			
-			return Const.CHEST_CREATE_ASK_NAME;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_NAME.getConfigNode() );
 		}
 
 		@Override
@@ -161,7 +168,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return Const.CHEST_CREATE_ASK_CRON;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_CRON.getConfigNode() );
 		}
 
 		@Override
@@ -176,7 +183,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return Const.CHEST_CREATE_ASK_DURATION;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_DURATION.getConfigNode() );
 		}
 
 		@Override
@@ -191,7 +198,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return Const.CHEST_CREATE_ASK_INFINITE;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_INFINITE.getConfigNode() );
 		}
 
 		@Override
@@ -213,7 +220,8 @@ public class ChestCreateProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder str = new StringBuilder();
-			str.append(BooTreasure.getConfigsManager().get("messages.yml").getString("locales.create.chest.ask.world").replaceAll("&", "§") + ": " + System.getProperty("line.separator")  );
+			str.append( messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_WORLD.getConfigNode() ) );
+			str.append( messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_WORLD.getConfigNode() ).replaceAll("&", "§") + ": " + System.getProperty("line.separator")  );
 			for( World w : this._worlds ){
 				str.append(w.getName() + " ");
 			}		
@@ -232,7 +240,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return Const.CHEST_CREATE_ASK_SURFACE;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_SURFACE.getConfigNode() );
 		}
 
 		@Override
@@ -252,7 +260,7 @@ public class ChestCreateProcedure implements Runnable {
 		
 		@Override
 		public String getPromptText(ConversationContext context) {
-			return Const.CHEST_CREATE_ASK_PRESERVE;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_PRESERVE.getConfigNode() );
 		}
 			
 		@Override
@@ -263,7 +271,9 @@ public class ChestCreateProcedure implements Runnable {
 	    	}else{
 	    		treasure.set_preservecontent(false);
 	    	}    	    	
-	    	return new WaitingEndPrompt( Const.CHEST_CREATE_ASK_WAITINGEND, Const.CHEST_CREATE_SUCCESS ); 
+	    	return new WaitingEndPrompt( 
+	    			messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_WAITINGEND.getConfigNode() ), 
+	    			messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_SUCCESS.getConfigNode() ) ); 
 		}
 		
 	}
@@ -275,7 +285,7 @@ public class ChestCreateProcedure implements Runnable {
 		
 		@Override
 		public String getPromptText(ConversationContext arg0) {
-			return Const.CHEST_CREATE_ASK_ALLOWEDSID;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_ALLOWEDSID.getConfigNode() );
 		}
 
 		@Override
@@ -290,7 +300,7 @@ public class ChestCreateProcedure implements Runnable {
 			}	
 			
 			// Si on demande la fin du prompt on stocke et passe à étape suivante
-	    	if( in.equalsIgnoreCase( Const.EXIT) ){
+	    	if( in.equalsIgnoreCase( messageConfig.getString( LocalesNodes.EXIT.getConfigNode() ) ) ){
 	    		// On stocke dans le context et dans l'instance de treasure
 	    		treasure.set_placesMaterials(this._materials);
 	        	// On lance le WaitingEndPrompt
@@ -308,7 +318,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext context) {
-			return Const.CHEST_CREATE_APPEAR;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_APPEAR.getConfigNode() );
 		}
 
 		@Override
@@ -330,7 +340,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext context) {
-			return Const.CHEST_CREATE_DISAPPEAR;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_DISAPPEAR.getConfigNode() );
 		}
 
 		@Override
@@ -352,7 +362,7 @@ public class ChestCreateProcedure implements Runnable {
 
 		@Override
 		public String getPromptText(ConversationContext context) {
-			return Const.CHEST_CREATE_FOUND;
+			return messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_FOUND.getConfigNode() );
 		}
 
 		@Override
@@ -364,7 +374,9 @@ public class ChestCreateProcedure implements Runnable {
 		protected Prompt acceptValidatedInput(ConversationContext context, String input) {
 			
 			treasure.set_foundMessage(input);
-			return new WaitingEndPrompt( Const.CHEST_CREATE_ASK_WAITINGEND, Const.CHEST_CREATE_SUCCESS );
+			return new WaitingEndPrompt( 
+					messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_ASK_WAITINGEND.getConfigNode() ), 
+					messageConfig.getString( LocalesNodes.CreateChest.CHEST_CREATE_SUCCESS.getConfigNode() ) );
 		}
 
 		

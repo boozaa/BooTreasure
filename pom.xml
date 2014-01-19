@@ -88,11 +88,11 @@
                           <relocations>
                               <relocation>
                                   <pattern>com.j256.ormlite</pattern>
-                                  <shadedPattern>org.shortrip.boozaa.plugins.ormlite</shadedPattern>
+                                  <shadedPattern>org.shortrip.boozaa.libs.ormlite</shadedPattern>
                               </relocation>
                               <relocation>
                                 <pattern>it.sauronsoftware.cron4j</pattern>
-                                <shadedPattern>org.shortrip.boozaa.plugins.cron4j</shadedPattern>
+                                <shadedPattern>org.shortrip.boozaa.libs.cron4j</shadedPattern>
                             </relocation>                      
                           </relocations>
                       </configuration>
@@ -179,6 +179,18 @@
 			<version>5.4</version>
 			<scope>system</scope>
   			<systemPath>${project.basedir}/lib/worldguard-5.8.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.shortrip.boozaa.libs.vaultpermission</groupId>
+			<artifactId>VaultPermission</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.shortrip.boozaa.libs.configmanager</groupId>
+			<artifactId>ConfigManager</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
 		</dependency>
     </dependencies>
 </project>

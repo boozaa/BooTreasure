@@ -18,10 +18,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
-import org.shortrip.boozaa.plugins.bootreasure.utils.DataUtil;
+import org.shortrip.boozaa.plugins.bootreasure.utils.DataUtils;
+import org.shortrip.boozaa.plugins.bootreasure.utils.DataUtils.DataUtilParserException;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ParticleEffects;
 
@@ -33,7 +34,7 @@ public class TreasureChest extends Treasure {
 	private transient static final long serialVersionUID = 1L;
 	private transient static final String PRESERVE_CONTENT 		= "basics.preservecontent";	
 	private transient static final String CONTENTS_ITEMS 		= "setup.contents.items";
-	@Getter @Setter private transient ItemStack[] _inventory;
+	@Getter @Setter private transient List<String> _inventory = new ArrayList<String>();
 	@Getter private transient Block _block;	
 	@Getter @Setter protected Boolean _preservecontent=true;	
 	@Getter @Setter protected transient List<Material> _placesMaterials;
@@ -44,19 +45,18 @@ public class TreasureChest extends Treasure {
 	
 	public TreasureChest(){
 		super( TreasureType.CHEST);
-		
 	}
 	
 	public TreasureChest( String uuid, ConfigurationSection section ){
 		super( TreasureType.CHEST, section);
-		this._id = uuid;
+		this._id 				= uuid;
 		this._preservecontent 	= this._conf.getBoolean( PRESERVE_CONTENT );
 		this._placesMaterials 	= new ArrayList<Material>();
 		generateContents();
 	}
 	
 	public TreasureChest( Location loc ){
-		super( TreasureType.CHEST, loc);		
+		super( TreasureType.CHEST, loc);	
 		this._x 				= loc.getBlockX();
 		this._y 				= loc.getBlockY();
 		this._z 				= loc.getBlockZ();
@@ -100,12 +100,13 @@ public class TreasureChest extends Treasure {
 	}
 
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void generateContents(){		
 		
 		if( this._conf != null ){			
 			
+			// TODO: utiliser DataUtil
+			/*
 			if( this._conf.get( CONTENTS_ITEMS ) != null ){
 				// Populate _inventory
 				List<ItemStack> items = (List<ItemStack>) this._conf.get( CONTENTS_ITEMS );
@@ -122,7 +123,13 @@ public class TreasureChest extends Treasure {
 				}
 				
 			}	
-			
+			*/
+			if( this._conf.get( CONTENTS_ITEMS ) != null ){
+				
+				// Populate _inventory
+				this._inventory = this._conf.getStringList( CONTENTS_ITEMS );
+				
+			}
 		}	
 		
 	}
@@ -183,19 +190,34 @@ public class TreasureChest extends Treasure {
 			Chest chest = setToChest();
 			
 			// Give own inventory to this chest
-			chest.getInventory().setContents(this._inventory);
+			//chest.getInventory().setContents(this._inventory);
+			/*
+			for( String str : this._inventory ){
+				if( str != null ){
+					Log.debug("String to transform into ItemStack -> " + str );
+					Log.debug(" -> " + DataUtil.fromString(str) );
+					ItemStack item = DataUtil.fromString(str);
+					if( item != null){
+						Log.debug("ItemStack to store in inventory -> " + item.toString() );
+						chest.getInventory().addItem(item);
+					}					
+				}
+				
+			}
+			*/
 			
 			// Metadata store to distinguish chest as ChestTreasure
-			chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(BooTreasure.getInstance(), this._id));
+			chest.setMetadata("BooTreasure-Chest", new FixedMetadataValue(Bukkit.getPluginManager().getPlugin("BooTreasure"), this._id));
 			
 			// Serialization and lost treasure will be deleted on next start
 			this.serialize();		
 					
 			// Delayed task to disappear on duration fixed on bukkit synchron way
-			BooTreasure.getEventsManager().chestDisappearDelayedEvent(this);
+
+			Managers.getEventsManager().chestDisappearDelayedEvent(this);
 			
 			// Store event in database
-			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.APPEAR);
+			Managers.getDatabaseManager().addEventToDatabase(this, EventType.APPEAR);
 			Log.debug("Appear event stored in database");
 						
 		
@@ -231,7 +253,7 @@ public class TreasureChest extends Treasure {
 					Chest chest = (Chest)this._block.getState();
 					// If preserveContent we keep the new chest's inventory
 					if( this._preservecontent ){
-						this._inventory = chest.getInventory().getContents();
+						this._inventory = getStringFromItemStacks( chest.getInventory().getContents() );
 					}				
 					
 					// Clear its inventory before AIR
@@ -242,7 +264,7 @@ public class TreasureChest extends Treasure {
 					DoubleChest chest = (DoubleChest)this._block.getState();
 					// If preserveContent we keep the new chest's inventory
 					if( this._preservecontent ){
-						this._inventory = chest.getInventory().getContents();
+						this._inventory = getStringFromItemStacks( chest.getInventory().getContents() );
 					}				
 					
 					// Clear its inventory before AIR
@@ -259,7 +281,7 @@ public class TreasureChest extends Treasure {
 			
 
 			// Store event in database
-			BooTreasure.getDatabaseManager().addEventToDatabase(this, EventType.DISAPPEAR);
+			Managers.getDatabaseManager().addEventToDatabase(this, EventType.DISAPPEAR);
 			Log.debug("Disappear event stored in database");
 			
 			
@@ -292,7 +314,7 @@ public class TreasureChest extends Treasure {
 				
 
 				// Store event in database
-				BooTreasure.getDatabaseManager().addEventToDatabase(this, p, EventType.FOUND);
+				Managers.getDatabaseManager().addEventToDatabase(this, p, EventType.FOUND);
 				Log.debug("Found event stored in database");
 			
 			}catch( Exception e){
@@ -306,11 +328,22 @@ public class TreasureChest extends Treasure {
 	}
 	
 	
-	public void getChestContents(){
+	public void getChestContents() throws DataUtilParserException{
 		Chest chest = (Chest)this._block.getState();
-		this._inventory = chest.getInventory().getContents();
+		//this._inventory = chest.getInventory().getContents();
+		this._inventory = getStringFromItemStacks( chest.getInventory().getContents() );
+		
 	}
 	
+	
+	private List<String> getStringFromItemStacks( ItemStack[] items ) throws DataUtilParserException{
+		List<String> reponse = new ArrayList<String>();
+		for( ItemStack is : items ){
+			if( is != null )
+				reponse.add( DataUtils.toString(is) );
+		}
+		return reponse;
+	}
 	
 
 	@Override	

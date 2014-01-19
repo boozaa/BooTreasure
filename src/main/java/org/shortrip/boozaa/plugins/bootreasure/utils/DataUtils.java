@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -17,7 +16,7 @@ import java.lang.reflect.Field;
 
 
 @SuppressWarnings("deprecation")
-public class DataUtil {
+public class DataUtils {
 
 	
 	/** A comparator to sort Enchantments by name */
@@ -30,15 +29,15 @@ public class DataUtil {
     };
 
     /**
-     * An arbitrary list of possible separator characters.
-     * Used to save Lore to String. Two of them are randomly chosen randomly
-     * and the combination of both is used as separator.
-     * The only way to break it would be to have Lore Strings contain every
-     * single possible 2-length combination of those characters.
+     * Different levels of Separators used for the String representation.
+     * Do not use 2-length separators as it's the length of Random
+     * Separators.
      */
-    private static final CharSequence SEPARATOR_CHARS = ",;:!?§/.*+-=@_-|#~&$£¤°<>()[]{}";
-
-    private static final Random RANDOM = new Random();
+    private static final String[] SEPARATORS = {
+                    ";|;",
+                    ",",
+                    ":"
+    };
 
     /**
      * Create an ItemStack description String from an ItemStack.
@@ -77,61 +76,60 @@ public class DataUtil {
      *
      * @see #fromString(String) to get an ItemStack from the provided String
      */
-    public static String toString(final ItemStack is) {
-            
-    	Log.debug("Transform an ItemStack to string: " + is.toString() );
-    	final String idString = is.getType().name();
-        final String dataString = Short.toString(is.getDurability());
-        final String amountString = Integer.toString(is.getAmount());
+    public static String toString(final ItemStack is) throws DataUtilParserException {
+            if (is == null) {
+                    throw new DataUtilParserException(is, "Null ItemStack");
+            }
+            final String idString = is.getType().name();
+            final String dataString = Short.toString(is.getDurability());
+            final String amountString = Integer.toString(Math.min(Math.max(is.getAmount(), 1), 64));
 
-        final String enchantmentsString;
-        if (is.getEnchantments().isEmpty()) {
-                enchantmentsString = "";
-        } else {
-                final StringBuilder enchantmentsStringBuilder = new StringBuilder();
-                final Map<Enchantment, Integer> sortedEnchantmentMap = new TreeMap<>(ENCHANTMENT_COMPARATOR);
-                sortedEnchantmentMap.putAll(is.getEnchantments());
-                for (final Map.Entry<Enchantment, Integer> e : sortedEnchantmentMap.entrySet()) {
-                        enchantmentsStringBuilder.append(e.getKey().getName());
-                        enchantmentsStringBuilder.append(':');
-                        enchantmentsStringBuilder.append(e.getValue());
-                        enchantmentsStringBuilder.append(',');
-                }
-                enchantmentsString = enchantmentsStringBuilder.substring(0, enchantmentsStringBuilder.length() - 1);
-        }
+            final String enchantmentsString;
+            if (is.getEnchantments().isEmpty()) {
+                    enchantmentsString = "";
+            } else {
+                    final StringBuilder enchantmentsStringBuilder = new StringBuilder();
+                    final Map<Enchantment, Integer> sortedEnchantmentMap = new TreeMap<>(ENCHANTMENT_COMPARATOR);
+                    sortedEnchantmentMap.putAll(is.getEnchantments());
+                    for (final Map.Entry<Enchantment, Integer> e : sortedEnchantmentMap.entrySet()) {
+                            enchantmentsStringBuilder.append(e.getKey().getName());
+                            enchantmentsStringBuilder.append(SEPARATORS[2]);
+                            enchantmentsStringBuilder.append(e.getValue());
+                            enchantmentsStringBuilder.append(SEPARATORS[1]);
+                    }
+                    enchantmentsString = enchantmentsStringBuilder.substring(0, enchantmentsStringBuilder.length() - 1);
+            }
 
-        final ItemMeta meta = is.getItemMeta();
-        final String nameString;
-        if (meta.hasDisplayName()) {
-                nameString = meta.getDisplayName();
-        } else {
-                nameString = "";
-        }
+            final ItemMeta meta = is.getItemMeta();
+            final String nameString;
+            if (meta.hasDisplayName()) {
+                    nameString = meta.getDisplayName();
+            } else {
+                    nameString = "";
+            }
 
-        final String loreString;
-        if (meta.hasLore()) {
-                final List<String> lore = meta.getLore();
-                final String separator = getPossibleSeparator(lore);
-                final StringBuilder loreStringBuilder = new StringBuilder();
-                for (final String loreLine : lore) {
-                        loreStringBuilder.append(separator).append(loreLine);
-                }
-                loreString = loreStringBuilder.toString();
-        } else {
-                loreString = "";
-        }
+            final String loreString;
+            if (meta.hasLore()) {
+                    final List<String> lore = meta.getLore();
+                    final String separator = StringUtils.getPossibleSeparator(lore, 2);
+                    final StringBuilder loreStringBuilder = new StringBuilder();
+                    for (final String loreLine : lore) {
+                            loreStringBuilder.append(separator).append(loreLine);
+                    }
+                    loreString = loreStringBuilder.toString();
+            } else {
+                    loreString = "";
+            }
 
-        final StringBuilder resultBuilder = new StringBuilder();
-        resultBuilder.append(idString).append(";;");
-        resultBuilder.append(dataString).append(";;");
-        resultBuilder.append(amountString).append(";;");
-        resultBuilder.append(enchantmentsString).append(";;");
-        resultBuilder.append(nameString).append(";;");
-        resultBuilder.append(loreString);
+            final StringBuilder resultBuilder = new StringBuilder();
+            resultBuilder.append(idString).append(SEPARATORS[0]);
+            resultBuilder.append(dataString).append(SEPARATORS[0]);
+            resultBuilder.append(amountString).append(SEPARATORS[0]);
+            resultBuilder.append(enchantmentsString).append(SEPARATORS[0]);
+            resultBuilder.append(nameString).append(SEPARATORS[0]);
+            resultBuilder.append(loreString);
 
-        Log.debug("Result: " + resultBuilder.toString() );
-        
-        return resultBuilder.toString();
+            return resultBuilder.toString();
     }
 
     /**
@@ -144,7 +142,7 @@ public class DataUtil {
      * @see #toString(ItemStack) for format
      */
     public static ItemStack fromString(final String itemString) throws DataUtilParserException {
-            final String[] parts = itemString.split(";;");
+            final String[] parts = StringUtils.splitKeepEmpty(itemString, SEPARATORS[0]);
             if (parts.length != 6) {
                     throw new DataUtilParserException(itemString, "Invalid amount of fields");
             }
@@ -186,7 +184,7 @@ public class DataUtil {
                     amount = 1;
             } else {
                     try {
-                            amount = Integer.parseInt(amountString);
+                            amount = Math.min(Math.max(Integer.parseInt(amountString), 1), 64);
                     } catch (final NumberFormatException e) {
                             throw new DataUtilParserException(itemString, "Invalid amount value '" + amountString + "'");
                     }
@@ -194,9 +192,9 @@ public class DataUtil {
 
             if (!enchantmentsString.isEmpty()) {
                     enchantments = new TreeMap<>(ENCHANTMENT_COMPARATOR);
-                    final String[] enchantmentsPairs = enchantmentsString.split(",");
+                    final String[] enchantmentsPairs = StringUtils.splitKeepEmpty(enchantmentsString, SEPARATORS[1]);
                     for (final String enchantmentPair : enchantmentsPairs) {
-                            final String[] enchantmentPairSplit = enchantmentPair.split(":");
+                            final String[] enchantmentPairSplit = StringUtils.splitKeepEmpty(enchantmentPair, SEPARATORS[3]);
                             if (enchantmentPairSplit.length != 2) {
                                     throw new DataUtilParserException(itemString, "Malformed Enchantments field '" + enchantmentsString + "'");
                             } else {
@@ -264,12 +262,17 @@ public class DataUtil {
      *
      * @see #loadFromConfig(ConfigurationSection, String)
      */
-    public static void saveToConfigSection(final ConfigurationSection parentSection, final String key, final ItemStack is) {
+    public static void saveToConfigSection(final ConfigurationSection parentSection, final String key, final ItemStack is) throws
+     DataUtilParserException {
+            if (is == null) {
+                    throw new DataUtilParserException(is, "Null ItemStack");
+            }
+
             final ConfigurationSection itemSection = parentSection.createSection(key);
 
             itemSection.set("id", is.getType().name());
             itemSection.set("data", is.getDurability());
-            itemSection.set("amount", is.getAmount());
+            itemSection.set("amount", Math.min(Math.max(is.getAmount(), 1), 64));
 
             if (!is.getEnchantments().isEmpty()) {
                     final ConfigurationSection enchantmentsSection = itemSection.createSection("enchantments");
@@ -299,7 +302,7 @@ public class DataUtil {
      *
      * @return the ItemStack saved under parentSection.key
      *
-     * @throws fr.ribesg.bukkit.ncore.utils.DataUtil.DataUtilParserException
+     * @throws DataUtils.ribesg.bukkit.ncore.utils.DataUtil.DataUtilParserException
      * if the ItemStack description is malformed
      * @see #saveToConfigSection(ConfigurationSection, String, ItemStack)
      */
@@ -314,7 +317,7 @@ public class DataUtil {
 
             final short data = (short) itemSection.getInt("data", 0);
 
-            final int amount = itemSection.getInt("amount", 1);
+            final int amount = Math.min(Math.max(itemSection.getInt("amount", 1), 1), 64);
 
             Map<Enchantment, Integer> enchantmentsMap = null;
             if (itemSection.isConfigurationSection("enchantments")) {
@@ -420,64 +423,32 @@ public class DataUtil {
             return result;
     }
 
-    private static String getPossibleSeparator(final List<String> lore) {
-            int i = 1337; // Maximum tries
-            String separator;
-            boolean notContained;
-            while (i-- > 0) {
-                    notContained = true;
-                    separator = getRandomSeparator();
-                    for (final String s : lore) {
-                            if (s.contains(separator)) {
-                                    notContained = false;
-                                    break;
-                            }
-                    }
-                    if (notContained) {
-                            return separator;
-                    }
-            }
-            throw new IllegalStateException("Cannot find a separator for provided list of Strings, it's a trap!");
-    }
-
-    private static String getRandomSeparator() {
-            String result;
-            do {
-                    result = Character.toString(getRandomCharacterSeparator()) + getRandomCharacterSeparator();
-            } while (result.equals(";;"));
-            return result;
-    }
-
-    private static char getRandomCharacterSeparator() {
-            return SEPARATOR_CHARS.charAt(RANDOM.nextInt(SEPARATOR_CHARS.length()));
-    }
-
     public static class DataUtilParserException extends Exception {
-           
-			private static final long serialVersionUID = 1L;
-			private final String parsed;
-            private final String reason;
+         
+		private static final long serialVersionUID = 1L;
+		private final String parsed;
+        private final String reason;
 
-            public DataUtilParserException(final String parsed, final String reason) {
-                    super("Error while parsing '" + parsed + "', " + reason);
-                    this.parsed = parsed;
-                    this.reason = reason;
-            }
+        public DataUtilParserException(final Object parsed, final String reason) {
+                super("Error while parsing '" + (parsed == null ? "null" : parsed.toString()) + "', " + reason);
+                this.parsed = parsed == null ? "null" : parsed.toString();
+                this.reason = reason;
+        }
 
-            public DataUtilParserException(final String parsed, final String reason, final Throwable origin) {
-                    super("Error while parsing '" + parsed + "', " + reason, origin);
-                    this.parsed = parsed;
-                    this.reason = reason;
-            }
+        public DataUtilParserException(final Object parsed, final String reason, final Throwable origin) {
+                super("Error while parsing '" + (parsed == null ? "null" : parsed.toString()) + "', " + reason, origin);
+                this.parsed = parsed == null ? "null" : parsed.toString();
+                this.reason = reason;
+        }
 
-            public String getParsed() {
-                    return parsed;
-            }
+        public String getParsed() {
+                return parsed;
+        }
 
-            public String getReason() {
-                    return reason;
-            }
+        public String getReason() {
+                return reason;
+        }
+        
     }
-	
 	
 }

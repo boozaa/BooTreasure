@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.Getter;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -17,9 +16,10 @@ import org.bukkit.conversations.ConversationPrefix;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.libs.configmanager.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.constants.Const;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
+import org.shortrip.boozaa.plugins.bootreasure.configs.LocalesNodes;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -27,9 +27,10 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class ChestEditProcedure implements Runnable {
 
-	
+
+	private Configuration messageConfig;
 	private volatile TreasureChest treasure;	
-	private Plugin plugin;
+	private BooTreasure plugin;
 	private Player player;
 	private World world;
 	private Location chestLocation;
@@ -38,13 +39,14 @@ public class ChestEditProcedure implements Runnable {
 	private Map<String, String> treasuresIdAndNameMap = new HashMap<String, String>();
 	
 	
-	public ChestEditProcedure(  Plugin plugin, Player p  ){
+	public ChestEditProcedure(  BooTreasure plugin, Player p  ){
 		
 		this.plugin = plugin;
 		this.player = p;
 		this.world = p.getWorld();
 		chestLocation = this.player.getLocation().toVector().add(this.player.getLocation().getDirection().multiply(1)).toLocation(this.world);
 		chestLocation.setY(chestLocation.getY()+1);
+		this.messageConfig = BooTreasure.getConfigManager().get("messages.yml");
 		
 	}
 	
@@ -63,10 +65,12 @@ public class ChestEditProcedure implements Runnable {
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskWhatTreasure())
-		            .withEscapeSequence( Const.END )
+		            .withEscapeSequence( messageConfig.getString( LocalesNodes.END.getConfigNode() ) )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return Const.CHEST_EDIT_PREFIX; }	 
+		                public String getPrefix(ConversationContext arg0) { 
+		                	return messageConfig.getString( LocalesNodes.EditChest.CHEST_EDIT_PREFIX.getConfigNode() ); 
+		                }	 
 		            //}).withInitialSessionData(map).withLocalEcho(true)
 					}).withLocalEcho(true)
 		            .buildConversation(this.player);
@@ -88,7 +92,7 @@ public class ChestEditProcedure implements Runnable {
 		    conv.begin();			
 			
 		}catch (Exception e){
-			Log.severe("An error occured on ChestEditProcedure", e );			
+			Log.severe(plugin, "An error occured on ChestEditProcedure", e );			
 		}		
 		
 	}
@@ -106,9 +110,9 @@ public class ChestEditProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
-			build.append( Const.CHEST_EDIT_LIST );
+			build.append( messageConfig.getString( LocalesNodes.EditChest.CHEST_EDIT_LIST.getConfigNode() ) );
 			build.append("\n");
-			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
+			for( Entry<String, Object> entry : Managers.getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();
 				TreasureChest tr = (TreasureChest) entry.getValue();
 				build.append( tr.get_name() + "\n" );
@@ -122,7 +126,7 @@ public class ChestEditProcedure implements Runnable {
 		protected boolean isInputValid(ConversationContext context, String in) {
 			for( Entry<String, String> entry : idToNameMap.entrySet() ){
 				if( in.equalsIgnoreCase( entry.getValue() ) ){
-					treasure = (TreasureChest) BooTreasure.getCacheManager().get( entry.getKey() );
+					treasure = (TreasureChest) Managers.getCacheManager().get( entry.getKey() );
 					return true;
 				}
 			}

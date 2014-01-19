@@ -6,19 +6,16 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import lombok.Getter;
-import lombok.Setter;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.configs.ConfigNodes;
 
 
 public class Log {
 
-	@Getter @Setter public static Boolean _debugON;
 	private final static String prefix = "[BooTreasure] ";
 	// Logger
 	private static ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
@@ -38,17 +35,17 @@ public class Log {
 		console.sendMessage(prefix + "- ERROR - " + message);
 	}
 	
-	public static void severe(String error, Throwable message) {
+	public static void severe(Plugin plugin, String error, Throwable message) {
 		console.sendMessage(prefix + ChatColor.RED + "- SEVERE - Fatal error, the plugin must be disabled: " + message.getMessage());
 		console.sendMessage(prefix + ChatColor.RED + "- SEVERE - You will find the error in /plugins/BooTreasure/errors.txt, please provide it if you want to help solving this issue" );
 		writeError(error, message);
-		Bukkit.getPluginManager().disablePlugin(BooTreasure.getInstance());
+		Bukkit.getPluginManager().disablePlugin( Bukkit.getPluginManager().getPlugin("BooTreasure") );
 	}
 	
 	// Debug si activé
 	public static void debug(String message) {
 		
-		if( _debugON ) {			
+		if( BooTreasure.getConfigManager().get("config.yml").getBoolean( ConfigNodes.DEBUG.getNode()) ) {			
 			console.sendMessage(prefix + "- DEBUG - " + ChatColor.GREEN + message);
 		}
 		
@@ -78,7 +75,7 @@ public class Log {
 	        ps.print( "------------------------------------------------------------------\n" );
 	        ps.print( sdf.format(today) + "\n" );
 	        ps.print( "Server bukkit Version: " + Bukkit.getServer().getBukkitVersion() + "\n" );
-	        ps.print( BooTreasure.getInstance().getName() + " version: " + BooTreasure.getInstance().getDescription().getVersion() + "\n" );
+	        ps.print( Bukkit.getPluginManager().getPlugin("BooTreasure").getName() + " version: " + Bukkit.getPluginManager().getPlugin("BooTreasure").getDescription().getVersion() + "\n" );
 	        ps.print( "Vault Version: " + vaultVersion + "\n" + "\n" + "\n" );
 	        ps.print( "Error occured on " + error + "\n" + "\n" );
 	        ps.print( "\n" );
@@ -116,7 +113,7 @@ public class Log {
 	        ps.print( "------------------------------------------------------------------\n" );
 	        ps.print( sdf.format(today) + "\n" );
 	        ps.print( "Server bukkit Version: " + Bukkit.getServer().getBukkitVersion() + "\n" );
-	        ps.print( BooTreasure.getInstance().getName() + " version: " + BooTreasure.getInstance().getDescription().getVersion() + "\n" );
+	        ps.print( Bukkit.getPluginManager().getPlugin("BooTreasure").getName() + " version: " + Bukkit.getPluginManager().getPlugin("BooTreasure").getDescription().getVersion() + "\n" );
 	        ps.print( "Vault Version: " + vaultVersion + "\n" + "\n" + "\n" );
 	        ps.print( "Error occured on " + error + "\n" + "\n" );
 	        message.printStackTrace(ps);

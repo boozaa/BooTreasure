@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ValidatingPrompt;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
@@ -17,7 +17,7 @@ public abstract class TreasureNameExistPrompt extends ValidatingPrompt {
 	
 	
 	public TreasureNameExistPrompt(){
-		for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
+		for( Entry<String, Object> entry : Managers.getCacheManager().getTreasures().entrySet() ){
 			this.treasureNames.add(entry.getKey());
 		}
 	}

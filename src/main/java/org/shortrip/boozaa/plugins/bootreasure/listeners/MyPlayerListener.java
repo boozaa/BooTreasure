@@ -2,7 +2,6 @@ package org.shortrip.boozaa.plugins.bootreasure.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
@@ -15,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestOpenEvent;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.LocationUtils;
@@ -30,14 +30,14 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.ParticleEffects;
 public class MyPlayerListener implements Listener {
 
     
-	private Plugin plugin;
+	private BooTreasure plugin;
 	
 	/**
 	 * Create a MyPlayerListener
 	 *
 	 * @param plugin The plugin caller
 	 */
-	public MyPlayerListener( Plugin plugin ){
+	public MyPlayerListener( BooTreasure plugin ){
 		this.plugin = plugin;
 	}
 	
@@ -134,11 +134,11 @@ public class MyPlayerListener implements Listener {
 				
 				String id = ch.getMetadata("BooTreasure-Chest").get(0).asString();
 				
-				if( BooTreasure.getCacheManager().exists(id)){	
-					final TreasureChest treasure = (TreasureChest) BooTreasure.getCacheManager().get(id);
+				if( Managers.getCacheManager().exists(id)){	
+					final TreasureChest treasure = (TreasureChest) Managers.getCacheManager().get(id);
 					if( treasure != null ){
 	        			
-						Bukkit.getScheduler().runTask(BooTreasure.getInstance(), new Runnable(){
+						Bukkit.getScheduler().runTask(plugin, new Runnable(){
 
 							@Override
 							public void run() {

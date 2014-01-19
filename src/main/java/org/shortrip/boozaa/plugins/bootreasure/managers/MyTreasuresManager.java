@@ -4,18 +4,17 @@ import java.io.File;
 import java.util.Set;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.libs.configmanager.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.constants.Const;
-import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
-public class MyTreasuresManager extends Manager {
+public class MyTreasuresManager {
 
-	private Plugin plugin;
+	private BooTreasure plugin;
 	@Getter public final String treasures_file = "treasures.yml";
 	
 	
@@ -44,7 +43,7 @@ public class MyTreasuresManager extends Manager {
 		
 		try{
 			
-			File losts = new File( Const.LOST_FOLDER_PATH );
+			File losts = new File( "plugins/BooTreasure/lost+found" );
 			for (File file : losts.listFiles()) {
 				// Si fichier serial on le traite
 				
@@ -100,7 +99,7 @@ public class MyTreasuresManager extends Manager {
 		Log.debug("Search 'treasures' node in treasures.yml");
 		
 		// On charge le fichier config/treasures.yml		
-		Configuration config = BooTreasure.getConfigsManager().get("treasures.yml");
+		Configuration config = BooTreasure.getConfigManager().get("treasures.yml");
 		if (config.get("treasures") != null) {
 
 			Log.debug("treasures.yml loaded and 'treasures' node found");
@@ -123,10 +122,10 @@ public class MyTreasuresManager extends Manager {
 						if( section.getString("basics.type").equalsIgnoreCase("chest") ){
 							TreasureChest treasure = new TreasureChest(treasureId,section);
 							// Store in cache
-							BooTreasure.getCacheManager().add(treasure.get_id(), treasure);
+							Managers.getCacheManager().add(treasure.get_id(), treasure);
 							
 							// Give the new CronTask
-							BooTreasure.getCronManager().addTask(new TreasureTask(this.plugin, treasure));
+							Managers.getCronManager().addTask(new TreasureTask(this.plugin, treasure));
 							
 							// Quantity increment
 							qty++;
@@ -136,7 +135,7 @@ public class MyTreasuresManager extends Manager {
 					
 				
 				} catch (Exception e) {
-					Log.severe("Error when trying to load treasures from treasures.yml", e);
+					Log.severe(plugin, "Error when trying to load treasures from treasures.yml", e);
 					//throw new TreasuresLoadException("Error when trying to load treasures from treasures.yml", e);
 				}
 
@@ -147,7 +146,6 @@ public class MyTreasuresManager extends Manager {
 	}
 	
 	
-	@Override
 	public void onDisable() {
 		// TODO Auto-generated method stub
 		

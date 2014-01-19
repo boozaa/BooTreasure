@@ -13,7 +13,7 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 import lombok.Getter;
 
 
-public class MyCron extends Manager {
+public class MyCron {
 
 	// The Cron4J Scheduler instance
 	@Getter private CronScheduler _scheduler;
@@ -44,7 +44,7 @@ public class MyCron extends Manager {
 	}
 
 
-	@Override
+	
 	public void onDisable() {
 				
 		_scheduler.removeTaskCollector(_taskCollector);

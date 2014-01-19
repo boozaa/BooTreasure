@@ -3,7 +3,6 @@ package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.conversations.Conversation;
@@ -15,29 +14,34 @@ import org.bukkit.conversations.ConversationPrefix;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.libs.configmanager.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.constants.Const;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
+import org.shortrip.boozaa.plugins.bootreasure.configs.LocalesNodes;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
+
 public class ChestDeleteProcedure implements Runnable {
 
+
+	private Configuration messageConfig;
 	private volatile TreasureChest treasure;	
-	private Plugin plugin;
+	private BooTreasure plugin;
 	private Player player;
 	private World world;
 	private Location chestLocation;
 	
 	
-	public ChestDeleteProcedure(  Plugin plugin, Player p  ){
+	public ChestDeleteProcedure(  BooTreasure plugin, Player p  ){
 		this.plugin = plugin;
 		this.player = p;
 		this.world = p.getWorld();	
 		chestLocation = this.player.getLocation().toVector().add(this.player.getLocation().getDirection().multiply(1)).toLocation(this.world);
 		chestLocation.setY(chestLocation.getY()+1);
 		this.treasure = new TreasureChest(chestLocation);
+		this.messageConfig = BooTreasure.getConfigManager().get("messages.yml");
 	}
 
 
@@ -59,10 +63,12 @@ public class ChestDeleteProcedure implements Runnable {
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskWhatTreasure())
-		            .withEscapeSequence( Const.END )
+		            .withEscapeSequence( messageConfig.getString( LocalesNodes.END.getConfigNode() ) )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
-		                public String getPrefix(ConversationContext arg0) { return Const.CHEST_DELETE_PREFIX; }	 
+		                public String getPrefix(ConversationContext arg0) { 
+		                	return messageConfig.getString( LocalesNodes.DeleteChest.CHEST_DELETE_PREFIX.getConfigNode() ); 
+		                }	 
 		            }).withInitialSessionData(map).withLocalEcho(true)
 		            .buildConversation(this.player);
 			
@@ -79,7 +85,7 @@ public class ChestDeleteProcedure implements Runnable {
 		            	
 		            		
 		            		// Store event in database
-		            		BooTreasure.getDatabaseManager().addEventToDatabase(treasure, player, EventType.REMOVED);
+		            		Managers.getDatabaseManager().addEventToDatabase(treasure, player, EventType.REMOVED);
 		            		
 		            	
 		            	}catch( Exception e){
@@ -98,7 +104,7 @@ public class ChestDeleteProcedure implements Runnable {
 			
 
 		}catch (Exception e){
-			Log.severe("An error occured on ChestDeleteProcedure", e);			
+			Log.severe(plugin, "An error occured on ChestDeleteProcedure", e);			
 		}
 		
 	}
@@ -116,9 +122,9 @@ public class ChestDeleteProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
-			build.append( Const.CHEST_DELETE_LIST );
+			build.append( messageConfig.getString( LocalesNodes.DeleteChest.CHEST_DELETE_LIST.getConfigNode() ) );
 			build.append("\n");
-			for( Entry<String, Object> entry : BooTreasure.getCacheManager().getTreasures().entrySet() ){
+			for( Entry<String, Object> entry : Managers.getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();
 				TreasureChest tr = (TreasureChest) entry.getValue();
 				build.append( tr.get_name() + "\n" );
@@ -129,7 +135,7 @@ public class ChestDeleteProcedure implements Runnable {
 		@Override
 		protected boolean isInputValid(ConversationContext context, String in) {
 			
-			for( Entry<String, Object> entr : BooTreasure.getCacheManager().getTreasures().entrySet() ){
+			for( Entry<String, Object> entr : Managers.getCacheManager().getTreasures().entrySet() ){
 				// If string sent is a name of a cached treasure
 				if( entr.getKey().equalsIgnoreCase(in) ){
 					

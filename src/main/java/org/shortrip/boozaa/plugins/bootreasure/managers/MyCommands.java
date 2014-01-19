@@ -1,18 +1,16 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import lombok.Getter;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandParser;
 
 
-public class MyCommands extends Manager {
+public class MyCommands {
 
-	private Plugin plugin;
+	private BooTreasure plugin;
 	private CommandFramework manager;
 	
 	public MyCommands(BooTreasure booTreasure) throws CommandNullException {
@@ -58,7 +56,7 @@ public class MyCommands extends Manager {
 	    }		
 	}
 
-	@Override
+	
 	public void onDisable() {
 		manager = null;
 	}

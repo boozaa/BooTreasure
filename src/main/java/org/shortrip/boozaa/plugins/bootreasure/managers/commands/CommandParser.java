@@ -2,42 +2,44 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.configs.ConfigNodes;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Command;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.CommandArgs;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Completer;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestCreateProcedure;
 import org.shortrip.boozaa.plugins.bootreasure.procedures.chest.ChestEditProcedure;
+import org.shortrip.boozaa.plugins.bootreasure.utils.DataUtils;
+import org.shortrip.boozaa.plugins.bootreasure.utils.DataUtils.DataUtilParserException;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 public class CommandParser {
 
-	private Plugin plugin;
+	private BooTreasure plugin;
 	
-	public CommandParser( Plugin plugin ){
+	public CommandParser( BooTreasure plugin ){
 		this.plugin = plugin;
 	}
 	
 	@Command( name = "bootreasure.debug", aliases = { "bootreasure.debug" } )
 	public void consoleToggleDebug(CommandArgs args) {
 		if( !( args.getSender() instanceof Player ) ) {
-			if( BooTreasure.getConfigsManager().get("config.yml").getBoolean("config.debugMode") ){				
-				BooTreasure.getConfigsManager().get("config.yml").set("config.debugMode", false);
-				Log.set_debugON(false);
+			if( BooTreasure.getConfigManager().get("config.yml").getBoolean( ConfigNodes.DEBUG.getNode() ) == true ){
+				BooTreasure.getConfigManager().get("config.yml").set( ConfigNodes.DEBUG.getNode(), false);
 				Log.info("Debug mode deactivated");
 			}else{				
-				BooTreasure.getConfigsManager().get("config.yml").set("config.debugMode", true);	
-				Log.set_debugON(true);
+				BooTreasure.getConfigManager().get("config.yml").set( ConfigNodes.DEBUG.getNode(), true);
 				Log.info("Debug mode activated");
 			}
-			BooTreasure.getConfigsManager().get("config.yml").save();
+			BooTreasure.getConfigManager().get("config.yml").save();
 		}		
 	}
 	
@@ -45,8 +47,43 @@ public class CommandParser {
 	@Command(name = "bootreasure", aliases = { "bootreasure" }, 
 			description = "This is bootreasure command", usage = "This is how you use it")
 	public void bootreasure(CommandArgs args) {
-		args.getSender().sendMessage("This is bootreasure command");
+		args.getSender().sendMessage("bootreasure commands:");
+		args.getSender().sendMessage("debug - toggle debug mode");
 	}
+	
+
+	@Command(name = "bootreasure.test", aliases = { "bootreasure.test" }, 
+			description = "This is bootreasure command", usage = "This is how you use it")
+	public void bootreasureTest(CommandArgs args) throws DataUtilParserException {
+		
+		Log.debug("Test inventory");
+		Player player = (Player) args.getSender();
+		ItemStack itemInHand = player.getItemInHand();
+		String representation = DataUtils.toString(itemInHand);
+		Log.debug( "String representation for " + itemInHand.toString() + " -> " + representation );
+		Log.debug( "';;;'.split(';').length -> " + ";;;".split(";").length );
+		Log.debug( representation + " to ItemStack -> ");
+		Log.debug( DataUtils.fromString( representation ).toString()  );
+		
+		
+		if( itemInHand.getType() == Material.ENCHANTED_BOOK ){
+			Log.debug("ENCHANTED_BOOK: ");
+			
+			Log.debug( "itemInHand.getData(): " + itemInHand.getData().toString() );
+			
+			for( Entry<Enchantment, Integer> enchant : itemInHand.getEnchantments().entrySet() ){
+				Log.debug( "Enchantment: " + enchant.getKey().toString() + " - " + enchant.getValue() );
+			}
+			
+			ItemMeta metas = itemInHand.getItemMeta();
+			Log.debug( "itemInHand.getItemMeta(): " + metas.toString() );
+			
+			
+		}
+		
+		
+	}
+	
 	
 	
 	@Command(name = "bootreasure.chest", aliases = { "bootreasure.chest" }, 

@@ -1,7 +1,6 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestAppearEvent;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestDisappearEvent;
@@ -9,9 +8,9 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureCh
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 
 
-public class MyEvents extends Manager {
+public class MyEvents {
 
-	private Plugin plugin;
+	private BooTreasure plugin;
 	
 	public MyEvents(BooTreasure booTreasure) {
 		this.plugin = booTreasure;
@@ -42,7 +41,6 @@ public class MyEvents extends Manager {
 	
 	
 
-	@Override
 	public void onDisable() {
 		
 	}

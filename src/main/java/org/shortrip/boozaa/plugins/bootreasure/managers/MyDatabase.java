@@ -2,18 +2,15 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.sql.SQLException;
 import java.util.List;
-
-
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.libs.configmanager.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
+import org.shortrip.boozaa.plugins.bootreasure.configs.ConfigNodes;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.dao.TreasureDAO;
-import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -22,37 +19,39 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-public class MyDatabase extends Manager {
 
+public class MyDatabase {
+
+	
 	@SuppressWarnings("unused")
-	private Plugin plugin;
+	private BooTreasure plugin;
 	private String databaseUrl;
 	private ConnectionSource _connectionSource;
 	private Dao<TreasureDAO, String> _treasureDAO;
 	private Dao<EventsDAO, String> _eventsDAO;
 	
 	
-	public MyDatabase(Plugin plugin) throws SQLException{
+	public MyDatabase(BooTreasure plugin) throws SQLException{
 		
 		System.setProperty(LocalLog.LOCAL_LOG_LEVEL_PROPERTY, "ERROR");
-		//System.setProperty(LocalLog.LOCAL_LOG_FILE_PROPERTY, "plugins/BooTreasure/ormlite_log.out");
+		System.setProperty(LocalLog.LOCAL_LOG_FILE_PROPERTY, "plugins/BooTreasure/ormlite_log.out");
 		
 		this.plugin = plugin;
 		
-		Log.debug("Search for database storage type");
+		//Log.debug("Search for database storage type");
 		
-		Configuration config = BooTreasure.getConfigsManager().get("config.yml");
-		if( config.contains("config.database") ){
+		Configuration config = BooTreasure.getConfigManager().get("config.yml");
+		if( config.contains( ConfigNodes.DATABASE_TYPE.getNode() ) ){
 			
-			Log.debug("The config have a 'config.database' node");
+			//Log.debug("The config have a 'config.database' node");
 			
-			String dbType = config.getString("config.database");			
+			String dbType = config.getString(ConfigNodes.DATABASE_TYPE.getNode());			
 
-			Log.debug("Database type selected: " + dbType);
+			//Log.debug("Database type selected: " + dbType);
 			
 			if( dbType.equalsIgnoreCase("sqlite") ){
 
-				Log.debug("Connection to: " + dbType);
+				//Log.debug("Connection to: " + dbType);
 				
 				databaseUrl = "jdbc:sqlite:plugins/BooTreasure/bootreasure.db";
 				_connectionSource = new JdbcConnectionSource(databaseUrl);
@@ -60,13 +59,13 @@ public class MyDatabase extends Manager {
 				
 			}else if( dbType.equalsIgnoreCase("mysql") ){
 
-				Log.debug("Connection to: " + dbType);
+				//Log.debug("Connection to: " + dbType);
 				
-				String host = config.getString("config.mysql.host");
-				int port = config.getInt("config.mysql.port");
-				String database = config.getString("config.mysql.database");
-				String user = config.getString("config.mysql.user");
-				String pass = config.getString("config.mysql.pass");
+				String host = config.getString(ConfigNodes.MYSQL_HOST.getNode());
+				int port = config.getInt(ConfigNodes.MYSQL_PORT.getNode());
+				String database = config.getString(ConfigNodes.MYSQL_DATABASE.getNode());
+				String user = config.getString(ConfigNodes.MYSQL_USER.getNode());
+				String pass = config.getString(ConfigNodes.MYSQL_PASS.getNode());
 				databaseUrl = "jdbc:mysql://"+ host + ":" + port + "/" + database;
 				_connectionSource = new JdbcConnectionSource(databaseUrl,user,pass);
 				Log.info("Connected to MySQL database");
@@ -150,9 +149,6 @@ public class MyDatabase extends Manager {
 	
 	
 	
-	
-	
-	@Override
 	public void onDisable() {
 		// TODO Auto-generated method stub
 		

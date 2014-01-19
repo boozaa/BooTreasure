@@ -10,13 +10,11 @@ import java.io.Serializable;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
-
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.constants.Const;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -24,7 +22,7 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 public abstract class Treasure implements Serializable {
 
 	private transient static final long serialVersionUID = 1L;
-	
+
 	private transient final String NAME 					= "basics.name";
 	private transient final String CRON_PATTERN 			= "basics.cronpattern";
 	private transient final String DURATION 				= "basics.duration";
@@ -56,9 +54,9 @@ public abstract class Treasure implements Serializable {
 		this._type = type;
 		this._id =	UUID.randomUUID().toString();
 		if( type.equals(TreasureType.CHEST ) )
-			this._path = Const.LOST_FOLDER_PATH + this._id + ".chest";
+			this._path = "plugins/BooTreasure/lost+found" + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
-			this._path = Const.LOST_FOLDER_PATH + this._id + ".schematic";
+			this._path = "plugins/BooTreasure/lost+found" + this._id + ".schematic";
 	}
 	
 	public Treasure( TreasureType type, ConfigurationSection section ){
@@ -66,9 +64,9 @@ public abstract class Treasure implements Serializable {
 		this._id =	UUID.randomUUID().toString();
 		this._conf	= section;
 		if( type.equals(TreasureType.CHEST ) )
-			this._path = BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
+			this._path = Bukkit.getPluginManager().getPlugin("BooTreasure").getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
-			this._path = BooTreasure.getInstance().getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".schematic";
+			this._path = Bukkit.getPluginManager().getPlugin("BooTreasure").getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".schematic";
 		this._name 				= this._conf.getString( NAME );
 		this._pattern 			= this._conf.getString( CRON_PATTERN );		
 		this._duration 			= this._conf.getLong( DURATION );
@@ -104,9 +102,9 @@ public abstract class Treasure implements Serializable {
 		this._infinite 			= false;
 		this._found 			= false;
 		if( type.equals(TreasureType.CHEST ) )
-			this._path = Const.LOST_FOLDER_PATH + this._id + ".chest";
+			this._path = "plugins/BooTreasure/lost+found" + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
-			this._path = Const.LOST_FOLDER_PATH + this._id + ".schematic";			
+			this._path = "plugins/BooTreasure/lost+found" + this._id + ".schematic";			
 	}
 	
 	public Treasure( TreasureType type, File file ){

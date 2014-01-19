@@ -9,7 +9,7 @@ import org.shortrip.boozaa.plugins.bootreasure.treasures.Treasure;
 import lombok.Getter;
 
 
-public class MyCache extends Manager {
+public class MyCache {
 
 	@SuppressWarnings("unused")
 	private Plugin plugin;
@@ -56,7 +56,6 @@ public class MyCache extends Manager {
 	}
 	
 	
-	@Override
 	public void onDisable() {
 		_treasureCache.erase();
 	}
