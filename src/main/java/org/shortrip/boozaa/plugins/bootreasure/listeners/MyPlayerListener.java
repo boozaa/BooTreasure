@@ -2,6 +2,7 @@ package org.shortrip.boozaa.plugins.bootreasure.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
@@ -95,6 +96,7 @@ public class MyPlayerListener implements Listener {
 		}
 		
 	}
+
 	
 	
 	
