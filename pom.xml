@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.shortrip.boozaa.plugins.bootreasure</groupId>
     <artifactId>BooTreasure</artifactId>
-    <version>0.6</version>
+    <version>0.5</version>
     <name>BooTreasure</name>
     <repositories>
         <repository>
@@ -20,9 +20,9 @@
             <url>http://repo.bukkit.org/content/groups/public</url>
         </repository>
         <repository>
-            <id>home-repo</id>
-            <url>http://home.shortrip.org:8080/plugin/repository/everything</url>
-        </repository>
+			<id>vault-repo</id>
+			<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+		</repository>
         <repository>
 			<id>CommandAPI</id>
 			<url>https://github.com/Not2EXceL/CommandAPI_Builds/raw/master</url>
@@ -83,16 +83,36 @@
                       <goal>shade</goal>
                     </goals>
                     <configuration>
-                          <minimizeJar>false</minimizeJar>
+                          <minimizeJar>true</minimizeJar>
                           <relocations>
                               <relocation>
                                   <pattern>com.j256.ormlite</pattern>
-                                  <shadedPattern>org.shortrip.boozaa.libs.ormlite</shadedPattern>
+                                  <shadedPattern>org.shortrip.boozaa.plugins.ormlite</shadedPattern>
+                              </relocation>
+                              <relocation>
+                                  <pattern>com.mysql.jdbc</pattern>
+                                  <shadedPattern>org.shortrip.boozaa.plugins.mysql-connector</shadedPattern>
                               </relocation>
                               <relocation>
                                 <pattern>it.sauronsoftware.cron4j</pattern>
-                                <shadedPattern>org.shortrip.boozaa.libs.cron4j</shadedPattern>
-                            </relocation>                      
+                                <shadedPattern>org.shortrip.boozaa.plugins.cron4j</shadedPattern>
+                            </relocation>                            
+                            <relocation>
+                                <pattern>com.sun</pattern>
+                                <shadedPattern>org.shortrip.boozaa.plugins.lombok.com.sun</shadedPattern>
+                            </relocation>
+                            <relocation>
+                                <pattern>com.zwitserloot</pattern>
+                                <shadedPattern>org.shortrip.boozaa.plugins.lombok.com.zwitserloot</shadedPattern>
+                            </relocation>
+                            <relocation>
+                                <pattern>lombok</pattern>
+                                <shadedPattern>org.shortrip.boozaa.plugins.lombok.lombok</shadedPattern>
+                            </relocation>
+                            <relocation>
+                                <pattern>org.objectweb</pattern>
+                                <shadedPattern>org.shortrip.boozaa.plugins.lombok.org.objectweb</shadedPattern>
+                            </relocation>                            
                           </relocations>
                       </configuration>
                   </execution>
@@ -128,8 +148,7 @@
             <artifactId>Vault</artifactId>
             <version>1.2.27-b349</version>
             <type>jar</type>
-            <scope>system</scope>
-  			<systemPath>${project.basedir}/lib/Vault.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>it.sauronsoftware.cron4j</groupId>
@@ -142,7 +161,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>0.12.0</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency> 
         <dependency>
             <groupId>com.j256.ormlite</groupId>
@@ -163,33 +182,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.26</version>           
             <type>jar</type>
-            <scope>provided</scope>
-        </dependency>        
-		<dependency>
-			<groupId>com.sk89q</groupId>
-			<artifactId>worldedit</artifactId>
-			<version>5.4</version>
-			<scope>system</scope>
-  			<systemPath>${project.basedir}/lib/worldedit-5.5.8.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.sk89q</groupId>
-			<artifactId>worldguard</artifactId>
-			<version>5.4</version>
-			<scope>system</scope>
-  			<systemPath>${project.basedir}/lib/worldguard-5.8.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.shortrip.boozaa.libs.vaultpermission</groupId>
-			<artifactId>VaultPermission</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.shortrip.boozaa.libs.configmanager</groupId>
-			<artifactId>ConfigManager</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
