@@ -2,11 +2,13 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.io.File;
 import java.util.Set;
+
 import lombok.Getter;
+
 import org.bukkit.configuration.ConfigurationSection;
-import org.shortrip.boozaa.libs.configmanager.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
+import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;

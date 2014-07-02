@@ -3,10 +3,11 @@ package org.shortrip.boozaa.plugins.bootreasure;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.shortrip.boozaa.libs.configmanager.ConfigManager;
+import org.shortrip.boozaa.plugins.bootreasure.configs.ConfigManager;
 import org.shortrip.boozaa.plugins.bootreasure.listeners.MyPlayerListener;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands.CommandHandlerException;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
 import lombok.Getter;
 
 

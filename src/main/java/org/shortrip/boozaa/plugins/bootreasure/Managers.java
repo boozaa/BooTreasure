@@ -1,7 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure;
 
 import lombok.Getter;
-import org.shortrip.boozaa.libs.vaultpermission.VaultPermission;
+//import org.shortrip.boozaa.libs.vaultpermission.VaultPermission;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCache;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCron;
@@ -15,7 +15,7 @@ public class Managers {
 
 	@SuppressWarnings("unused")
 	private BooTreasure plugin;
-	@Getter private static VaultPermission permission;
+	//@Getter private static VaultPermission permission;
 	@Getter private static MyCache cacheManager;
 	@Getter private static MyCron cronManager;
 	@Getter private static MyEvents eventsManager;
@@ -32,7 +32,7 @@ public class Managers {
 		commandsManager = new MyCommands(plugin);
 		
 		// Permission, 'true' mean required
-		permission = new VaultPermission(plugin, true);
+		//permission = new VaultPermission(plugin, true);
 		
 		// Cache
 		cacheManager = new MyCache(plugin);
@@ -58,8 +58,8 @@ public class Managers {
 		if( commandsManager != null )
 			commandsManager.onDisable();
 
-		if( permission != null )
-			permission = null;
+		//if( permission != null )
+		//	permission = null;
 
 		if( cacheManager != null )
 			cacheManager.onDisable();

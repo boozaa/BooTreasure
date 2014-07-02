@@ -7,19 +7,13 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.UnsupportedIntersectionException;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import com.sk89q.worldedit.BlockVector;
 
 
 
 public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
 
 	
-	private static WorldGuardPlugin wg;
+	//private static WorldGuardPlugin wg;
 	
 	
 	public WorlguardRegionBlockCondition() {
@@ -39,7 +33,7 @@ public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
 	@SuppressWarnings("unused")
 	private static Block findGoodSpawnInWGRegion( World world, Boolean onlyOnSurface, List<AbstractBlockCondition> conditions, List<String> regionNames ){
 		
-		// Get all regions for world
+		/*// Get all regions for world
 		RegionManager regionManager = wg.getRegionManager(world);
 		
 		// Keep only region with name on regionNames
@@ -58,7 +52,7 @@ public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
 					
 				}
 			}
-		}
+		}*/
 		
 		
 		
@@ -76,7 +70,8 @@ public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
     // True: Regions found within chunk
     // False: No regions found within chunk
     public boolean checkForRegionsInChunk(Location loc) {
-            int plocX = loc.getBlockX();
+		return false;
+            /*int plocX = loc.getBlockX();
             int plocZ = loc.getBlockZ();
             World world = loc.getWorld();
             
@@ -110,12 +105,13 @@ public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
             allregionslist = null;
             overlaps = null;
             
-            return foundregions;
+            return foundregions;*/
     }
 	
     public static boolean checkForRegionsInChunk(Chunk chunk) {
+		return false;
         
-        World world = chunk.getWorld();
+        /*World world = chunk.getWorld();
         int chunkX = chunk.getX();
         int chunkZ = chunk.getZ();
         
@@ -145,11 +141,11 @@ public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
         allregionslist = null;
         overlaps = null;
         
-        return foundregions;
+        return foundregions;*/
     }
     
     
-    @SuppressWarnings("unused")
+    /*@SuppressWarnings("unused")
 	public List<ProtectedRegion> getRegionsInChunk(Chunk chunk) {
         
         World world = chunk.getWorld();
@@ -177,7 +173,7 @@ public class WorlguardRegionBlockCondition extends AbstractBlockCondition {
         }
         
         return null;
-    }
+    }*/
 	
 	
 }
