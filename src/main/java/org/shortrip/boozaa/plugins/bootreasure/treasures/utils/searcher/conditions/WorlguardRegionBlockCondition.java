@@ -1,8 +1,6 @@
 package org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;

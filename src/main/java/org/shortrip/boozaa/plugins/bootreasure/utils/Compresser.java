@@ -18,12 +18,7 @@ public class Compresser {
 			gzipOutputStream.close();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}
-		// TODO Debug à retirer
-		float ratio 	= (1.0f * content.length / byteArrayOutputStream.size());
-		int original 	= content.length ;
-		int compressed	= byteArrayOutputStream.size();
-		
+		}		
 		return byteArrayOutputStream.toByteArray();
 	}
 
