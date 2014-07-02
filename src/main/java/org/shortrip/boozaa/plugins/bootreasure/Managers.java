@@ -13,8 +13,6 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager;
 
 public class Managers {
 
-	@SuppressWarnings("unused")
-	private BooTreasure plugin;
 	//@Getter private static VaultPermission permission;
 	@Getter private static MyCache cacheManager;
 	@Getter private static MyCron cronManager;
@@ -25,9 +23,7 @@ public class Managers {
 	
 	
 	public Managers( BooTreasure plugin ) throws Exception{
-		
-		this.plugin = plugin;		
-		
+				
 		// Commands
 		commandsManager = new MyCommands(plugin);
 		

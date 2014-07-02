@@ -13,16 +13,6 @@ import lombok.Getter;
 
 public class BooTreasure  extends JavaPlugin{
 
-	/*
-	@Getter private static ConfigManager configManager;
-	@Getter private static VaultPermission permission;
-	@Getter private static MyCache cacheManager;
-	@Getter private static MyCron cronManager;
-	@Getter private static MyEvents eventsManager;
-	@Getter private static MyDatabase databaseManager;
-	@Getter private static MyTreasuresManager treasuresManager;
-	@Getter private static MyCommands commandsManager;
-	*/
 	@Getter private static ConfigManager configManager;
 	@Getter private Managers managers;
 	
