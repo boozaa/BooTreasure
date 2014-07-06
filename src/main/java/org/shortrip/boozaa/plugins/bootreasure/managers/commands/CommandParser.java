@@ -32,14 +32,14 @@ public class CommandParser {
 	@Command( name = "bootreasure.debug", aliases = { "bootreasure.debug" } )
 	public void consoleToggleDebug(CommandArgs args) {
 		if( !( args.getSender() instanceof Player ) ) {
-			if( BooTreasure.getConfigManager().get("config.yml").getBoolean( ConfigNodes.DEBUG.getNode() ) == true ){
-				BooTreasure.getConfigManager().get("config.yml").set( ConfigNodes.DEBUG.getNode(), false);
+			if( BooTreasure.getMainConfig().getBoolean( ConfigNodes.DEBUG.getNode() ) == true ){
+				BooTreasure.getMainConfig().set( ConfigNodes.DEBUG.getNode(), false);
 				Log.info("Debug mode deactivated");
 			}else{				
-				BooTreasure.getConfigManager().get("config.yml").set( ConfigNodes.DEBUG.getNode(), true);
+				BooTreasure.getMainConfig().set( ConfigNodes.DEBUG.getNode(), true);
 				Log.info("Debug mode activated");
 			}
-			BooTreasure.getConfigManager().get("config.yml").save();
+			BooTreasure.getMainConfig().save();
 		}		
 	}
 	

@@ -101,7 +101,8 @@ public class MyTreasuresManager {
 		Log.debug("Search 'treasures' node in treasures.yml");
 		
 		// On charge le fichier config/treasures.yml		
-		Configuration config = BooTreasure.getConfigManager().get("treasures.yml");
+		//Configuration config = BooTreasure.getConfigManager().get("treasures.yml");
+		Configuration config = BooTreasure.getTreasuresConfig();
 		if (config.get("treasures") != null) {
 
 			Log.debug("treasures.yml loaded and 'treasures' node found");

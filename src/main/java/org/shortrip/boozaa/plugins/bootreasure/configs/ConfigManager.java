@@ -25,8 +25,8 @@ public class ConfigManager {
 	public void load( String configFileName ){
 		
 		// Folder path
-		String folder = this._plugin.getDataFolder().getAbsolutePath();
-		File file = new File( folder + File.separator + configFileName );
+		//String folder = this._plugin.getDataFolder().getAbsolutePath();
+		File file = new File( this._plugin.getDataFolder() + File.separator + configFileName );
 		if( file.exists()  ){
 			
 			Configuration config = new Configuration( file );

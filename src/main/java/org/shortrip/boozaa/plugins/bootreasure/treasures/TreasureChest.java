@@ -350,7 +350,7 @@ public class TreasureChest extends Treasure {
 	protected String replaceVariables( String msg ){
 		String message = "";		
 		// Replace pour les codes couleurs
-		//message = msg.replace("&", "§");
+		message = msg.replace("&", "§");
 		// Replace des pseudo variables
 		message = message.replace("%name%", 			this._name);
 		message = message.replace("%pattern%", 			this._pattern);

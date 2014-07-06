@@ -46,7 +46,7 @@ public class ChestCreateProcedure implements Runnable {
 		chestLocation = this.player.getLocation().toVector().add(this.player.getLocation().getDirection().multiply(1)).toLocation(this.world);
 		chestLocation.setY(chestLocation.getY()+1);
 		this.treasure = new TreasureChest(chestLocation);
-		this.messageConfig = BooTreasure.getConfigManager().get("messages.yml");
+		this.messageConfig = BooTreasure.getMessagesConfig();
 	}
 	
 	

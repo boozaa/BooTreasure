@@ -45,7 +45,7 @@ public class Log {
 	// Debug si activé
 	public static void debug(String message) {
 		
-		if( BooTreasure.getConfigManager().get("config.yml").getBoolean( ConfigNodes.DEBUG.getNode()) ) {			
+		if( BooTreasure.getMainConfig().getBoolean( ConfigNodes.DEBUG.getNode()) ) {			
 			console.sendMessage(prefix + "- DEBUG - " + ChatColor.GREEN + message);
 		}
 		

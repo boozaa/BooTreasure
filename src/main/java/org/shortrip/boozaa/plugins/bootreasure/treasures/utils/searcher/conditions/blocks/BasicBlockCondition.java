@@ -1,8 +1,9 @@
-package org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions;
+package org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.blocks;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.AbstractBlockCondition;
 
 public class BasicBlockCondition extends AbstractBlockCondition {
 

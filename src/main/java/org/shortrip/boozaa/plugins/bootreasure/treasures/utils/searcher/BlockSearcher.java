@@ -3,7 +3,9 @@ package org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import lombok.Synchronized;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -14,8 +16,8 @@ import org.bukkit.block.BlockFace;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.LocationUtils;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.AbstractBlockCondition;
-import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.BasicBlockCondition;
-import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.TypeBlockCondition;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.blocks.BasicBlockCondition;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.blocks.TypeBlockCondition;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class BlockSearcher {
@@ -30,7 +32,7 @@ public class BlockSearcher {
 		List<AbstractBlockCondition> conditions = new ArrayList<AbstractBlockCondition>();
 		
 		// Not chest and air
-		conditions.add(new BasicBlockCondition() );
+		conditions.add( new BasicBlockCondition() );
 			
 		// places conditions, block allowed
 		Boolean hasPlacesMaterials = false;	

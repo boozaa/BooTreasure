@@ -1,5 +1,6 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -40,36 +41,37 @@ public class MyDatabase {
 		
 		this.plugin = plugin;
 		
-		//Log.debug("Search for database storage type");
+		Log.debug("Search for database storage type");
 		
-		Configuration config = BooTreasure.getConfigManager().get("config.yml");
+		//Configuration config = BooTreasure.getConfigManager().get("config.yml");
+		Configuration config = BooTreasure.getMainConfig();
 		if( config.contains( ConfigNodes.DATABASE_TYPE.getNode() ) ){
 			
-			//Log.debug("The config have a 'config.database' node");
+			Log.debug("The config have a 'config.database' node");
 			
 			String dbType = config.getString(ConfigNodes.DATABASE_TYPE.getNode());			
 
-			//Log.debug("Database type selected: " + dbType);
+			Log.debug("Database type selected: " + dbType);
 			
 			if( dbType.equalsIgnoreCase("sqlite") ){
 
 				//Log.debug("Connection to: " + dbType);
 				
-				databaseUrl = "jdbc:sqlite:plugins/BooTreasure/bootreasure.db";
-				_connectionSource = new JdbcConnectionSource(databaseUrl);
+				this.databaseUrl = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "bootreasure.db";
+				this._connectionSource = new JdbcConnectionSource(databaseUrl);
 				Log.info("Connected to SQLite database");
 				
 			}else if( dbType.equalsIgnoreCase("mysql") ){
 
-				//Log.debug("Connection to: " + dbType);
+				Log.debug("Connection to: " + dbType);
 				
 				String host = config.getString(ConfigNodes.MYSQL_HOST.getNode());
 				int port = config.getInt(ConfigNodes.MYSQL_PORT.getNode());
 				String database = config.getString(ConfigNodes.MYSQL_DATABASE.getNode());
 				String user = config.getString(ConfigNodes.MYSQL_USER.getNode());
 				String pass = config.getString(ConfigNodes.MYSQL_PASS.getNode());
-				databaseUrl = "jdbc:mysql://"+ host + ":" + port + "/" + database;
-				_connectionSource = new JdbcConnectionSource(databaseUrl,user,pass);
+				this.databaseUrl = "jdbc:mysql://"+ host + ":" + port + "/" + database;
+				this._connectionSource = new JdbcConnectionSource(databaseUrl,user,pass);
 				Log.info("Connected to MySQL database");
 				
 			}

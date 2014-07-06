@@ -1,10 +1,12 @@
-package org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions;
+package org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.conditions.AbstractBlockCondition;
 
 
 

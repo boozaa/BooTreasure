@@ -54,9 +54,9 @@ public abstract class Treasure implements Serializable {
 		this._type = type;
 		this._id =	UUID.randomUUID().toString();
 		if( type.equals(TreasureType.CHEST ) )
-			this._path = "plugins/BooTreasure/lost+found" + this._id + ".chest";
+			this._path = "plugins/BooTreasure/lost+found/" + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
-			this._path = "plugins/BooTreasure/lost+found" + this._id + ".schematic";
+			this._path = "plugins/BooTreasure/lost+found/" + this._id + ".schematic";
 	}
 	
 	public Treasure( TreasureType type, ConfigurationSection section ){
