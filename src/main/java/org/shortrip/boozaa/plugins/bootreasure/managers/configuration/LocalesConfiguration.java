@@ -63,7 +63,6 @@ public class LocalesConfiguration extends YamlConfiguration {
 		//super(plugin.getDataFolder() + File.separator + "messages.yml");
 		this.source = new File(plugin.getDataFolder() + File.separator + "messages.yml");
 		this.plugin = plugin;
-		Log.info("Instanciate MainConfiguration");
 		if( !source.exists() ){
 			Log.info("This config file doesn't exists, create it");
 			createFile();
@@ -75,8 +74,6 @@ public class LocalesConfiguration extends YamlConfiguration {
 		
 		try {
 			
-			Log.info("Enter in LocalesConfiguration load()");
-
 			this.prefix 							= getString( ROOT + "." + NODES.LOCALES.PREFIX );
 			this.end 								= getString( ROOT + "." + NODES.LOCALES.END );
 			this.exit 								= getString( ROOT + "." + NODES.LOCALES.EXIT );

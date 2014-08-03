@@ -1,9 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks;
 
 import it.sauronsoftware.cron4j.TaskExecutionContext;
-
 import org.bukkit.plugin.Plugin;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.Treasure;

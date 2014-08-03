@@ -54,9 +54,7 @@ public class MainConfiguration extends YamlConfiguration {
 		//super(plugin.getDataFolder() + File.separator + "config.yml");
 		this.source = new File(plugin.getDataFolder() + File.separator + "config.yml");
 		this.plugin = plugin;
-		Log.info("Instanciate MainConfiguration");
 		if( !source.exists() ){
-			Log.info("This config file doesn't exists, create it");
 			createFile();
 		}
 	}
@@ -75,8 +73,6 @@ public class MainConfiguration extends YamlConfiguration {
 	@Override
 	public void load(File source){
 		try {
-
-			Log.info("Enter in MainConfiguration load()");
 						
 			this.debug 		= getBoolean( 	ROOT + "." + NODES.DEBUG );
 			this.version 	= getString( 	ROOT + "." + NODES.VERSION );

@@ -57,7 +57,7 @@ public class Managers {
 		cronManager = new MyCron(plugin);
 		
 		// treasuresManager
-		treasuresManager = new MyTreasuresManager(plugin);
+		//treasuresManager = new MyTreasuresManager(plugin);
 		
 	}
 	

@@ -2,10 +2,8 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.util.HashMap;
 import org.bukkit.plugin.Plugin;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cache.Cache;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.Treasure;
-
 import lombok.Getter;
 
 

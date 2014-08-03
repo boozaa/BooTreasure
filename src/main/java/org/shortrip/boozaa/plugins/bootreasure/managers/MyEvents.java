@@ -2,7 +2,6 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestAppearEvent;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestDisappearEvent;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.chests.TreasureChestDisappearSilentlyEvent;

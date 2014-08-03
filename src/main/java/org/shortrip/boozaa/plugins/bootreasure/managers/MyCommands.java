@@ -1,11 +1,9 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import lombok.Getter;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandParser;
 

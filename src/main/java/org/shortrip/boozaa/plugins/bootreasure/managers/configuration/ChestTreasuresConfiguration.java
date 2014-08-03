@@ -57,7 +57,6 @@ public class ChestTreasuresConfiguration extends YamlConfiguration {
 			createFile();
 		}
 		this.treasureChestSection = getConfigurationSection(ROOT);
-		Log.info("Instanciate MainConfiguration");
 	}
 	
 	
@@ -65,7 +64,6 @@ public class ChestTreasuresConfiguration extends YamlConfiguration {
 	public void load(File source){
 		try {
 			
-			Log.info("Enter in ChestTreasuresConfiguration load()");
 			this.treasureChestSection = getConfigurationSection(ROOT);	
 			
 		} catch (Exception e) {
