@@ -9,9 +9,7 @@ import java.util.Date;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.plugin.Plugin;
-import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.configs.ConfigNodes;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
 
 
 public class Log {
@@ -35,7 +33,7 @@ public class Log {
 		console.sendMessage(prefix + "- ERROR - " + message);
 	}
 	
-	public static void severe(Plugin plugin, String error, Throwable message) {
+	public static void severe(String error, Throwable message) {
 		console.sendMessage(prefix + ChatColor.RED + "- SEVERE - Fatal error, the plugin must be disabled: " + message.getMessage());
 		console.sendMessage(prefix + ChatColor.RED + "- SEVERE - You will find the error in /plugins/BooTreasure/errors.txt, please provide it if you want to help solving this issue" );
 		writeError(error, message);
@@ -45,7 +43,7 @@ public class Log {
 	// Debug si activé
 	public static void debug(String message) {
 		
-		if( BooTreasure.getMainConfig().getBoolean( ConfigNodes.DEBUG.getNode()) ) {			
+		if( Managers.getMainConfig().isDebug() ) {			
 			console.sendMessage(prefix + "- DEBUG - " + ChatColor.GREEN + message);
 		}
 		

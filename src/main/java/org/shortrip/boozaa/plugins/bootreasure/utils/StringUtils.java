@@ -198,5 +198,10 @@ public class StringUtils {
              }
              return result;
      }
+     
+     
+     public static String colorize( String entry ){
+    	 return entry.replaceAll("&", "§");
+     }
 	
 }

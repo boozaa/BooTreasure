@@ -2,11 +2,13 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.configuration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,21 +19,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 *   I wish you good time develop your plugins
 *   contact: boozaa@shortrip.org
 */
-public class Configuration extends YamlConfiguration {
+public abstract class Configuration extends YamlConfiguration {
 
 	protected File source;
 	
 	
-	public Configuration(JavaPlugin plugin) {
+	public Configuration(JavaPlugin plugin) throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
 		this(plugin.getDataFolder() + File.separator + "config.yml");
 	}
-	public Configuration(String sourcepath) {
+	public Configuration(String sourcepath) throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
 		this(new File(sourcepath));
 	}
-	public Configuration(File source) {
+	public Configuration(File source) throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
+		if( !source.exists() )
+			createFile();
 		this.source = source;
 	}
 	
+	public abstract void createFile() throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException;
 		
 	@SuppressWarnings("unchecked")
 	public <T> T parse(String path, T def) {
@@ -44,21 +49,21 @@ public class Configuration extends YamlConfiguration {
 		return this.source.exists();
 	}
 	
-	public void init() {
+	public void init() throws ConfigLoadException, FileNotFoundException, IOException, InvalidConfigurationException {
 		this.load();
 		this.save();
 	}
-
-	public void load() {
-		try {
-			this.load(this.source);
-		} catch (FileNotFoundException ex) {
-			System.out.println("[BooTreasure2] File '" + this.source + "' was not found");
-		} catch (Exception ex) {
-			System.out.println("[BooTreasure2] Error while loading file '" + this.source + "':");
-			ex.printStackTrace();
-		}
+	
+	public void reload() throws ConfigLoadException, FileNotFoundException, IOException, InvalidConfigurationException{
+		this.save();
+		this.load();
 	}
+
+	public void load() throws ConfigLoadException, FileNotFoundException, IOException, InvalidConfigurationException{
+		this.load(this.source);		
+	}
+	
+	
 	public void save() {
 		try {
 			//boolean regen = !this.exists();
@@ -100,3 +105,4 @@ public class Configuration extends YamlConfiguration {
 	
 
 }
+

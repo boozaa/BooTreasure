@@ -42,7 +42,7 @@ public class TreasureChestDisappearEvent extends Events {
 						build.append( "Id: " + t.get_id() );
 						build.append(nl);
 						build.append( "Inventory: " + t.get_inventory().toString() );
-						Log.severe(plugin, build.toString(), e);
+						Log.severe(build.toString(), e);
 					}
 				} }); 			
 		}		

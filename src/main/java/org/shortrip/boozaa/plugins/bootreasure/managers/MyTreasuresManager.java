@@ -1,14 +1,10 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.io.File;
-import java.util.Set;
-
+import java.util.List;
 import lombok.Getter;
-
-import org.bukkit.configuration.ConfigurationSection;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
-import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
@@ -94,15 +90,34 @@ public class MyTreasuresManager {
 	
 	
 	public void loadTreasures() throws TreasuresLoadException {
-
+		
 		Log.info("Loading treasures from treasures.yml ... ");
 		int qty = 0;
 		
-		Log.debug("Search 'treasures' node in treasures.yml");
+		try{
+			
+			Log.debug("Search 'treasures' node in treasures.yml");
+			
+			List<TreasureChest> chestTreasures = Managers.getTreasuresConfig().getAllTreasures();
+			for( TreasureChest ch : chestTreasures ){
+				// Store in cache
+				Managers.getCacheManager().add(ch.get_id(), ch);
+				
+				// Give the new CronTask
+				Managers.getCronManager().addTask(new TreasureTask(this.plugin, ch));
+				
+				// Quantity increment
+				qty++;
+			}
+		
+		} catch (Exception e) {
+			Log.severe("Error when trying to load treasures from treasures.yml", e);
+			//throw new TreasuresLoadException("Error when trying to load treasures from treasures.yml", e);
+		}
 		
 		// On charge le fichier config/treasures.yml		
 		//Configuration config = BooTreasure.getConfigManager().get("treasures.yml");
-		Configuration config = BooTreasure.getTreasuresConfig();
+		/*Configuration config = BooTreasure.getTreasuresConfig();
 		if (config.get("treasures") != null) {
 
 			Log.debug("treasures.yml loaded and 'treasures' node found");
@@ -138,13 +153,13 @@ public class MyTreasuresManager {
 					
 				
 				} catch (Exception e) {
-					Log.severe(plugin, "Error when trying to load treasures from treasures.yml", e);
+					Log.severe("Error when trying to load treasures from treasures.yml", e);
 					//throw new TreasuresLoadException("Error when trying to load treasures from treasures.yml", e);
 				}
 
 			}
 
-		}
+		}*/
 		Log.info(" ... " + qty + " treasure(s) loaded");
 	}
 	

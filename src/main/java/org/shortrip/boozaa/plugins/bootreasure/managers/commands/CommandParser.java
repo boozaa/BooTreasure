@@ -3,6 +3,7 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.commands;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -10,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.configs.ConfigNodes;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Command;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.CommandArgs;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Completer;
@@ -32,28 +33,19 @@ public class CommandParser {
 	@Command( name = "bootreasure.debug", aliases = { "bootreasure.debug" } )
 	public void consoleToggleDebug(CommandArgs args) {
 		if( !( args.getSender() instanceof Player ) ) {
-			if( BooTreasure.getMainConfig().getBoolean( ConfigNodes.DEBUG.getNode() ) == true ){
-				BooTreasure.getMainConfig().set( ConfigNodes.DEBUG.getNode(), false);
-				Log.info("Debug mode deactivated");
-			}else{				
-				BooTreasure.getMainConfig().set( ConfigNodes.DEBUG.getNode(), true);
-				Log.info("Debug mode activated");
-			}
-			BooTreasure.getMainConfig().save();
+			Managers.getMainConfig().toggleDebug();
 		}		
 	}
 	
 	
-	@Command(name = "bootreasure", aliases = { "bootreasure" }, 
-			description = "This is bootreasure command", usage = "This is how you use it")
+	@Command(name = "bootreasure", aliases = { "bootreasure" }, description = "This is bootreasure command", usage = "This is how you use it")
 	public void bootreasure(CommandArgs args) {
 		args.getSender().sendMessage("bootreasure commands:");
 		args.getSender().sendMessage("debug - toggle debug mode");
 	}
 	
 
-	@Command(name = "bootreasure.test", aliases = { "bootreasure.test" }, 
-			description = "This is bootreasure command", usage = "This is how you use it")
+	@Command(name = "bootreasure.test", aliases = { "bootreasure.test" }, description = "This is bootreasure command", usage = "This is how you use it")
 	public void bootreasureTest(CommandArgs args) throws DataUtilParserException {
 		
 		Log.debug("Test inventory");
@@ -86,8 +78,7 @@ public class CommandParser {
 	
 	
 	
-	@Command(name = "bootreasure.chest", aliases = { "bootreasure.chest" }, 
-			description = "This is bootreasure command", usage = "This is how you use it")
+	@Command(name = "bootreasure.chest", aliases = { "bootreasure.chest" }, description = "This is bootreasure command", usage = "This is how you use it")
 	public void chestMenu(final CommandArgs args) {
 		
 		ChestMenu menu = new ChestMenu("Chest Treasure Menu", 9, new ChestMenu.OptionClickEventHandler() {

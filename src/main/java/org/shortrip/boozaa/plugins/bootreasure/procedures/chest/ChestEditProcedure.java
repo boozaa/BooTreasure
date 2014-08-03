@@ -20,17 +20,15 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
-import org.shortrip.boozaa.plugins.bootreasure.configs.LocalesNodes;
-import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+import org.shortrip.boozaa.plugins.bootreasure.utils.StringUtils;
 
 
 
 public class ChestEditProcedure implements Runnable {
 
 
-	private Configuration messageConfig;
 	private volatile TreasureChest treasure;	
 	private BooTreasure plugin;
 	private Player player;
@@ -48,7 +46,6 @@ public class ChestEditProcedure implements Runnable {
 		this.world = p.getWorld();
 		chestLocation = this.player.getLocation().toVector().add(this.player.getLocation().getDirection().multiply(1)).toLocation(this.world);
 		chestLocation.setY(chestLocation.getY()+1);
-		this.messageConfig = BooTreasure.getMessagesConfig();
 		
 	}
 	
@@ -67,11 +64,11 @@ public class ChestEditProcedure implements Runnable {
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskWhatTreasure())
-		            .withEscapeSequence( messageConfig.getString( LocalesNodes.END.getConfigNode() ) )
+		            .withEscapeSequence( Managers.getLocalesConfig().getEnd() )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
 		                public String getPrefix(ConversationContext arg0) { 
-		                	return messageConfig.getString( LocalesNodes.EditChest.CHEST_EDIT_PREFIX.getConfigNode() ); 
+		                	return StringUtils.colorize( Managers.getLocalesConfig().getPrefix() ); 
 		                }	 
 		            //}).withInitialSessionData(map).withLocalEcho(true)
 					}).withLocalEcho(true)
@@ -87,6 +84,11 @@ public class ChestEditProcedure implements Runnable {
 		            	Log.debug( "Graceful exit, infos about treasures found:" );
 		            	Log.debug( treasure.toString() );		            	
 		            	
+		            }else{
+		            	
+		            	Log.debug("Chest edit failed");
+	    				player.sendMessage( StringUtils.colorize( Managers.getLocalesConfig().getChest_failure_edit() ) );
+		            	
 		            }
 		        }
 		    });		    
@@ -94,7 +96,7 @@ public class ChestEditProcedure implements Runnable {
 		    conv.begin();			
 			
 		}catch (Exception e){
-			Log.severe(plugin, "An error occured on ChestEditProcedure", e );			
+			Log.severe("An error occured on ChestEditProcedure", e );			
 		}		
 		
 	}
@@ -112,7 +114,7 @@ public class ChestEditProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
-			build.append( messageConfig.getString( LocalesNodes.EditChest.CHEST_EDIT_LIST.getConfigNode() ) );
+			build.append( StringUtils.colorize( Managers.getLocalesConfig().getList() ) );
 			build.append("\n");
 			for( Entry<String, Object> entry : Managers.getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();

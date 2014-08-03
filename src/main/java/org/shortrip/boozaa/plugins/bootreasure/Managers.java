@@ -1,6 +1,8 @@
 package org.shortrip.boozaa.plugins.bootreasure;
 
 import lombok.Getter;
+
+
 //import org.shortrip.boozaa.libs.vaultpermission.VaultPermission;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCache;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands;
@@ -8,6 +10,9 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.MyCron;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyDatabase;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyEvents;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyTreasuresManager;
+import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.ChestTreasuresConfiguration;
+import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.LocalesConfiguration;
+import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.MainConfiguration;
 
 
 
@@ -20,10 +25,17 @@ public class Managers {
 	@Getter private static MyDatabase databaseManager;
 	@Getter private static MyTreasuresManager treasuresManager;
 	@Getter private static MyCommands commandsManager;
+	@Getter private static MainConfiguration mainConfig;
+	@Getter private static ChestTreasuresConfiguration treasuresConfig;
+	@Getter private static LocalesConfiguration localesConfig;
 	
 	
 	public Managers( BooTreasure plugin ) throws Exception{
 				
+		mainConfig 		= new MainConfiguration( plugin );
+		treasuresConfig = new ChestTreasuresConfiguration( plugin );
+		localesConfig 	= new LocalesConfiguration(plugin);
+		
 		// Commands
 		commandsManager = new MyCommands(plugin);
 		

@@ -100,6 +100,20 @@ public class BlockSearcher {
 		if( chestSideBySide(block) )
 			return false;
 		
+		List<Material> invalidblock = new ArrayList<Material>();
+		invalidblock.add(Material.AIR);
+		invalidblock.add(Material.SAND);
+		invalidblock.add(Material.WATER);
+		invalidblock.add(Material.LAVA);
+		invalidblock.add(Material.GRAVEL);
+		invalidblock.add(Material.VINE);
+		invalidblock.add(Material.BED);
+		invalidblock.add(Material.FENCE);
+		invalidblock.add(Material.LEAVES);
+				
+		if( invalidblock.contains( block.getType() ) || invalidblock.contains( block.getRelative( BlockFace.DOWN ).getType() ) ){
+			return false;
+		}
 		
 		for( AbstractBlockCondition c : conditions ){
 			if( !c.isBlockValid(block) ){
@@ -131,6 +145,9 @@ public class BlockSearcher {
 
 		if( block.getRelative(BlockFace.WEST).getType() == Material.CHEST )
 			return true;
+		
+		
+		
 		
 		return false;
 		

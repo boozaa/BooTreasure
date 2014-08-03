@@ -3,7 +3,6 @@ package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.conversations.Conversation;
@@ -17,17 +16,15 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
-import org.shortrip.boozaa.plugins.bootreasure.configs.LocalesNodes;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
-import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+import org.shortrip.boozaa.plugins.bootreasure.utils.StringUtils;
 
 
 public class ChestDeleteProcedure implements Runnable {
 
 
-	private Configuration messageConfig;
 	private volatile TreasureChest treasure;	
 	private BooTreasure plugin;
 	private Player player;
@@ -42,7 +39,6 @@ public class ChestDeleteProcedure implements Runnable {
 		chestLocation = this.player.getLocation().toVector().add(this.player.getLocation().getDirection().multiply(1)).toLocation(this.world);
 		chestLocation.setY(chestLocation.getY()+1);
 		this.treasure = new TreasureChest(chestLocation);
-		this.messageConfig = BooTreasure.getMessagesConfig();
 	}
 
 
@@ -64,11 +60,11 @@ public class ChestDeleteProcedure implements Runnable {
 			// On construit la conversation
 			Conversation conv = factory
 		            .withFirstPrompt(new AskWhatTreasure())
-		            .withEscapeSequence( messageConfig.getString( LocalesNodes.END.getConfigNode() ) )
+		            .withEscapeSequence( Managers.getLocalesConfig().getEnd() )
 		            .withPrefix(new ConversationPrefix() {	 
 		                @Override
 		                public String getPrefix(ConversationContext arg0) { 
-		                	return messageConfig.getString( LocalesNodes.DeleteChest.CHEST_DELETE_PREFIX.getConfigNode() ); 
+		                	return Managers.getLocalesConfig().getPrefix(); 
 		                }	 
 		            }).withInitialSessionData(map).withLocalEcho(true)
 		            .buildConversation(this.player);
@@ -95,6 +91,11 @@ public class ChestDeleteProcedure implements Runnable {
 		    			
 		    			}
 		            	
+		            }else{
+		            	
+		            	Log.debug("Chest delete failed");
+	    				player.sendMessage( StringUtils.colorize( Managers.getLocalesConfig().getChest_failure_delete() ) );
+		            	
 		            }
 		        }
 		    });
@@ -105,7 +106,7 @@ public class ChestDeleteProcedure implements Runnable {
 			
 
 		}catch (Exception e){
-			Log.severe(plugin, "An error occured on ChestDeleteProcedure", e);			
+			Log.severe("An error occured on ChestDeleteProcedure", e);			
 		}
 		
 	}
@@ -123,7 +124,7 @@ public class ChestDeleteProcedure implements Runnable {
 		@Override
 		public String getPromptText(ConversationContext arg0) {
 			StringBuilder build = new StringBuilder();
-			build.append( messageConfig.getString( LocalesNodes.DeleteChest.CHEST_DELETE_LIST.getConfigNode() ) );
+			build.append( StringUtils.colorize( Managers.getLocalesConfig().getList() ) );
 			build.append("\n");
 			for( Entry<String, Object> entry : Managers.getCacheManager().getTreasures().entrySet() ){
 				//String id = entry.getKey();

@@ -3,17 +3,14 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
-
 import org.bukkit.entity.Player;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
-import org.shortrip.boozaa.plugins.bootreasure.configs.ConfigNodes;
+import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.dao.TreasureDAO;
-import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.Configuration;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -42,41 +39,24 @@ public class MyDatabase {
 		this.plugin = plugin;
 		
 		Log.debug("Search for database storage type");
-		
-		//Configuration config = BooTreasure.getConfigManager().get("config.yml");
-		Configuration config = BooTreasure.getMainConfig();
-		if( config.contains( ConfigNodes.DATABASE_TYPE.getNode() ) ){
 			
-			Log.debug("The config have a 'config.database' node");
-			
-			String dbType = config.getString(ConfigNodes.DATABASE_TYPE.getNode());			
-
-			Log.debug("Database type selected: " + dbType);
-			
-			if( dbType.equalsIgnoreCase("sqlite") ){
-
-				//Log.debug("Connection to: " + dbType);
-				
+		switch( Managers.getMainConfig().getDatabaseType() ) {		
+			case MYSQL:
+				this.databaseUrl = "jdbc:mysql://"+ Managers.getMainConfig().getDatabase_host() + ":" + Managers.getMainConfig().getDatabase_port() + "/" + Managers.getMainConfig().getDatabase_name();
+				this._connectionSource = new JdbcConnectionSource(databaseUrl,Managers.getMainConfig().getDatabase_user(),Managers.getMainConfig().getDatabase_password());
+				Log.info("Connected to MySQL database");
+				break;
+			case SQLITE:
 				this.databaseUrl = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "bootreasure.db";
 				this._connectionSource = new JdbcConnectionSource(databaseUrl);
 				Log.info("Connected to SQLite database");
-				
-			}else if( dbType.equalsIgnoreCase("mysql") ){
-
-				Log.debug("Connection to: " + dbType);
-				
-				String host = config.getString(ConfigNodes.MYSQL_HOST.getNode());
-				int port = config.getInt(ConfigNodes.MYSQL_PORT.getNode());
-				String database = config.getString(ConfigNodes.MYSQL_DATABASE.getNode());
-				String user = config.getString(ConfigNodes.MYSQL_USER.getNode());
-				String pass = config.getString(ConfigNodes.MYSQL_PASS.getNode());
-				this.databaseUrl = "jdbc:mysql://"+ host + ":" + port + "/" + database;
-				this._connectionSource = new JdbcConnectionSource(databaseUrl,user,pass);
-				Log.info("Connected to MySQL database");
-				
-			}
-			
-		}		
+				break;
+			default:
+				this.databaseUrl = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "bootreasure.db";
+				this._connectionSource = new JdbcConnectionSource(databaseUrl);
+				Log.info("Connected to SQLite database");
+				break;		
+		}				
 		this.initDatabase();
 	}
 	
