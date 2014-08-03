@@ -13,6 +13,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.plugins.bootreasure.NODES;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -39,30 +40,6 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 public class ChestTreasuresConfiguration extends YamlConfiguration {
 	
 	protected File source;
-	
-	interface NODES{
-		
-		interface BASIC{
-			final String NAME 					= "basic.name";
-			final String PRESERVECONTENT 		= "basic.preservecontent";
-			final String WAITINGEND 			= "basic.waitingend";
-			final String INFINITE 				= "basic.infinite";
-			final String WORLD 					= "basic.world";
-			final String PATTERN 				= "basic.cronpattern";
-			final String ONLYONSURFACE 			= "basic.onlyonsurface";
-			final String DURATION 				= "basic.duration";			
-		}
-		
-		final String ITEMS 					= "contents.items";
-		
-		interface MESSAGES{
-			final String APPEARMESSAGE 			= "messages.appear";
-			final String DISAPPEARMESSAGE 		= "messages.disappear";
-			final String FOUNDMESSAGE 			= "messages.found";
-		}
-		
-	}
-
 	@SuppressWarnings("unused")
 	private Plugin plugin;
 	private final String ROOT = "chests";
@@ -104,13 +81,13 @@ public class ChestTreasuresConfiguration extends YamlConfiguration {
 		String rootNode = ROOT + ".49b64cb2-79e6-4ee6-8eb8-2fdd614fabc3.";
 		
 		if( get(ROOT) == null ) {
-			set(rootNode + NODES.BASIC.NAME, 			"My First Treasure");
-			set(rootNode + NODES.BASIC.PATTERN, 		"*/1 * * * *");
-			set(rootNode + NODES.BASIC.DURATION, 		30);
-			set(rootNode + NODES.BASIC.WORLD, 			"world");
-			set(rootNode + NODES.BASIC.ONLYONSURFACE, 	true);
-			set(rootNode + NODES.BASIC.PRESERVECONTENT, true);
-			set(rootNode + NODES.BASIC.INFINITE, 		true);
+			set(rootNode + NODES.CHEST.BASIC.NAME, 			"My First Treasure");
+			set(rootNode + NODES.CHEST.BASIC.PATTERN, 		"*/1 * * * *");
+			set(rootNode + NODES.CHEST.BASIC.DURATION, 		30);
+			set(rootNode + NODES.CHEST.BASIC.WORLD, 			"world");
+			set(rootNode + NODES.CHEST.BASIC.ONLYONSURFACE, 	true);
+			set(rootNode + NODES.CHEST.BASIC.PRESERVECONTENT, true);
+			set(rootNode + NODES.CHEST.BASIC.INFINITE, 		true);
 
 			List<String> contentList = new ArrayList<String>();
 			contentList.add( "POTION;;16454;;1;;;;;;" );
@@ -141,11 +118,11 @@ public class ChestTreasuresConfiguration extends YamlConfiguration {
 			contentList.add( null );
 			contentList.add( null );
 			contentList.add( null );
-			set(rootNode + NODES.ITEMS, contentList);
+			set(rootNode + NODES.CHEST.ITEMS, contentList);
 
-			set(rootNode + NODES.MESSAGES.APPEARMESSAGE, 	"&bMy First Treasure appear");
-			set(rootNode + NODES.MESSAGES.FOUNDMESSAGE, 	"&bMy First Treasure was found");
-			set(rootNode + NODES.MESSAGES.DISAPPEARMESSAGE, "&bMy First Treasure disappear");
+			set(rootNode + NODES.CHEST.MESSAGES.APPEARMESSAGE, 	"&bMy First Treasure appear");
+			set(rootNode + NODES.CHEST.MESSAGES.FOUNDMESSAGE, 	"&bMy First Treasure was found");
+			set(rootNode + NODES.CHEST.MESSAGES.DISAPPEARMESSAGE, "&bMy First Treasure disappear");
 		}
 		
 		this.save(this.source);
@@ -161,8 +138,11 @@ public class ChestTreasuresConfiguration extends YamlConfiguration {
 		Set<String> chests = treasureChestSection.getKeys(false);
 		for( String ch : chests ){
 			
-			String chestNode = new StringBuilder().append(ROOT).append(".").append(ch).append(".").toString();
-			String chestName = chestNode + NODES.BASIC.NAME;
+			String chestNode = ROOT + "." + ch;
+			
+			ConfigurationSection section = getConfigurationSection( chestNode );
+			TreasureChest treasure = new TreasureChest(ch,section);
+			result.add(treasure);
 			
 		}
 		

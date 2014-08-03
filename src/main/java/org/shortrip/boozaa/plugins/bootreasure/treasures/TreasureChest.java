@@ -3,10 +3,12 @@ package org.shortrip.boozaa.plugins.bootreasure.treasures;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -31,6 +33,32 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.ParticleEffects;
 @EqualsAndHashCode(callSuper=true)
 public class TreasureChest extends Treasure {
 
+	
+	interface NODES{
+		
+		interface BASIC{
+			final String NAME 					= "basic.name";
+			final String PRESERVECONTENT 		= "basic.preservecontent";
+			final String WAITINGEND 			= "basic.waitingend";
+			final String INFINITE 				= "basic.infinite";
+			final String WORLD 					= "basic.world";
+			final String PATTERN 				= "basic.cronpattern";
+			final String ONLYONSURFACE 			= "basic.onlyonsurface";
+			final String DURATION 				= "basic.duration";			
+		}
+		
+		final String ITEMS 					= "contents.items";
+		
+		interface MESSAGES{
+			final String APPEARMESSAGE 			= "messages.appear";
+			final String DISAPPEARMESSAGE 		= "messages.disappear";
+			final String FOUNDMESSAGE 			= "messages.found";
+		}
+		
+	}
+	
+	
+	
 	private transient static final long serialVersionUID = 1L;
 	private transient static final String PRESERVE_CONTENT 		= "basics.preservecontent";	
 	private transient static final String CONTENTS_ITEMS 		= "setup.contents.items";

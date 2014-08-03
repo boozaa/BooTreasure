@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.plugins.bootreasure.NODES;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 import lombok.Getter;
@@ -37,17 +38,6 @@ public class MainConfiguration extends YamlConfiguration {
 	public static enum DatabaseType{		
 		MYSQL,
 		SQLITE;		
-	}
-	
-	interface NODES{
-		final String DEBUG 						= "debug";
-		final String VERSION 					= "version";	
-		final String DATABASE_TYPE 				= "database.type";	
-		final String DATABASE_MYSQL_HOST 		= "database.mysql.host";
-		final String DATABASE_MYSQL_NAME 		= "database.mysql.name";	
-		final String DATABASE_MYSQL_USER 		= "database.mysql.user";	
-		final String DATABASE_MYSQL_PASSWORD 	= "database.mysql.password";	
-		final String DATABASE_MYSQL_PORT 		= "database.mysql.port";	
 	}
 	
 	private Plugin plugin;

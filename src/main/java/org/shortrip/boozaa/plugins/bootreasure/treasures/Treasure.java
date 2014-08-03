@@ -8,8 +8,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -22,7 +24,7 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 public abstract class Treasure implements Serializable {
 
 	private transient static final long serialVersionUID = 1L;
-
+	
 	private transient final String NAME 					= "basics.name";
 	private transient final String CRON_PATTERN 			= "basics.cronpattern";
 	private transient final String DURATION 				= "basics.duration";

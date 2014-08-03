@@ -1,7 +1,9 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Getter;
 
@@ -100,7 +102,7 @@ public class MyTreasuresManager {
 		try{
 			
 			Log.debug("Search 'treasures' node in treasures.yml");
-			
+					
 			List<TreasureChest> chestTreasures = Managers.getTreasuresConfig().getAllTreasures();
 			for( TreasureChest ch : chestTreasures ){
 				// Store in cache
