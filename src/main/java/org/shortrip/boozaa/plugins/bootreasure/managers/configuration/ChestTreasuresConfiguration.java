@@ -101,7 +101,7 @@ public class ChestTreasuresConfiguration extends YamlConfiguration {
 		
 		this.save(this.source);
 		
-		String rootNode = ROOT + "49b64cb2-79e6-4ee6-8eb8-2fdd614fabc3.";
+		String rootNode = ROOT + ".49b64cb2-79e6-4ee6-8eb8-2fdd614fabc3.";
 		
 		if( get(ROOT) == null ) {
 			set(rootNode + NODES.BASIC.NAME, 			"My First Treasure");
