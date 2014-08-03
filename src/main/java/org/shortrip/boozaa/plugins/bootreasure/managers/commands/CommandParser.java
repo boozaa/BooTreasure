@@ -10,6 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Command;
@@ -24,9 +25,9 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class CommandParser {
 
-	private BooTreasure plugin;
+	private Plugin plugin;
 	
-	public CommandParser( BooTreasure plugin ){
+	public CommandParser( Plugin plugin ){
 		this.plugin = plugin;
 	}
 	

@@ -1,8 +1,10 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import lombok.Getter;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandParser;
@@ -10,10 +12,10 @@ import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandParser;
 
 public class MyCommands {
 
-	private BooTreasure plugin;
+	private Plugin plugin;
 	private CommandFramework manager;
 	
-	public MyCommands(BooTreasure booTreasure) throws CommandNullException {
+	public MyCommands(Plugin booTreasure) throws CommandNullException {
 		this.plugin = booTreasure;
 		manager = new CommandFramework(this.plugin);
 		// Commands

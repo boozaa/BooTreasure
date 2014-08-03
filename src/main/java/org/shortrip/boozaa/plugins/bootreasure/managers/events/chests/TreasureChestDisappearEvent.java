@@ -1,6 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers.events.chests;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.events.Events;
@@ -9,7 +10,7 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class TreasureChestDisappearEvent extends Events {
 
-	public TreasureChestDisappearEvent(final BooTreasure plugin, final String id){
+	public TreasureChestDisappearEvent(final Plugin plugin, final String id){
 
 		super();
 		// On prend le BooChest dans le Cache

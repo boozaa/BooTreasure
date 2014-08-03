@@ -1,6 +1,7 @@
 package org.shortrip.boozaa.plugins.bootreasure.procedures.chest;
 
 import lombok.Getter;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.conversations.Conversation;
@@ -13,6 +14,7 @@ import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
@@ -27,13 +29,13 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.StringUtils;
 public class ChestCreateProcedure implements Runnable {
 
 	private volatile TreasureChest treasure;	
-	private BooTreasure plugin;
+	private Plugin plugin;
 	private Player player;
 	private World world;
 	private Location chestLocation;
 
 	
-	public ChestCreateProcedure(  BooTreasure plugin, Player p  ){
+	public ChestCreateProcedure(  Plugin plugin, Player p  ){
 		this.plugin = plugin;
 		this.player = p;
 		this.world = p.getWorld();

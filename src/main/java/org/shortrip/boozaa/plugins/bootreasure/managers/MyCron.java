@@ -4,6 +4,7 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronScheduler;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronSchedulerListener;
@@ -17,13 +18,13 @@ import lombok.Getter;
 public class MyCron {
 	
 	@SuppressWarnings("unused")
-	private BooTreasure plugin;
+	private Plugin plugin;
 	// The Cron4J Scheduler instance
 	@Getter private CronScheduler _scheduler;
 	@Getter private CronTaskCollector _taskCollector;
 	
 
-	public MyCron(BooTreasure booTreasure) {
+	public MyCron(Plugin booTreasure) {
 		this.plugin = booTreasure;
 		// Instanciate a Cron Scheduler
 		_scheduler = new CronScheduler();

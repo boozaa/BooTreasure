@@ -16,7 +16,7 @@ public class MyCache {
 	// Cache treasures
 	@Getter private Cache _treasureCache;
 
-	public MyCache(BooTreasure booTreasure) {
+	public MyCache(Plugin booTreasure) {
 		this.plugin = booTreasure;
 		this._treasureCache = new Cache();
 	}

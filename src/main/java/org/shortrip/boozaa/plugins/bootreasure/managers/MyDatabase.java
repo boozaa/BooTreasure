@@ -3,7 +3,9 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
+
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO;
@@ -11,6 +13,7 @@ import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.dao.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -24,14 +27,14 @@ public class MyDatabase {
 
 	
 	@SuppressWarnings("unused")
-	private BooTreasure plugin;
+	private Plugin plugin;
 	private String databaseUrl;
 	private ConnectionSource _connectionSource;
 	private Dao<TreasureDAO, String> _treasureDAO;
 	private Dao<EventsDAO, String> _eventsDAO;
 	
 	
-	public MyDatabase(BooTreasure plugin) throws SQLException{
+	public MyDatabase(Plugin plugin) throws SQLException{
 		
 		System.setProperty(LocalLog.LOCAL_LOG_LEVEL_PROPERTY, "ERROR");
 		System.setProperty(LocalLog.LOCAL_LOG_FILE_PROPERTY, "plugins/BooTreasure/ormlite_log.out");

@@ -3,6 +3,8 @@ package org.shortrip.boozaa.plugins.bootreasure;
 import lombok.Getter;
 
 
+
+import org.bukkit.plugin.Plugin;
 //import org.shortrip.boozaa.libs.vaultpermission.VaultPermission;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCache;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands;
@@ -30,7 +32,7 @@ public class Managers {
 	@Getter private static LocalesConfiguration localesConfig;
 	
 	
-	public Managers( BooTreasure plugin ) throws Exception{
+	public Managers( Plugin plugin ) throws Exception{
 				
 		mainConfig 		= new MainConfiguration( plugin );
 		treasuresConfig = new ChestTreasuresConfiguration( plugin );

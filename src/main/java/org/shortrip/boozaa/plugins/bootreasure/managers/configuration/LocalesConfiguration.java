@@ -3,8 +3,11 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.configuration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import lombok.Getter;
+
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -29,8 +32,9 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
  */			
 
 
-public class LocalesConfiguration extends Configuration {
+public class LocalesConfiguration extends YamlConfiguration {
 
+	protected File source;
 	private final String 	ROOT 	= "locales";
 	
 	interface NODES{
@@ -76,6 +80,7 @@ public class LocalesConfiguration extends Configuration {
 			
 	}
 	
+	
 	@SuppressWarnings("unused")
 	private Plugin plugin;
 	
@@ -99,16 +104,22 @@ public class LocalesConfiguration extends Configuration {
 	
 	
 	public LocalesConfiguration(Plugin plugin) throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
-		super(plugin.getDataFolder() + File.separator + "messages.yml");
+		//super(plugin.getDataFolder() + File.separator + "messages.yml");
+		this.source = new File(plugin.getDataFolder() + File.separator + "messages.yml");
 		this.plugin = plugin;
+		Log.info("Instanciate MainConfiguration");
+		if( !source.exists() ){
+			Log.info("This config file doesn't exists, create it");
+			createFile();
+		}
 	}
 	
 	@Override
-	public void load(){
+	public void load(File source){
 		
 		try {
 			
-			this.load(this.source);
+			Log.info("Enter in LocalesConfiguration load()");
 
 			this.prefix 							= getString( ROOT + "." + NODES.PREFIX );
 			this.end 								= getString( ROOT + "." + NODES.END );
@@ -147,11 +158,9 @@ public class LocalesConfiguration extends Configuration {
 	}
 	
 
-	@Override
 	public void createFile() throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
 		
-		this.source.createNewFile();
-		reload();
+		this.save(this.source);
 		
 		if( get( ROOT + "." + NODES.PREFIX ) == null ) {
 			set( ROOT + "." + NODES.PREFIX , (String)"[BooTreasure]");
@@ -249,9 +258,9 @@ public class LocalesConfiguration extends Configuration {
 			set( ROOT + "." + NODES.CHEST.DELETE.FAILURE , (String)"&3Treasure deletion failed");
 		}
 		
+		this.save(this.source);
+		this.load(this.source);
 		
-		
-		reload();
 	}
 
 }

@@ -18,6 +18,7 @@ import org.bukkit.conversations.ConversationPrefix;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
@@ -30,7 +31,7 @@ public class ChestEditProcedure implements Runnable {
 
 
 	private volatile TreasureChest treasure;	
-	private BooTreasure plugin;
+	private Plugin plugin;
 	private Player player;
 	private World world;
 	private Location chestLocation;
@@ -39,7 +40,7 @@ public class ChestEditProcedure implements Runnable {
 	private Map<String, String> treasuresIdAndNameMap = new HashMap<String, String>();
 	
 	
-	public ChestEditProcedure(  BooTreasure plugin, Player p  ){
+	public ChestEditProcedure(  Plugin plugin, Player p  ){
 		
 		this.plugin = plugin;
 		this.player = p;

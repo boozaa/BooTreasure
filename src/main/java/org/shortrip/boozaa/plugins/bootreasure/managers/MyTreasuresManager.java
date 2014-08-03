@@ -2,7 +2,10 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.io.File;
 import java.util.List;
+
 import lombok.Getter;
+
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
@@ -12,11 +15,11 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class MyTreasuresManager {
 
-	private BooTreasure plugin;
+	private Plugin plugin;
 	@Getter public final String treasures_file = "treasures.yml";
 	
 	
-	public MyTreasuresManager( BooTreasure booTreasure ) throws TreasuresCleanupException, TreasuresLoadException{
+	public MyTreasuresManager( Plugin booTreasure ) throws TreasuresCleanupException, TreasuresLoadException{
 		this.plugin = booTreasure;
 		// Make folders
 		makeFolders();

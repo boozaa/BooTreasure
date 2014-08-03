@@ -4,9 +4,12 @@ package org.shortrip.boozaa.plugins.bootreasure.managers.configuration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
 import lombok.Getter;
 
 
@@ -26,8 +29,9 @@ import lombok.Getter;
  */
 
 
-public class MainConfiguration extends Configuration {
+public class MainConfiguration extends YamlConfiguration {
 	
+	protected File source;
 	private final String 	ROOT 	= "config";
 	
 	public static enum DatabaseType{		
@@ -57,14 +61,21 @@ public class MainConfiguration extends Configuration {
 	
 	
 	public MainConfiguration(Plugin plugin) throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
-		super(plugin.getDataFolder() + File.separator + "config.yml");
+		//super(plugin.getDataFolder() + File.separator + "config.yml");
+		this.source = new File(plugin.getDataFolder() + File.separator + "config.yml");
 		this.plugin = plugin;
+		Log.info("Instanciate MainConfiguration");
+		if( !source.exists() ){
+			Log.info("This config file doesn't exists, create it");
+			createFile();
+		}
 	}
 	
 	public void toggleDebug(){		
 		try {
 			this.debug = this.debug ? false : true;
-			this.reload();
+			this.save(this.source);
+			this.load(this.source);
 		} catch (Exception e) {
 			Log.severe( "Error when trying to change debug state in " + source.getName(), e);
 		}
@@ -72,10 +83,11 @@ public class MainConfiguration extends Configuration {
 	
 	
 	@Override
-	public void load(){
+	public void load(File source){
 		try {
-			
-			this.load(this.source);
+
+			Log.info("Enter in MainConfiguration load()");
+						
 			this.debug 		= getBoolean( 	ROOT + "." + NODES.DEBUG );
 			this.version 	= getString( 	ROOT + "." + NODES.VERSION );
 			if( getString( ROOT + "." + NODES.DATABASE_TYPE ).equalsIgnoreCase("mysql") ){
@@ -96,12 +108,10 @@ public class MainConfiguration extends Configuration {
 		}		
 	}
 
-	@Override
+
 	public void createFile() throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
 		
-		this.source.createNewFile();
-		
-		reload();
+		this.save(this.source);
 
 		// Version
 		if( get(ROOT + "." + NODES.VERSION) == null ) {
@@ -135,7 +145,8 @@ public class MainConfiguration extends Configuration {
 			set(ROOT + "." + NODES.DATABASE_MYSQL_PASSWORD, "azerty");
 		}
 		
-		reload();
+		this.save(this.source);
+		this.load(this.source);
 		
 	}
 	

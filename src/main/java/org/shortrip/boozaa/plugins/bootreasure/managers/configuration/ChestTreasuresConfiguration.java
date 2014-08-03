@@ -11,6 +11,7 @@ import lombok.Getter;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
@@ -35,8 +36,9 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
  */
 
 
-public class ChestTreasuresConfiguration extends Configuration {
-
+public class ChestTreasuresConfiguration extends YamlConfiguration {
+	
+	protected File source;
 	
 	interface NODES{
 		
@@ -71,17 +73,22 @@ public class ChestTreasuresConfiguration extends Configuration {
 	
 	
 	public ChestTreasuresConfiguration(Plugin plugin) throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
-		super(plugin.getDataFolder() + File.separator + "yml");
+		this.source = new File(plugin.getDataFolder() + File.separator + "treasures.yml");
 		this.plugin = plugin;
+		if( !source.exists() ){
+			Log.info("This config file doesn't exists, create it");
+			createFile();
+		}
 		this.treasureChestSection = getConfigurationSection(ROOT);
+		Log.info("Instanciate MainConfiguration");
 	}
 	
 	
 	@Override
-	public void load(){
+	public void load(File source){
 		try {
 			
-			this.load(this.source);
+			Log.info("Enter in ChestTreasuresConfiguration load()");
 			this.treasureChestSection = getConfigurationSection(ROOT);	
 			
 		} catch (Exception e) {
@@ -90,11 +97,9 @@ public class ChestTreasuresConfiguration extends Configuration {
 	}
 
 
-	@Override
 	public void createFile() throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
 		
-		this.source.createNewFile();
-		reload();
+		this.save(this.source);
 		
 		String rootNode = ROOT + "49b64cb2-79e6-4ee6-8eb8-2fdd614fabc3.";
 		
@@ -143,8 +148,8 @@ public class ChestTreasuresConfiguration extends Configuration {
 			set(rootNode + NODES.MESSAGES.DISAPPEARMESSAGE, "&bMy First Treasure disappear");
 		}
 		
-		
-		reload();
+		this.save(this.source);
+		this.load(this.source);
 		
 	}
 	

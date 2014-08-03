@@ -1,6 +1,8 @@
 package org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks;
 
 import it.sauronsoftware.cron4j.TaskExecutionContext;
+
+import org.bukkit.plugin.Plugin;
 import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTask;
@@ -12,10 +14,10 @@ import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureType;
 public class TreasureTask extends CronTask {
 	
 	@SuppressWarnings("unused")
-	private BooTreasure plugin;
+	private Plugin plugin;
 	private Treasure treasure;
 	
-	public TreasureTask(BooTreasure plugin, Treasure treasure) {
+	public TreasureTask(Plugin plugin, Treasure treasure) {
 		super(treasure.get_id(), treasure.get_pattern());
 		this.plugin = plugin;
 		this.treasure = treasure;

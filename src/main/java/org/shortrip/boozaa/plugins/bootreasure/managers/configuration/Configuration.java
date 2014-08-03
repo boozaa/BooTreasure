@@ -11,6 +11,7 @@ import java.util.Set;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 
 /*
@@ -31,9 +32,12 @@ public abstract class Configuration extends YamlConfiguration {
 		this(new File(sourcepath));
 	}
 	public Configuration(File source) throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException {
-		if( !source.exists() )
-			createFile();
+		Log.info("Instanciate a new Configuration");
 		this.source = source;
+		if( !source.exists() ){
+			Log.info("This config file doesn't exists, create it");
+			createFile();
+		}
 	}
 	
 	public abstract void createFile() throws FileNotFoundException, ConfigLoadException, IOException, InvalidConfigurationException;
@@ -50,16 +54,19 @@ public abstract class Configuration extends YamlConfiguration {
 	}
 	
 	public void init() throws ConfigLoadException, FileNotFoundException, IOException, InvalidConfigurationException {
+		Log.info("Enter in Configuration init()");
 		this.load();
 		this.save();
 	}
 	
 	public void reload() throws ConfigLoadException, FileNotFoundException, IOException, InvalidConfigurationException{
+		Log.info("Enter in Configuration reload()");
 		this.save();
 		this.load();
 	}
 
 	public void load() throws ConfigLoadException, FileNotFoundException, IOException, InvalidConfigurationException{
+		Log.info("Enter in Configuration load()");
 		this.load(this.source);		
 	}
 	
@@ -70,8 +77,8 @@ public abstract class Configuration extends YamlConfiguration {
 			this.save(this.source);
 			//if (regen) System.out.println("[BooTreasure2] File '" + this.source + "' has been regenerated");
 		} catch (Exception ex) {
-			System.out.println("[BooTreasure2] Error while saving to file '" + this.source + "':");
 			ex.printStackTrace();
+			Log.severe("Can't save this config", ex);
 		}
 	}
 	
