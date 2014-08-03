@@ -17,6 +17,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.shortrip.boozaa.plugins.bootreasure.NODES;
 import org.shortrip.boozaa.plugins.bootreasure.utils.ChatMessage;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
@@ -24,16 +25,6 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 public abstract class Treasure implements Serializable {
 
 	private transient static final long serialVersionUID = 1L;
-	
-	private transient final String NAME 					= "basics.name";
-	private transient final String CRON_PATTERN 			= "basics.cronpattern";
-	private transient final String DURATION 				= "basics.duration";
-	private transient final String WORLD 					= "basics.world";
-	private transient final String ONLY_ON_SURFACE 			= "basics.onlyonsurface";
-	private transient final String INFINITE 				= "basics.infinite";
-	private transient final String MESSAGES_APPEAR 			= "setup.messages.appear";
-	private transient final String MESSAGES_FOUND 			= "setup.messages.found";
-	private transient final String MESSAGES_DISAPPEAR 		= "setup.messages.disappear";
 	private transient final String DEFAULT_APPEAR 			= ChatColor.AQUA + "%name% appear in %world% for %duration% seconds";
 	private transient final String DEFAULT_FOUND 			= ChatColor.AQUA + "%name% has been discovered in %world% by %player%";
 	private transient final String DEFAULT_DISAPPEAR 		= ChatColor.AQUA + "%name% disappear from %world%";
@@ -69,28 +60,28 @@ public abstract class Treasure implements Serializable {
 			this._path = Bukkit.getPluginManager().getPlugin("BooTreasure").getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".chest";
 		if( type.equals(TreasureType.SCHEMATIC ) )
 			this._path = Bukkit.getPluginManager().getPlugin("BooTreasure").getDataFolder() + File.separator + "lost+found" + File.separator + this._id + ".schematic";
-		this._name 				= this._conf.getString( NAME );
-		this._pattern 			= this._conf.getString( CRON_PATTERN );		
-		this._duration 			= this._conf.getLong( DURATION );
-		this._world 			= this._conf.getString( WORLD );
-		this._onlyonsurface 	= this._conf.getBoolean( ONLY_ON_SURFACE );
-		this._infinite 			= this._conf.getBoolean( INFINITE );
+		this._name 				= this._conf.getString( NODES.CHEST.BASIC.NAME );
+		this._pattern 			= this._conf.getString( NODES.CHEST.BASIC.PATTERN );		
+		this._duration 			= this._conf.getLong( NODES.CHEST.BASIC.DURATION );
+		this._world 			= this._conf.getString( NODES.CHEST.BASIC.WORLD );
+		this._onlyonsurface 	= this._conf.getBoolean( NODES.CHEST.BASIC.ONLYONSURFACE );
+		this._infinite 			= this._conf.getBoolean( NODES.CHEST.BASIC.INFINITE );
 		
 		// Messages
-		if( this._conf.contains(MESSAGES_APPEAR) ) {
-			this._appearMessage		= this._conf.getString(MESSAGES_APPEAR);
+		if( this._conf.contains(NODES.CHEST.MESSAGES.APPEARMESSAGE) ) {
+			this._appearMessage		= this._conf.getString(NODES.CHEST.MESSAGES.APPEARMESSAGE);
 		}else{
 			this._appearMessage		= this._conf.getString(DEFAULT_APPEAR);
 		}
 		
-		if( this._conf.contains(MESSAGES_DISAPPEAR) ) {
-			this._disappearMessage		= this._conf.getString(MESSAGES_DISAPPEAR);
+		if( this._conf.contains(NODES.CHEST.MESSAGES.DISAPPEARMESSAGE) ) {
+			this._disappearMessage		= this._conf.getString(NODES.CHEST.MESSAGES.DISAPPEARMESSAGE);
 		}else{
 			this._disappearMessage		= this._conf.getString(DEFAULT_DISAPPEAR);
 		}
 		
-		if( this._conf.contains(MESSAGES_FOUND) ) {
-			this._foundMessage			= this._conf.getString(MESSAGES_FOUND);
+		if( this._conf.contains(NODES.CHEST.MESSAGES.FOUNDMESSAGE) ) {
+			this._foundMessage			= this._conf.getString(NODES.CHEST.MESSAGES.FOUNDMESSAGE);
 		}else{
 			this._foundMessage			= this._conf.getString(DEFAULT_FOUND);
 		}
@@ -236,8 +227,8 @@ public abstract class Treasure implements Serializable {
 	
 	public void announceAppear() {
 		if( this._conf != null){
-			if( this._conf.contains( MESSAGES_APPEAR ) ){
-				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_APPEAR ) ) );
+			if( this._conf.contains( NODES.CHEST.MESSAGES.APPEARMESSAGE ) ){
+				ChatMessage.broadcast( replaceVariables( this._conf.getString( NODES.CHEST.MESSAGES.APPEARMESSAGE ) ) );
 			}
 		}else{
 			ChatMessage.broadcast( replaceVariables( DEFAULT_APPEAR ) );
@@ -247,8 +238,8 @@ public abstract class Treasure implements Serializable {
 
 	public void announceFound() {
 		if( this._conf != null){
-			if( this._conf.contains( MESSAGES_FOUND ) ){
-				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_FOUND ) ) );
+			if( this._conf.contains( NODES.CHEST.MESSAGES.FOUNDMESSAGE ) ){
+				ChatMessage.broadcast( replaceVariables( this._conf.getString( NODES.CHEST.MESSAGES.FOUNDMESSAGE ) ) );
 			}
 		}else{
 			ChatMessage.broadcast( replaceVariables( DEFAULT_FOUND ) );
@@ -257,8 +248,8 @@ public abstract class Treasure implements Serializable {
 
 	public void announceDisAppear() {
 		if( this._conf != null){
-			if( this._conf.contains( MESSAGES_DISAPPEAR ) ){
-				ChatMessage.broadcast( replaceVariables( this._conf.getString( MESSAGES_DISAPPEAR ) ) );
+			if( this._conf.contains( NODES.CHEST.MESSAGES.DISAPPEARMESSAGE ) ){
+				ChatMessage.broadcast( replaceVariables( this._conf.getString( NODES.CHEST.MESSAGES.DISAPPEARMESSAGE ) ) );
 			}
 		}else{
 			ChatMessage.broadcast( replaceVariables( DEFAULT_DISAPPEAR ) );

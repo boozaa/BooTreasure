@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
+import org.shortrip.boozaa.plugins.bootreasure.NODES;
 import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO.EventType;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.utils.searcher.BlockSearcher;
 import org.shortrip.boozaa.plugins.bootreasure.utils.DataUtils;
@@ -34,34 +35,8 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.ParticleEffects;
 public class TreasureChest extends Treasure {
 
 	
-	interface NODES{
-		
-		interface BASIC{
-			final String NAME 					= "basic.name";
-			final String PRESERVECONTENT 		= "basic.preservecontent";
-			final String WAITINGEND 			= "basic.waitingend";
-			final String INFINITE 				= "basic.infinite";
-			final String WORLD 					= "basic.world";
-			final String PATTERN 				= "basic.cronpattern";
-			final String ONLYONSURFACE 			= "basic.onlyonsurface";
-			final String DURATION 				= "basic.duration";			
-		}
-		
-		final String ITEMS 					= "contents.items";
-		
-		interface MESSAGES{
-			final String APPEARMESSAGE 			= "messages.appear";
-			final String DISAPPEARMESSAGE 		= "messages.disappear";
-			final String FOUNDMESSAGE 			= "messages.found";
-		}
-		
-	}
-	
-	
 	
 	private transient static final long serialVersionUID = 1L;
-	private transient static final String PRESERVE_CONTENT 		= "basics.preservecontent";	
-	private transient static final String CONTENTS_ITEMS 		= "setup.contents.items";
 	@Getter @Setter private transient List<String> _inventory = new ArrayList<String>();
 	@Getter private transient Block _block;	
 	@Getter @Setter protected Boolean _preservecontent=true;	
@@ -78,7 +53,7 @@ public class TreasureChest extends Treasure {
 	public TreasureChest( String uuid, ConfigurationSection section ){
 		super( TreasureType.CHEST, section);
 		this._id 				= uuid;
-		this._preservecontent 	= this._conf.getBoolean( PRESERVE_CONTENT );
+		this._preservecontent 	= this._conf.getBoolean( NODES.CHEST.BASIC.PRESERVECONTENT );
 		this._placesMaterials 	= new ArrayList<Material>();
 		generateContents();
 	}
@@ -152,10 +127,10 @@ public class TreasureChest extends Treasure {
 				
 			}	
 			*/
-			if( this._conf.get( CONTENTS_ITEMS ) != null ){
+			if( this._conf.get( NODES.CHEST.ITEMS ) != null ){
 				
 				// Populate _inventory
-				this._inventory = this._conf.getStringList( CONTENTS_ITEMS );
+				this._inventory = this._conf.getStringList( NODES.CHEST.ITEMS );
 				
 			}
 		}	
