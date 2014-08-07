@@ -66,8 +66,7 @@ public class MyDatabase {
 		// Le DAO pour treasure
 		_treasureDAO = DaoManager.createDao(_connectionSource, TreasureDAO.class);
 		// Le DAO pour events
-		_eventsDAO = DaoManager.createDao(_connectionSource, EventsDAO.class);
-			
+		_eventsDAO = DaoManager.createDao(_connectionSource, EventsDAO.class);			
 		// Create the table		
         TableUtils.createTableIfNotExists(_connectionSource, TreasureDAO.class);
         TableUtils.createTableIfNotExists(_connectionSource, EventsDAO.class);

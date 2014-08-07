@@ -3,6 +3,8 @@ package org.shortrip.boozaa.plugins.bootreasure;
 import java.io.File;
 import java.util.List;
 
+import net.gravitydevelopment.updater.Updater;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +27,8 @@ public class BooTreasure extends JavaPlugin{
 	public void onEnable() {
 			
 		try {
+			
+			Updater updater = new Updater(this, 52623, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
 
 			// Load all stuff
 			managers = new Managers(this);
@@ -72,7 +76,7 @@ public class BooTreasure extends JavaPlugin{
 	
 
 	public void loadTreasures() throws TreasuresLoadException {
-		
+	
 		Log.info("Loading treasures from treasures.yml ... ");
 		int qty = 0;
 		
