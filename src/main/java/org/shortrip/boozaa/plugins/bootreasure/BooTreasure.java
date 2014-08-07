@@ -29,6 +29,19 @@ public class BooTreasure extends JavaPlugin{
 		try {
 			
 			Updater updater = new Updater(this, 52623, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+			Updater.UpdateResult result = updater.getResult();
+			switch(result)
+	        {
+	            /*case NO_UPDATE:
+	                // No Update: The updater did not find an update, and nothing was downloaded.
+	            	Log.info("Up to date");
+	                break;*/
+	            case UPDATE_AVAILABLE:
+	            	// There was an update found, but because you had the UpdateType set to NO_DOWNLOAD, it was not downloaded.
+	            	Log.info("A new version is available please see: http://dev.bukkit.org/bukkit-plugins/boo-treasure/files/");
+				default:
+					break;
+	        }
 
 			// Load all stuff
 			managers = new Managers(this);
