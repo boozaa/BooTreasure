@@ -2,8 +2,11 @@ package org.shortrip.boozaa.plugins.bootreasure.managers;
 
 import java.io.File;
 import java.util.List;
+
 import lombok.Getter;
+
 import org.bukkit.plugin.Plugin;
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.Managers;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
@@ -12,11 +15,11 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class MyTreasuresManager {
 
-	private Plugin plugin;
+	private BooTreasure plugin;
 	@Getter public final String treasures_file = "treasures.yml";
 	
 	
-	public MyTreasuresManager( Plugin booTreasure ) throws TreasuresCleanupException, TreasuresLoadException{
+	public MyTreasuresManager( BooTreasure booTreasure ) throws TreasuresCleanupException, TreasuresLoadException{
 		this.plugin = booTreasure;
 		// Make folders
 		makeFolders();
@@ -98,13 +101,13 @@ public class MyTreasuresManager {
 			
 			Log.debug("Search 'treasures' node in treasures.yml");
 					
-			List<TreasureChest> chestTreasures = Managers.getTreasuresConfig().getAllTreasures();
+			List<TreasureChest> chestTreasures = this.plugin.getTreasuresConfig().getAllTreasures();
 			for( TreasureChest ch : chestTreasures ){
 				// Store in cache
-				Managers.getCacheManager().add(ch.get_id(), ch);
+				this.plugin.getTreasureCache().add(ch.get_id(), ch);
 				
 				// Give the new CronTask
-				Managers.getCronManager().addTask(new TreasureTask(this.plugin, ch));
+				this.plugin.getCronTaskCollector().addTask(new TreasureTask(this.plugin, ch));
 				
 				// Quantity increment
 				qty++;

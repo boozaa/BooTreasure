@@ -1,26 +1,63 @@
 package org.shortrip.boozaa.plugins.bootreasure;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import net.gravitydevelopment.updater.Updater;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.shortrip.boozaa.plugins.bootreasure.dao.EventsDAO;
+import org.shortrip.boozaa.plugins.bootreasure.dao.TreasureDAO;
 import org.shortrip.boozaa.plugins.bootreasure.listeners.MyPlayerListener;
+import org.shortrip.boozaa.plugins.bootreasure.managers.MyEvents;
 import org.shortrip.boozaa.plugins.bootreasure.managers.MyCommands.CommandHandlerException;
+import org.shortrip.boozaa.plugins.bootreasure.managers.cache.Cache;
+import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework;
+import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandParser;
+import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.ChestTreasuresConfiguration;
+import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.LocalesConfiguration;
+import org.shortrip.boozaa.plugins.bootreasure.managers.configuration.MainConfiguration;
+import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronScheduler;
+import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronSchedulerListener;
+import org.shortrip.boozaa.plugins.bootreasure.managers.cron.CronTaskCollector;
 import org.shortrip.boozaa.plugins.bootreasure.managers.cron.tasks.TreasureTask;
 import org.shortrip.boozaa.plugins.bootreasure.treasures.TreasureChest;
 import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.logger.LocalLog;
+import com.j256.ormlite.support.ConnectionSource;
 
 import lombok.Getter;
 
 
 public class BooTreasure extends JavaPlugin{
-
-	@Getter private Managers managers;
-
+	
+	private CommandFramework 					commandManager;
+	private String 								databaseUrl;
+	@SuppressWarnings("unused")
+	private ConnectionSource 					connectionSource;
+	@SuppressWarnings("unused")
+	private Dao<TreasureDAO, String> 			treasureDAO;
+	@SuppressWarnings("unused")
+	private Dao<EventsDAO, String> 				eventsDAO;
+	
+	//@Getter private Managers managers;
+	
+	@Getter private MainConfiguration 			mainConfig;
+	@Getter private ChestTreasuresConfiguration treasuresConfig;
+	@Getter private LocalesConfiguration 		localesConfig;
+	
+	@Getter private Cache 						treasureCache;
+	@Getter private CronScheduler 				cronScheduler;
+	@Getter private CronTaskCollector 			cronTaskCollector;
+	@Getter private MyEvents 					eventsManager;
+	
 
 
 	@Override
@@ -28,23 +65,61 @@ public class BooTreasure extends JavaPlugin{
 			
 		try {
 			
-			Updater updater = new Updater(this, 52623, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
-			Updater.UpdateResult result = updater.getResult();
-			switch(result)
-	        {
-	            /*case NO_UPDATE:
-	                // No Update: The updater did not find an update, and nothing was downloaded.
-	            	Log.info("Up to date");
-	                break;*/
-	            case UPDATE_AVAILABLE:
-	            	// There was an update found, but because you had the UpdateType set to NO_DOWNLOAD, it was not downloaded.
-	            	Log.info("A new version is available please see: http://dev.bukkit.org/bukkit-plugins/boo-treasure/files/");
-				default:
+			// Configurations files
+			mainConfig 		= new MainConfiguration( this );
+			treasuresConfig = new ChestTreasuresConfiguration( this );
+			localesConfig 	= new LocalesConfiguration( this );
+			
+			// Cache creation
+			treasureCache = new Cache();
+			
+			// eventsManager
+			eventsManager = new MyEvents(this);
+			
+			// Cron scheduler
+			cronScheduler = new CronScheduler();
+			// Add our listener to it
+			cronScheduler.addSchedulerListener(new CronSchedulerListener());
+			// TaskCollector
+			cronTaskCollector = new CronTaskCollector(this);
+			cronScheduler.addTaskCollector(cronTaskCollector);
+			// Host system TimeZone
+			TimeZone tz = Calendar.getInstance().getTimeZone();
+			// Set its TimeZone to this TimeZone
+			cronScheduler.setTimeZone(tz);
+			// Start the scheduler
+			cronScheduler.start();
+			
+			// Database creation
+			System.setProperty(LocalLog.LOCAL_LOG_LEVEL_PROPERTY, "ERROR");
+			System.setProperty(LocalLog.LOCAL_LOG_FILE_PROPERTY, getDataFolder() + File.separator + "ormlite_log.out");
+			switch( mainConfig.getDatabaseType() ) {		
+				case MYSQL:
+					this.databaseUrl = "jdbc:mysql://"+ mainConfig.getDatabase_host() + ":" + mainConfig.getDatabase_port() + "/" + mainConfig.getDatabase_name();
+					this.connectionSource = new JdbcConnectionSource(databaseUrl, mainConfig.getDatabase_user(), mainConfig.getDatabase_password() );
+					Log.info("Connected to MySQL database");
 					break;
-	        }
+				case SQLITE:
+					this.databaseUrl = "jdbc:sqlite:" + getDataFolder() + File.separator + "bootreasure.db";
+					this.connectionSource = new JdbcConnectionSource(databaseUrl);
+					Log.info("Connected to SQLite database");
+					break;
+				default:
+					this.databaseUrl = "jdbc:sqlite:" + getDataFolder() + File.separator + "bootreasure.db";
+					this.connectionSource = new JdbcConnectionSource(databaseUrl);
+					Log.info("Connected to SQLite database");
+					break;		
+			}
+			
+			// Commands
+			commandManager = new CommandFramework(this);
+			commandManager.registerCommands(new CommandParser(this));
+			
+			
+			checkUpdate();
 
 			// Load all stuff
-			managers = new Managers(this);
+			//managers = new Managers(this);
 
 			getServer().getPluginManager().registerEvents( new MyPlayerListener(this), this );
 			
@@ -65,26 +140,36 @@ public class BooTreasure extends JavaPlugin{
 		}
 
 	}
+	
+	
+	private void checkUpdate(){
+		
+		Updater updater = new Updater(this, 52623, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
+		Updater.UpdateResult result = updater.getResult();
+		switch(result)
+        {
+            case UPDATE_AVAILABLE:
+            	// There was an update found, but because you had the UpdateType set to NO_DOWNLOAD, it was not downloaded.
+            	Log.info("A new version is available please see: http://dev.bukkit.org/bukkit-plugins/boo-treasure/files/");
+			default:
+				break;
+        }
+	}
 
 
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 		Boolean result = true;
-		try {
-			result = Managers.getCommandsManager().handleCommand(sender, command, commandLabel, args);
-		} catch (CommandHandlerException e) {
-			// WARNING
-			Log.warning("onCommand() error: CommandHandlerException " + e.getThrowable());
-		}
+		result = commandManager.handleCommand(sender, commandLabel, command, args);
 		return result;
 	}
 
 
 	@Override
 	public void onDisable() {
-		if( managers != null)
-			managers.onDisable();
+		/*if( managers != null)
+			managers.onDisable();*/
 	}
 	
 
@@ -97,12 +182,12 @@ public class BooTreasure extends JavaPlugin{
 			
 			Log.debug("Search 'treasures' node in treasures.yml");
 					
-			List<TreasureChest> chestTreasures = Managers.getTreasuresConfig().getAllTreasures();
+			List<TreasureChest> chestTreasures = treasuresConfig.getAllTreasures();
 			for( TreasureChest ch : chestTreasures ){
 				// Store in cache
-				Managers.getCacheManager().add(ch.get_id(), ch);				
+				treasureCache.add(ch.get_id(), ch);				
 				// Give the new CronTask
-				Managers.getCronManager().addTask(new TreasureTask(this, ch));				
+				cronTaskCollector.addTask(new TreasureTask(this, ch));				
 				// Quantity increment
 				qty++;
 			}

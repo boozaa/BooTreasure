@@ -9,8 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
-import org.shortrip.boozaa.plugins.bootreasure.Managers;
+import org.shortrip.boozaa.plugins.bootreasure.BooTreasure;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Command;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.CommandArgs;
 import org.shortrip.boozaa.plugins.bootreasure.managers.commands.CommandFramework.Completer;
@@ -23,16 +22,16 @@ import org.shortrip.boozaa.plugins.bootreasure.utils.Log;
 
 public class CommandParser {
 
-	private Plugin plugin;
+	private BooTreasure plugin;
 	
-	public CommandParser( Plugin plugin ){
+	public CommandParser( BooTreasure plugin ){
 		this.plugin = plugin;
 	}
 	
 	@Command( name = "bootreasure.debug", aliases = { "bootreasure.debug" } )
 	public void consoleToggleDebug(CommandArgs args) {
 		if( !( args.getSender() instanceof Player ) ) {
-			Managers.getMainConfig().toggleDebug();
+			this.plugin.getMainConfig().toggleDebug();
 		}		
 	}
 	
